@@ -11,6 +11,11 @@ const postSchema = new mongoose.Schema(
     simplifiedTitle: {
       type: String,
     },
+    urlTitle: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     defaultImg: {
       type: String,
       required: true,
@@ -28,11 +33,11 @@ const postSchema = new mongoose.Schema(
     },
     publish: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     finish: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     images: {
       type: Array,

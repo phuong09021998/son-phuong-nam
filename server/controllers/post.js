@@ -87,10 +87,10 @@ exports.updatePost = async (req, res) => {
 };
 
 exports.getPost = async (req, res) => {
-  const postId = req.params.postId;
+  const postUrl = req.params.postUrl;
 
   try {
-    const post = await Post.findById(postId).cache();
+    const post = await Post.findOne({ urlTitle: postUrl }).cache();
 
     if (!post) {
       throw new Error('No post found.');

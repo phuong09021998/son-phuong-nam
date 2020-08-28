@@ -8,7 +8,7 @@ const { initializeMulterImage } = require('../utils/initializeMulter');
 const upload = initializeMulterImage('./uploads/post', 'image');
 
 // User routes
-router.get('/post/:postId', getPost);
+router.get('/post/:postUrl', getPost);
 router.get('/posts', getPosts);
 
 // Admin routes
