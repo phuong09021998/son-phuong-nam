@@ -19,6 +19,46 @@
 
   @include sm-md {
     font-size: 0.9rem;
+
+    .logoWrapper {
+      width: 3rem !important;
+    }
+
+    .name {
+      font-size: 1rem !important;
+    }
+
+    .slogan {
+      font-size: 0.8rem !important;
+    }
+
+    .cart {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      border-radius: 2.5rem !important;
+    }
+
+    .login {
+      font-size: 1rem !important;
+    }
+
+    .register {
+      font-size: 0.8rem !important;
+    }
+
+    .topMenu {
+      .text {
+        font-size: 1rem !important;
+      }
+
+      .icon {
+        width: 2.5rem !important;
+      }
+    }
+
+    .menuItem {
+      font-size: 1rem !important;
+    }
   }
 
   @include md-down {
@@ -111,7 +151,8 @@
       .topMenu {
         display: flex;
         justify-content: space-between;
-        // padding: 0.3em;
+        padding: 0.3em;
+        padding-left: 1em;
 
         .text {
           display: flex;
