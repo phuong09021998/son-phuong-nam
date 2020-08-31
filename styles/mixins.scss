@@ -19,6 +19,12 @@
   }
 }
 
+@mixin md-down {
+  @media only screen and (max-width:#{$screen-md-min}) {
+    @content;
+  }
+}
+
 // Medium devices
 @mixin md {
   @media (min-width: #{$screen-md-min}) {
