@@ -1,0 +1,26 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.header {
+  background-color: $pink;
+  height: 4em;
+  @include xl {
+    font-size: 1.4rem;
+  }
+
+  @include lg-xl {
+    font-size: 1.2rem;
+  }
+
+  @include md-lg {
+    font-size: 1rem;
+  }
+
+  @include sm-md {
+    font-size: 0.9rem;
+  }
+
+  @include only-sm {
+    font-size: 0.8rem;
+  }
+}
