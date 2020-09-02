@@ -6,26 +6,136 @@
   color: white;
 
   @include xl {
-    font-size: 1.4rem;
+    font-size: 1.1rem !important;
+    .slogan {
+      font-size: 0.9rem !important;
+    }
+    .register {
+      font-size: 0.9rem !important;
+    }
   }
 
   @include lg-xl {
-    font-size: 1.2rem;
+    font-size: 1rem !important;
+    .slogan {
+      font-size: 0.9rem !important;
+    }
+    .register {
+      font-size: 0.9rem !important;
+    }
   }
 
-  @include md-lg {
-    font-size: 1rem;
+  @include md {
+    font-size: 0.9rem;
+    padding: 0.5em 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo {
+      display: flex;
+      margin-left: 0.8em;
+      cursor: pointer;
+      flex-basis: 15em;
+
+      .logoWrapper {
+        width: 2.7rem;
+
+        img {
+          width: 100%;
+        }
+      }
+      .text {
+        .name {
+          font-weight: bold;
+          margin-top: 0.5em;
+        }
+        .slogan {
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .right {
+      display: flex;
+      margin-right: 0.8em;
+      flex-basis: 15em;
+      justify-content: flex-end;
+      align-items: center;
+
+      .cart {
+        background-color: white;
+        width: 2.5rem;
+        margin-right: 1.5em;
+        height: 2.5rem;
+        border-radius: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        img {
+          width: 60%;
+        }
+      }
+      .loginRegister {
+        .login {
+          font-weight: bold;
+          cursor: pointer;
+        }
+        .register {
+          font-size: 0.8rem;
+
+          span {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .menuWrapper {
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      text-transform: uppercase;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-items: center;
+
+      .menuItem {
+        margin: 0 0.5em;
+        font-weight: bold;
+        cursor: pointer;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          height: 0.1em;
+          width: 0%;
+          background-color: white;
+          left: 0;
+          transition: 0.3s;
+        }
+
+        &:hover:after {
+          width: 100%;
+        }
+      }
+    }
   }
 
   @include sm-md {
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
+
+    .right {
+      margin-top: 1em !important;
+    }
 
     .logoWrapper {
       width: 3rem !important;
-    }
-
-    .name {
-      font-size: 1rem !important;
     }
 
     .slogan {
@@ -38,26 +148,14 @@
       border-radius: 2.5rem !important;
     }
 
-    .login {
-      font-size: 1rem !important;
-    }
-
     .register {
       font-size: 0.8rem !important;
     }
 
     .topMenu {
-      .text {
-        font-size: 1rem !important;
-      }
-
       .icon {
         width: 2.5rem !important;
       }
-    }
-
-    .menuItem {
-      font-size: 1rem !important;
     }
   }
 
@@ -145,6 +243,10 @@
           font-size: 0.8rem;
           padding: 0.2em 0;
           cursor: pointer;
+
+          &:hover {
+            color: $pink;
+          }
         }
       }
 
