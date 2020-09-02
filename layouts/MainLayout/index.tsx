@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Head from 'next/head';
 
-export default function PageLayout({ children }: any) {
+export default function MainLayout({ children }: any) {
   return (
     <Fragment>
       <Head>

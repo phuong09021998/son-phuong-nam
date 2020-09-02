@@ -20,6 +20,7 @@
     ]
   },
   "dependencies": {
+    "@types/react-responsive": "^8.0.2",
     "antd": "^4.6.2",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
@@ -39,7 +40,7 @@
     "prettier": "^2.1.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-media": "^1.10.0",
+    "react-responsive": "^8.1.0",
     "redis": "^3.0.2",
     "sass": "^1.26.10",
     "sharp": "^0.26.0",
