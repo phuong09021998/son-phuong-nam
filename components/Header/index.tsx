@@ -1,16 +1,26 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Props } from 'react';
 import styles from './header.module.scss';
 import Link from 'next/link';
 import { Collapse } from 'antd';
 import { useMediaQuery } from 'react-responsive';
+import { connect } from 'react-redux';
+import { toggleRegisterLogin } from '../../redux/actions/ui';
 
 const { Panel } = Collapse;
 
-export default function Header() {
+interface Props {
+  toggleRegisterLogin(): string;
+}
+
+function Header({ toggleRegisterLogin }: Props) {
   const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 768px)' });
   const isMediumLargeDevice: boolean = useMediaQuery({
     query: '(min-width: 769px)',
   });
+
+  const handleOpenLogin = (): void => {
+    toggleRegisterLogin();
+  };
 
   const renderTopMenu = () => (
     <div className={styles.topMenu}>
@@ -20,8 +30,6 @@ export default function Header() {
       </div>
     </div>
   );
-
-  // console.log(isTabletOrMobile);
 
   const renderMediumLargeDeviceLayout = () => (
     <div className={styles.header}>
@@ -64,7 +72,9 @@ export default function Header() {
           <img src="/icons/shopping-cart.svg" alt="cart" />
         </div>
         <div className={styles.loginRegister}>
-          <div className={styles.login}>ĐĂNG NHẬP</div>
+          <div className={styles.login} onClick={handleOpenLogin}>
+            ĐĂNG NHẬP
+          </div>
           <div className={styles.register}>
             hoặc <span>đăng ký</span>
           </div>
@@ -136,3 +146,5 @@ export default function Header() {
     </Fragment>
   );
 }
+
+export default connect(null, { toggleRegisterLogin })(Header);

@@ -20,6 +20,7 @@
     ]
   },
   "dependencies": {
+    "@types/react-redux": "^7.1.9",
     "@types/react-responsive": "^8.0.2",
     "antd": "^4.6.2",
     "bcrypt": "^5.0.0",
@@ -40,8 +41,11 @@
     "prettier": "^2.1.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-redux": "^7.2.1",
     "react-responsive": "^8.1.0",
     "redis": "^3.0.2",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "sass": "^1.26.10",
     "sharp": "^0.26.0",
     "tinify": "^1.6.0-beta.2",
