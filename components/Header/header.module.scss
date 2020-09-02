@@ -2,7 +2,7 @@
 @import 'styles/mixins.scss';
 
 .header {
-  background-color: $pink;
+  background-color: $blue;
   color: white;
 
   @include xl {
@@ -236,7 +236,7 @@
         color: white;
 
         .menuItem {
-          color: $green;
+          color: $pink;
           text-align: center;
           border-bottom: 0px;
           padding: 0;
@@ -245,7 +245,7 @@
           cursor: pointer;
 
           &:hover {
-            color: $pink;
+            color: $blue;
           }
         }
       }
@@ -261,7 +261,7 @@
           align-items: center;
           justify-content: center;
           font-weight: bold;
-          color: $green;
+          color: $pink;
           font-size: 0.8rem;
         }
 

@@ -1,17 +1,17 @@
 import React, { Fragment } from 'react';
 import styles from './header.module.scss';
-import Media from 'react-media';
 import Link from 'next/link';
 import { Collapse } from 'antd';
+import { useMediaQuery } from 'react-responsive';
 
 const { Panel } = Collapse;
 
-interface MediaMatches {
-  small: boolean;
-  mediumLarge: boolean;
-}
-
 export default function Header() {
+  const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 768px)' });
+  const isMediumLargeDevice: boolean = useMediaQuery({
+    query: '(min-width: 769px)',
+  });
+
   const renderTopMenu = () => (
     <div className={styles.topMenu}>
       <div className={styles.text}>MENU</div>
@@ -20,6 +20,8 @@ export default function Header() {
       </div>
     </div>
   );
+
+  // console.log(isTabletOrMobile);
 
   const renderMediumLargeDeviceLayout = () => (
     <div className={styles.header}>
@@ -128,18 +130,9 @@ export default function Header() {
   );
 
   return (
-    <Media
-      queries={{
-        small: '(max-width: 768px)',
-        mediumLarge: '(min-width: 769px)',
-      }}
-    >
-      {(matches: MediaMatches) => (
-        <Fragment>
-          {matches.small && renderSmallDeviceLayout()}
-          {matches.mediumLarge && renderMediumLargeDeviceLayout()}
-        </Fragment>
-      )}
-    </Media>
+    <Fragment>
+      {isSmallDevice && renderSmallDeviceLayout()}
+      {isMediumLargeDevice && renderMediumLargeDeviceLayout()}
+    </Fragment>
   );
 }
