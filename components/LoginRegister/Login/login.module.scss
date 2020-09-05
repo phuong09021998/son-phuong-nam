@@ -1,0 +1,53 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.loginWrapper {
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    margin-top: 5em;
+    margin-bottom: 1em;
+  }
+
+  form {
+    padding: 0 5em;
+
+    .forgetPass {
+      text-align: right;
+      color: white;
+      cursor: pointer;
+      margin-bottom: 1em;
+    }
+
+    .button {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .errorLabel {
+      color: $pink;
+      text-align: center;
+    }
+
+    div {
+      width: 100%;
+
+      input {
+        width: 100%;
+        height: 2.2rem;
+        padding: 0.5em 0.3em;
+        margin: 0.4em 0;
+        border: none;
+        outline: none;
+        border-radius: 0.2em;
+      }
+
+      span {
+        color: $pink;
+      }
+    }
+  }
+}

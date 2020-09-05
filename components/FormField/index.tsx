@@ -1,11 +1,38 @@
 import React from 'react';
 
-const Formfield = ({ formdata, change, id }) => {
+interface FormElement {
+  element: string;
+  value: string;
+  config?: any;
+  validation: {
+    required?: boolean;
+    email?: boolean;
+    password?: boolean;
+    confirm?: string;
+  };
+  valid: boolean;
+  touched: boolean;
+  validationMessage?: string;
+  showlabel?: string;
+}
+
+interface Change {
+  event: any;
+  id: string;
+  blur?: boolean;
+}
+interface Props {
+  formdata: FormElement;
+  id: string;
+  change(change: Change): void;
+}
+
+const Formfield = ({ formdata, change, id }: Props) => {
   const showError = () => {
     let errorMessage = null;
 
     if (formdata.validation && !formdata.valid) {
-      errorMessage = <div id="errorLabel">{formdata.validationMessage}</div>;
+      errorMessage = <span>{formdata.validationMessage}</span>;
     }
 
     return errorMessage;
@@ -17,8 +44,8 @@ const Formfield = ({ formdata, change, id }) => {
     switch (formdata.element) {
       case 'input':
         formTemplate = (
-          <div id="formBlock">
-            {formdata.showlabel ? <div id="labelInputs">{formdata.config.label}</div> : null}
+          <div>
+            {formdata.showlabel ? <p>{formdata.config.label}</p> : null}
 
             <input
               {...formdata.config}
@@ -40,7 +67,7 @@ const Formfield = ({ formdata, change, id }) => {
               onChange={(event) => change({ event, id })}
             >
               <option value="">Select one</option>
-              {formdata.config.options.map((item) => (
+              {formdata.config.options.map((item: any) => (
                 <option key={item.key} value={item.key}>
                   {item.value}
                 </option>
@@ -71,7 +98,7 @@ const Formfield = ({ formdata, change, id }) => {
     return formTemplate;
   };
 
-  return <div>{renderTemplate()}</div>;
+  return <>{renderTemplate()}</>;
 };
 
 export default Formfield;

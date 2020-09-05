@@ -4,10 +4,16 @@ import '../styles/globals.scss';
 import 'antd/dist/antd.css';
 import { Provider } from 'react-redux';
 import reducers from '../redux/reducers';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '../redux/sagas';
 
-const store = createStore(reducers, composeWithDevTools());
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(reducers, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+sagaMiddleware.run(rootSaga);
+// const store = createStore(reducers, );
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

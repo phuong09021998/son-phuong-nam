@@ -3,7 +3,7 @@ import { Types } from '../actions/ui';
 const INITIAL_STATE = {
   registerLogin: {
     isOpen: false,
-    status: 'nonzero',
+    status: 'none',
   },
 };
 
