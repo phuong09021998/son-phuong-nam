@@ -9,17 +9,22 @@ import { toggleRegisterLogin } from '../../redux/actions/ui';
 const { Panel } = Collapse;
 
 interface Props {
-  toggleRegisterLogin(): string;
+  toggleRegisterLogin(isOpen: boolean, status: string): void;
 }
 
 function Header({ toggleRegisterLogin }: Props) {
   const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 768px)' });
+
   const isMediumLargeDevice: boolean = useMediaQuery({
     query: '(min-width: 769px)',
   });
 
   const handleOpenLogin = (): void => {
-    toggleRegisterLogin();
+    toggleRegisterLogin(true, 'login');
+  };
+
+  const handleOpenRegister = (): void => {
+    toggleRegisterLogin(true, 'register');
   };
 
   const renderTopMenu = () => (
@@ -75,7 +80,7 @@ function Header({ toggleRegisterLogin }: Props) {
           <div className={styles.login} onClick={handleOpenLogin}>
             ĐĂNG NHẬP
           </div>
-          <div className={styles.register}>
+          <div className={styles.register} onClick={handleOpenRegister}>
             hoặc <span>đăng ký</span>
           </div>
         </div>
@@ -102,8 +107,10 @@ function Header({ toggleRegisterLogin }: Props) {
             <img src="/icons/shopping-cart.svg" alt="cart" />
           </div>
           <div className={styles.loginRegister}>
-            <div className={styles.login}>ĐĂNG NHẬP</div>
-            <div className={styles.register}>
+            <div className={styles.login} onClick={handleOpenLogin}>
+              ĐĂNG NHẬP
+            </div>
+            <div className={styles.register} onClick={handleOpenRegister}>
               hoặc <span>đăng ký</span>
             </div>
           </div>

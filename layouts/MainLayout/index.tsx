@@ -1,18 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Head from 'next/head';
-import { Drawer } from 'antd';
+import RegisterLogin from '../../components/LoginRegister';
 
 export default function MainLayout({ children }: any) {
-  const [visible, setVisible] = useState(false);
-
-  const showDrawer = () => {
-    setVisible(true);
-  };
-  const onClose = () => {
-    setVisible(false);
-  };
   return (
     <Fragment>
       <Head>
@@ -25,11 +17,7 @@ export default function MainLayout({ children }: any) {
       </Head>
       <Header />
       {children}
-      <Drawer title="Basic Drawer" placement="right" closable={false} onClose={onClose} visible={visible}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Drawer>
+      <RegisterLogin />
       <Footer />
     </Fragment>
   );

@@ -1,7 +1,10 @@
 import { Types } from '../actions/ui';
 
 const INITIAL_STATE = {
-  toggleRegisterLogin: false,
+  registerLogin: {
+    isOpen: false,
+    status: 'nonzero',
+  },
 };
 
 interface Action {
@@ -14,7 +17,7 @@ export default function ui(state = INITIAL_STATE, action: Action) {
     case Types.TOGGLE_REGISTER_LOGIN: {
       return {
         ...state,
-        toggleRegisterLogin: !state.toggleRegisterLogin,
+        registerLogin: action.payload,
       };
     }
     default: {
