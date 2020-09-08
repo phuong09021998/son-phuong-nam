@@ -75,7 +75,7 @@ function Login({ user, loginUser }: Props) {
     const formIsValid = isFormValid(form.formdata, 'login');
 
     if (formIsValid) {
-      loginUser(dataToSubmit).then(console.log(user));
+      loginUser(dataToSubmit);
     } else {
       setForm({
         ...form,
@@ -117,7 +117,7 @@ function Login({ user, loginUser }: Props) {
 }
 
 const mapStateToProps = (state: any) => ({
-  user: state.user.data,
+  user: state.users.data,
 });
 
 export default connect(mapStateToProps, { loginUser })(Login);
