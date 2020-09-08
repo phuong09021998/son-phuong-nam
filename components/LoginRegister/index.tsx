@@ -3,7 +3,7 @@ import { Drawer } from 'antd';
 import { connect } from 'react-redux';
 import { toggleRegisterLogin } from 'redux/actions/ui';
 import Login from './Login';
-import styles from './login-register.module.scss';
+import styles from './LoginRegister.module.scss';
 
 interface Props {
   registerLogin: {

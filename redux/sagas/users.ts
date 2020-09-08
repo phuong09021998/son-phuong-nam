@@ -11,11 +11,9 @@ interface LoginUser {
 }
 
 function* loginUser({ payload }: LoginUser) {
-  // console.log(payload);
   try {
     const result = yield call(api.loginUser, payload);
-    // console.log(result.data.user);
-    yield put(actions.getUsersSuccess({ ...result.data.user }));
+    yield put(actions.getUserSuccess({ ...result.data.user }));
   } catch (error) {
     console.log(error.message);
   }
@@ -25,6 +23,23 @@ function* watchLoginUser() {
   yield takeLatest(actions.Types.LOGIN_USER, loginUser);
 }
 
-const userSaga = [fork(watchLoginUser)];
+function* getUsers() {
+  try {
+    const result = yield call(api.getUser);
+    yield put(actions.getUserSuccess({ ...result.data.user }));
+  } catch (e) {
+    yield put(
+      actions.usersError({
+        error: 'An error occurred when trying to get the users',
+      }),
+    );
+  }
+}
+
+function* watchGetUsersRequest() {
+  yield takeEvery(actions.Types.GET_USER, getUsers);
+}
+
+const userSaga = [fork(watchLoginUser), fork(watchGetUsersRequest)];
 
 export default userSaga;

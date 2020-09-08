@@ -9,17 +9,16 @@ interface Action {
 
 export default function users(state = INITIAL_STATE, action: Action) {
   switch (action.type) {
-    case Types.LOGIN_USER: {
-      return {
-        ...state,
-        // registerLogin: action.payload,
-      };
-    }
-    case Types.GET_USERS_SUCCESS: {
-      console.log(action.payload);
+    case Types.GET_USER_SUCCESS: {
       return {
         ...state,
         data: action.payload,
+        error: undefined,
+      };
+    }
+    case Types.USER_ERROR: {
+      return {
+        error: action.payload.error,
       };
     }
     default: {

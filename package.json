@@ -22,6 +22,7 @@
   "dependencies": {
     "@types/react-redux": "^7.1.9",
     "@types/react-responsive": "^8.0.2",
+    "@types/react-router": "^5.1.8",
     "antd": "^4.6.2",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
@@ -43,6 +44,7 @@
     "react-dom": "16.13.1",
     "react-redux": "^7.2.1",
     "react-responsive": "^8.1.0",
+    "react-router": "^5.2.0",
     "redis": "^3.0.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",

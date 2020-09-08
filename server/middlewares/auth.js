@@ -5,7 +5,7 @@ const checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.spn_auth;
     const user = await User.findByToken(token);
-    if (!user) {
+    if (!token || !user) {
       throw new Error('User not found.');
     }
 

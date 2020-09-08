@@ -8,3 +8,7 @@ interface LoginUser {
 export const loginUser = ({ email, password }: LoginUser) => {
   return axios.post('/api/user/login', { email, password });
 };
+
+export const getUser = () => {
+  return axios.get('/api/user');
+};

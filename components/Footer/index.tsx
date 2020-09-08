@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import styles from './footer.module.scss';
+import styles from './Footer.module.scss';
 import { useMediaQuery } from 'react-responsive';
 
 export default function Footer() {

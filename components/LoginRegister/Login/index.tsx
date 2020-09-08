@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { update, generateData, isFormValid } from '../../utils/formAction';
 import FormField from '../../FormField';
-import styles from './login.module.scss';
-import './login.module.scss';
+import styles from './Login.module.scss';
 import { Button } from 'antd';
 import { loginUser } from 'redux/actions/users';
 import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
 
 interface Props {
-  loginUser(data: DataSubmit): void;
+  loginUser(data: DataSubmit): any;
+  user: any;
 }
 
 interface DataSubmit {
@@ -16,7 +17,9 @@ interface DataSubmit {
   password: string;
 }
 
-function Login({ loginUser }: Props) {
+function Login({ user, loginUser }: Props) {
+  const router = useRouter();
+  // console.log(user);
   const [form, setForm] = useState({
     formError: false,
     formSuccess: '',
@@ -72,7 +75,7 @@ function Login({ loginUser }: Props) {
     const formIsValid = isFormValid(form.formdata, 'login');
 
     if (formIsValid) {
-      loginUser(dataToSubmit);
+      loginUser(dataToSubmit).then(console.log(user));
     } else {
       setForm({
         ...form,
@@ -80,6 +83,17 @@ function Login({ loginUser }: Props) {
       });
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      if (user.role > 0) {
+        router.push('/admin');
+      } else {
+        console.log('User');
+      }
+    }
+  }, [user]);
+
   return (
     <div className={styles.loginWrapper}>
       <div className={styles.title}>ĐĂNG NHẬP</div>
@@ -102,4 +116,8 @@ function Login({ loginUser }: Props) {
   );
 }
 
-export default connect(null, { loginUser })(Login);
+const mapStateToProps = (state: any) => ({
+  user: state.user.data,
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);

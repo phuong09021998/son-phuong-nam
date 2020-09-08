@@ -1,5 +1,5 @@
-import React, { Fragment, Props } from 'react';
-import styles from './header.module.scss';
+import React, { Fragment } from 'react';
+import styles from './Header.module.scss';
 import Link from 'next/link';
 import { Collapse } from 'antd';
 import { useMediaQuery } from 'react-responsive';
