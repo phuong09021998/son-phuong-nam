@@ -7,6 +7,16 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+body,
+html {
+  height: 100%;
+}
+
+#__next {
+  position: relative;
+  height: 100%;
+}
+
 .ant-collapse-content-box {
   padding: 0 !important;
 }

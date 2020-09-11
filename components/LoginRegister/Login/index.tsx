@@ -19,7 +19,6 @@ interface DataSubmit {
 
 function Login({ user, loginUser }: Props) {
   const router = useRouter();
-  // console.log(user);
   const [form, setForm] = useState({
     formError: false,
     formSuccess: '',
