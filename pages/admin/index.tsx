@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   toggleRegisterLogin(isOpen: boolean, status: string): any;
+  user: any;
 }
 
-function Admin({ toggleRegisterLogin }: Props) {
+function Admin({ toggleRegisterLogin, user }: Props) {
   const [currentActive, setCurrentActive] = useState('nontification');
   const classes = useStyles();
 
@@ -161,7 +162,7 @@ function Admin({ toggleRegisterLogin }: Props) {
           <hr />
           {currentActive === 'nontification' && <AdminNontification />}
           {currentActive === 'messages' && <AdminMessages />}
-          {currentActive === 'users' && <AdminUsers />}
+          {currentActive === 'users' && user && user.role === 2 && <AdminUsers />}
           {currentActive === 'posts' && <AdminPosts />}
           {currentActive === 'products' && <AdminProducts />}
           {currentActive === 'mores' && <AdminOthers />}
@@ -171,4 +172,6 @@ function Admin({ toggleRegisterLogin }: Props) {
   );
 }
 
-export default privateRoute(connect(null, { toggleRegisterLogin })(Admin), true);
+const mapStateToProps = (state: any) => ({ user: state.users.data });
+
+export default privateRoute(connect(mapStateToProps, { toggleRegisterLogin })(Admin), true);
