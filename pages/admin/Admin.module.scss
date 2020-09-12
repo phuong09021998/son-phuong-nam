@@ -2,8 +2,6 @@
 @import 'styles/mixins.scss';
 
 .container {
-  color: white;
-
   hr {
     width: 90%;
     margin: auto;
@@ -15,6 +13,7 @@
   }
 
   .leftAdmin {
+    color: white;
     width: 15rem;
     padding-top: 1em;
     // background: url('/images/sidebar-admin.jpg') no-repeat;
@@ -54,7 +53,7 @@
     .topMenu {
       height: 5rem;
       display: flex;
-      padding-left: 2em;
+      padding: 0 2em;
       z-index: 4;
       position: relative;
       cursor: pointer;
@@ -91,7 +90,7 @@
         padding: 1em 2em;
         align-items: center;
         cursor: pointer;
-        // margin: 0 0.5em;
+        font-size: 0.9rem;
 
         .icon {
           flex-basis: 1.5rem;
@@ -103,6 +102,57 @@
             fill: white !important;
           }
         }
+      }
+    }
+  }
+
+  .rightAdmin {
+    display: flex;
+
+    .space {
+      flex-basis: 15rem;
+      flex-shrink: 0;
+    }
+  }
+
+  @include md-xl {
+    .leftAdmin {
+      width: 13rem;
+
+      .topMenu {
+        height: 4rem;
+
+        .logo {
+          flex-basis: 2rem;
+        }
+
+        .textWrapper {
+          .text {
+            font-size: 0.9rem;
+          }
+
+          .slogan {
+            font-size: 0.7rem;
+          }
+        }
+      }
+
+      .mainMenu {
+        .menuItem {
+          font-size: 0.8rem;
+          // padding: 1em 1em;
+
+          .icon {
+            margin-right: 1em;
+            flex-basis: 1.2rem;
+          }
+        }
+      }
+    }
+
+    .rightAdmin {
+      .space {
+        flex-basis: 13rem;
       }
     }
   }
