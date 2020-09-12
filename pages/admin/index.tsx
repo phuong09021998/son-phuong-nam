@@ -6,7 +6,15 @@ import { connect } from 'react-redux';
 import { toggleRegisterLogin } from 'redux/actions/ui';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { useRouter } from 'next/router';
+import AdminNontification from 'components/AdminNontification';
+import AdminMessages from 'components/AdminMessages';
+import AdminUsers from 'components/AdminUsers';
+import AdminPosts from 'components/AdminPosts';
+import AdminProducts from 'components/AdminProducts';
+import AdminOthers from 'components/AdminOthers';
+import PersonIcon from '@material-ui/icons/Person';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import ModeCommentIcon from '@material-ui/icons/ModeComment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,11 +31,9 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   toggleRegisterLogin(isOpen: boolean, status: string): any;
-  children: any;
 }
 
-function Admin({ toggleRegisterLogin, children }: Props) {
-  const router = useRouter();
+function Admin({ toggleRegisterLogin }: Props) {
   const [currentActive, setCurrentActive] = useState('nontification');
   const classes = useStyles();
 
@@ -134,7 +140,32 @@ function Admin({ toggleRegisterLogin, children }: Props) {
       </div>
       <div className={styles.rightAdmin}>
         <div className={styles.space}></div>
-        <div className={styles.rightContent}>{children}</div>
+        <div className={styles.rightContent}>
+          <div className={styles.top}>
+            <Button>
+              <div className={styles.topItem}>
+                <PersonIcon />
+              </div>
+            </Button>
+            <Button>
+              <div className={styles.topItem}>
+                <NotificationsIcon />
+              </div>
+            </Button>
+            <Button>
+              <div className={styles.topItem}>
+                <ModeCommentIcon />
+              </div>
+            </Button>
+          </div>
+          <hr />
+          {currentActive === 'nontification' && <AdminNontification />}
+          {currentActive === 'messages' && <AdminMessages />}
+          {currentActive === 'users' && <AdminUsers />}
+          {currentActive === 'posts' && <AdminPosts />}
+          {currentActive === 'products' && <AdminProducts />}
+          {currentActive === 'mores' && <AdminOthers />}
+        </div>
       </div>
     </div>
   );

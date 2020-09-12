@@ -113,6 +113,28 @@
       flex-basis: 15rem;
       flex-shrink: 0;
     }
+
+    hr {
+      width: 100%;
+    }
+
+    .rightContent {
+      position: relative;
+      flex-grow: 1;
+
+      .top {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        padding: 1em 2em;
+
+        .topItem {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
   }
 
   @include md-xl {
