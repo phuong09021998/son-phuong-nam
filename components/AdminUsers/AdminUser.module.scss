@@ -5,3 +5,11 @@
   display: flex;
   justify-content: center;
 }
+
+.tableWrapper {
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 5em;
+}

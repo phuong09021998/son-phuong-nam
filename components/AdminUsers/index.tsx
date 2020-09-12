@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { getUsers } from 'redux/actions/admins';
 import styles from './AdminUser.module.scss';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Table, Tag } from 'antd';
+import { Table, Tag, Space } from 'antd';
+import TopAdminTable from '../TopAdminTable';
+// import uuid from 'uu'
 
 interface Props {
   getUsers(): void;
@@ -38,7 +40,12 @@ const columns = [
   {
     title: 'Hành động',
     key: 'action',
-    render: () => <a>Xóa</a>,
+    render: () => (
+      <Space size="middle">
+        <a>Sửa</a>
+        <a>Xóa</a>
+      </Space>
+    ),
   },
 ];
 
@@ -54,6 +61,10 @@ function AdminUsers({ getUsers, users }: Props) {
     }
   }, users);
 
+  const handleCreate = () => {
+    console.log('create user');
+  };
+
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -61,13 +72,14 @@ function AdminUsers({ getUsers, users }: Props) {
       </div>
     );
   } else {
-    // console.log();
     const usersArr: any = Object.values(users);
     return (
       <div className={styles.tableWrapper}>
-        <div className={styles.topWrapper}></div>
+        <div className={styles.topWrapper}>
+          <TopAdminTable handleCreate={handleCreate} />
+        </div>
         <div className={styles.table}>
-          <Table columns={columns} dataSource={usersArr} />
+          <Table columns={columns} dataSource={usersArr} rowKey={(record) => record._id} />
         </div>
       </div>
     );
