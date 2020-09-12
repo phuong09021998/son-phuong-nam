@@ -5,28 +5,6 @@
   margin-bottom: 1em;
   color: #1890ff;
 
-  .search {
-    display: flex;
-    margin-right: 5em;
-    cursor: pointer;
-
-    .icon {
-      padding: 0 0.5em 0 1em;
-    }
-
-    .input {
-      width: 20em;
-      position: relative;
-
-      input {
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid gray;
-        outline: none;
-      }
-    }
-  }
-
   .create {
     display: flex;
     cursor: pointer;

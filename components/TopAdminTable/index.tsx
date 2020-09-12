@@ -10,15 +10,6 @@ interface Props {
 export default function TopAdminTable({ handleCreate }: Props) {
   return (
     <div className={styles.topTableWrapper}>
-      <div className={styles.search}>
-        <div className={styles.input}>
-          <input type="text" />
-        </div>
-        <div className={styles.icon}>
-          <SearchIcon style={{ color: '#1890ff' }} />
-        </div>
-        <div className={styles.text}>Tìm Kiếm</div>
-      </div>
       <div className={styles.create} onClick={handleCreate}>
         <div className={styles.icon}>
           <AddIcon style={{ color: '#1890ff' }} />

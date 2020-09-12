@@ -9,11 +9,12 @@ interface FormElement {
     email?: boolean;
     password?: boolean;
     confirm?: string;
+    label?: string;
   };
   valid: boolean;
   touched: boolean;
   validationMessage?: string;
-  showlabel?: string;
+  showlabel?: boolean;
 }
 
 interface Change {
@@ -66,9 +67,9 @@ const Formfield = ({ formdata, change, id }: Props) => {
               onBlur={(event) => change({ event, id, blur: true })}
               onChange={(event) => change({ event, id })}
             >
-              <option value="">Select one</option>
-              {formdata.config.options.map((item: any) => (
-                <option key={item.key} value={item.key}>
+              {/* <option value="">Select one</option> */}
+              {formdata.config.options.map((item: any, i: number) => (
+                <option key={i} value={item.key}>
                   {item.value}
                 </option>
               ))}

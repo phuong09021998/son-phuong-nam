@@ -5,12 +5,32 @@ import styles from './AdminUser.module.scss';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Table, Tag, Space } from 'antd';
 import TopAdminTable from '../TopAdminTable';
-// import uuid from 'uu'
+import Modal from 'react-modal';
+import CancelIcon from '@material-ui/icons/Cancel';
+import FormField from '../FormField';
+import { update, generateData, isFormValid } from 'components/utils/formAction';
+import Button from '@material-ui/core/Button';
+import { createUserByAdmin } from 'redux/actions/admins';
 
 interface Props {
   getUsers(): void;
   users: any;
+  createUserByAdmin(data: any): void;
 }
+
+Modal.setAppElement('body');
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    width: '25rem',
+  },
+};
 
 const columns = [
   {
@@ -40,17 +60,113 @@ const columns = [
   {
     title: 'Hành động',
     key: 'action',
-    render: () => (
+    render: (record: any) => (
       <Space size="middle">
         <a>Sửa</a>
-        <a>Xóa</a>
+        {record.role !== 2 && <a>Xóa</a>}
       </Space>
     ),
   },
 ];
 
-function AdminUsers({ getUsers, users }: Props) {
+function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
+  const initialForm = {
+    formError: false,
+    formSuccess: '',
+    formdata: {
+      email: {
+        element: 'input',
+        value: '',
+        config: {
+          name: 'email_input',
+          type: 'email',
+          // placeholder: 'Email',
+          label: 'Email',
+        },
+        validation: {
+          required: true,
+          email: true,
+        },
+        valid: false,
+        touched: false,
+        showlabel: true,
+        validationMessage: '',
+      },
+      name: {
+        element: 'input',
+        value: '',
+        config: {
+          name: 'name_input',
+          type: 'name',
+          label: 'Tên',
+        },
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+        showlabel: true,
+        validationMessage: '',
+      },
+      role: {
+        element: 'select',
+        value: 'Quản trị viên',
+        config: {
+          name: 'role_input',
+          type: 'name',
+          label: 'Tên',
+          options: [{ value: 'Người dùng' }, { value: 'Quản trị viên' }],
+        },
+        validation: {
+          required: true,
+        },
+        valid: true,
+        touched: false,
+        showlabel: true,
+        validationMessage: '',
+      },
+      password: {
+        element: 'input',
+        value: '',
+        config: {
+          name: 'password_input',
+          type: 'password',
+          label: 'Mật khẩu',
+        },
+        validation: {
+          required: true,
+          password: true,
+        },
+        valid: false,
+        touched: false,
+        showlabel: true,
+        validationMessage: '',
+      },
+      confirmPassword: {
+        element: 'input',
+        value: '',
+        config: {
+          name: 'confirm_password_input',
+          type: 'password',
+          // placeholder: 'Mật khẩu',
+          label: 'Nhập lại mật khẩu',
+        },
+        validation: {
+          required: true,
+          confirm: 'password',
+        },
+        valid: false,
+        touched: false,
+        showlabel: true,
+        validationMessage: '',
+      },
+    },
+  };
+
   const [loading, setLoading] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [form, setForm] = useState(initialForm);
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -59,10 +175,40 @@ function AdminUsers({ getUsers, users }: Props) {
     if (users !== undefined) {
       setLoading(false);
     }
-  }, users);
+  }, [users]);
 
   const handleCreate = () => {
-    console.log('create user');
+    setOpenModal(true);
+  };
+
+  const closeModal = () => {
+    setOpenModal(false);
+  };
+
+  const submitForm = (e: any): void => {
+    e.preventDefault();
+
+    const dataToSubmit = generateData(form.formdata, 'admin_register');
+    const formIsValid = isFormValid(form.formdata, 'admin_register');
+
+    if (formIsValid) {
+      createUserByAdmin(dataToSubmit);
+      setOpenModal(false);
+    } else {
+      setForm({
+        ...form,
+        formError: true,
+      });
+    }
+  };
+
+  const updateForm = (element: any) => {
+    const newFormdata: any = update(element, form.formdata, 'admin_register');
+    setForm({
+      ...form,
+      formError: false,
+      formdata: newFormdata,
+    });
   };
 
   if (loading) {
@@ -73,19 +219,48 @@ function AdminUsers({ getUsers, users }: Props) {
     );
   } else {
     const usersArr: any = Object.values(users);
+
     return (
-      <div className={styles.tableWrapper}>
-        <div className={styles.topWrapper}>
-          <TopAdminTable handleCreate={handleCreate} />
+      <React.Fragment>
+        <div className={styles.tableWrapper}>
+          <div className={styles.topWrapper}>
+            <TopAdminTable handleCreate={handleCreate} />
+          </div>
+          <div className={styles.table}>
+            <Table columns={columns} dataSource={usersArr} rowKey={(record) => record._id} />
+          </div>
         </div>
-        <div className={styles.table}>
-          <Table columns={columns} dataSource={usersArr} rowKey={(record) => record._id} />
-        </div>
-      </div>
+        <Modal isOpen={openModal} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
+          <div className={styles.modalTitle}>Thêm người dùng</div>
+          <form className={styles.form} onSubmit={(event) => submitForm(event)}>
+            <FormField id={'email'} formdata={form.formdata.email} change={(e: any) => updateForm(e)} />
+            <FormField id={'name'} formdata={form.formdata.name} change={(e: any) => updateForm(e)} />
+            <FormField id={'role'} formdata={form.formdata.role} change={(e: any) => updateForm(e)} />
+            <FormField id={'password'} formdata={form.formdata.password} change={(e: any) => updateForm(e)} />
+            <FormField
+              id={'confirmPassword'}
+              formdata={form.formdata.confirmPassword}
+              change={(e: any) => updateForm(e)}
+            />
+            {form.formError && <div className={styles.errorLabel}>Kiểm tra lại thông tin</div>}
+            <Button
+              variant="contained"
+              color="secondary"
+              className={styles.button}
+              onClick={(event) => submitForm(event)}
+            >
+              Đăng ký
+            </Button>
+          </form>
+          <div className={styles.close}>
+            <CancelIcon color="secondary" style={{ cursor: 'pointer' }} onClick={closeModal} />
+          </div>
+        </Modal>
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = (state: any) => ({ users: state.admins.data });
 
-export default connect(mapStateToProps, { getUsers })(AdminUsers);
+export default connect(mapStateToProps, { getUsers, createUserByAdmin })(AdminUsers);

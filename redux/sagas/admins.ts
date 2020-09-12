@@ -19,6 +19,28 @@ function* watchGetUsersRequest() {
   yield takeEvery(actions.Types.GET_USERS, getUsers);
 }
 
-const userSaga = [fork(watchGetUsersRequest)];
+function* createUser({ payload }: any) {
+  console.log(payload);
+  try {
+    // console.log('ok');
+    const result = yield call(api.createUserByAdmin, {
+      name: payload.name,
+      email: payload.email,
+      password: payload.password,
+      role: payload.role,
+    });
+    console.log(result);
+
+    yield call(getUsers);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* watchCreateUserRequest() {
+  yield takeLatest(actions.Types.CREATE_USER, createUser);
+}
+
+const userSaga = [fork(watchGetUsersRequest), fork(watchCreateUserRequest)];
 
 export default userSaga;

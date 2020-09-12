@@ -4,7 +4,8 @@ interface FormElement {
   config?: {
     name: string;
     type: string;
-    placeholder: string;
+    placeholder?: string;
+    label?: string;
   };
   validation: {
     required?: boolean;
@@ -15,6 +16,7 @@ interface FormElement {
   valid: boolean;
   touched: boolean;
   validationMessage?: string;
+  showlabel?: boolean;
 }
 
 interface Formdata {
@@ -33,6 +35,12 @@ export const validate = (element: FormElement, formdata: Formdata) => {
   if (element.validation.confirm) {
     const valid = element.value.trim() === formdata[element.validation.confirm].value;
     const message = `${!valid ? 'Mật khẩu nhập lại không chính xác' : ''}`;
+    error = !valid ? [valid, message] : error;
+  }
+
+  if (element.validation.password) {
+    const valid = element.value.length >= 6;
+    const message = `${!valid ? 'Mật khẩu phải lớn hơn 6 kí tự' : ''}`;
     error = !valid ? [valid, message] : error;
   }
 
@@ -71,7 +79,9 @@ export const generateData = (formdata: Formdata, formName: string) => {
   const dataToSubmit: any = {};
 
   for (const key in formdata) {
-    if (key !== 'confirmPassword') {
+    if (key === 'role') {
+      dataToSubmit[key] = formdata[key].value === 'Quản trị viên' ? 1 : 0;
+    } else if (key !== 'confirmPassword') {
       dataToSubmit[key] = formdata[key].value;
     }
   }
