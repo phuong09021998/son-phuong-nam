@@ -11,11 +11,15 @@ import FormField from '../FormField';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
 import Button from '@material-ui/core/Button';
 import { createUserByAdmin } from 'redux/actions/admins';
+import { Popconfirm, message } from 'antd';
+import { deleteUser } from 'redux/actions/admins';
 interface Props {
   getUsers(): void;
   users: any;
   createUserByAdmin(data: any): void;
   createUserError: string;
+  deleteUser(data: any): void;
+  deleteUserError: string;
 }
 
 Modal.setAppElement('body');
@@ -32,44 +36,7 @@ const customStyles = {
   },
 };
 
-const columns = [
-  {
-    title: 'Tên',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
-    title: 'Vai trò',
-    dataIndex: 'role',
-    key: 'role',
-    render: (role: number) => {
-      if (role === 2) {
-        return <Tag color="red">Chủ sở hữu</Tag>;
-      } else if (role === 1) {
-        return <Tag color="orange">Quản trị viên</Tag>;
-      } else {
-        return <Tag color="green">Nguời dùng</Tag>;
-      }
-    },
-  },
-  {
-    title: 'Hành động',
-    key: 'action',
-    render: (record: any) => (
-      <Space size="middle">
-        <a>Sửa</a>
-        {record.role !== 2 && <a>Xóa</a>}
-      </Space>
-    ),
-  },
-];
-
-function AdminUsers({ getUsers, users, createUserByAdmin, createUserError }: Props) {
+function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, deleteUser, deleteUserError }: Props) {
   const initialForm = {
     formError: false,
     formMessage: '',
@@ -163,15 +130,70 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError }: Pro
     },
   };
 
+  function confirm(id: string) {
+    deleteUser({ id });
+  }
+
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [form, setForm] = useState(initialForm);
   const [isWaiting, setWaiting] = useState(false);
-  // console.log(createUserError);
+
+  const columns = [
+    {
+      title: 'Tên',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Vai trò',
+      dataIndex: 'role',
+      key: 'role',
+      render: (role: number) => {
+        if (role === 2) {
+          return <Tag color="red">Chủ sở hữu</Tag>;
+        } else if (role === 1) {
+          return <Tag color="orange">Quản trị viên</Tag>;
+        } else {
+          return <Tag color="green">Nguời dùng</Tag>;
+        }
+      },
+    },
+    {
+      title: 'Hành động',
+      key: 'action',
+      render: (record: any) => (
+        <Space size="middle">
+          <a>Sửa</a>
+          {record.role !== 2 && (
+            <Popconfirm
+              title="Bạn có muốn xóa người dùng này?"
+              onConfirm={() => confirm(record._id)}
+              okText="Xóa"
+              cancelText="Không"
+            >
+              <a>Xóa</a>
+            </Popconfirm>
+          )}
+        </Space>
+      ),
+    },
+  ];
 
   useEffect(() => {
     getUsers();
   }, []);
+
+  useEffect(() => {
+    if (deleteUserError) {
+      message.error('Xóa thất bại');
+    }
+  }, [deleteUserError]);
 
   useEffect(() => {
     if (users !== undefined) {
@@ -302,6 +324,10 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError }: Pro
   }
 }
 
-const mapStateToProps = (state: any) => ({ users: state.admins.data, createUserError: state.admins.createUserError });
+const mapStateToProps = (state: any) => ({
+  users: state.admins.data,
+  createUserError: state.admins.createUserError,
+  deleteUserError: state.admins.deleteUserError,
+});
 
-export default connect(mapStateToProps, { getUsers, createUserByAdmin })(AdminUsers);
+export default connect(mapStateToProps, { getUsers, createUserByAdmin, deleteUser })(AdminUsers);

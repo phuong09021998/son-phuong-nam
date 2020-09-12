@@ -277,13 +277,13 @@ exports.updateUserById = async (req, res) => {
 
 exports.deleteUserById = async (req, res) => {
   try {
-    if (req.userById.role === 0) {
+    if (req.userById.role <= 1) {
       await User.findByIdAndDelete(req.userById._id);
       return res.status(200).send({
         success: true,
       });
     } else {
-      throw new Error('You cannot delete moderator.');
+      throw new Error('You cannot delete admin.');
     }
   } catch (error) {
     return res.status(400).send({

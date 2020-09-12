@@ -19,3 +19,11 @@ export const createUserByAdmin = ({ email, name, role, password }: User) => {
   formData.append('role', String(role));
   return axios.post('/api/admin/user', formData);
 };
+
+interface DeleteUser {
+  id: string;
+}
+
+export const deleteUser = ({ id }: DeleteUser) => {
+  return axios.delete(`/api/user/${id}`);
+};

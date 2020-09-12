@@ -36,7 +36,6 @@ function* createUser({ payload }: any) {
     } else {
       yield put(actions.createUserError({ error: 'Đăng ký thất bại' }));
     }
-    // if ()
   }
 }
 
@@ -44,6 +43,26 @@ function* watchCreateUserRequest() {
   yield takeLatest(actions.Types.CREATE_USER, createUser);
 }
 
-const userSaga = [fork(watchGetUsersRequest), fork(watchCreateUserRequest)];
+interface DeleteUser {
+  id: string;
+}
+
+function* deleteUser(payload: DeleteUser) {
+  try {
+    yield call(api.deleteUser, payload);
+    yield call(getUsers);
+  } catch (e) {
+    yield put(actions.deleteUserError({ error: 'Xóa thất bại' }));
+  }
+}
+
+function* watchDeleteUserRequest() {
+  while (true) {
+    const { payload } = yield take(actions.Types.DELETE_USER);
+    yield call(deleteUser, payload);
+  }
+}
+
+const userSaga = [fork(watchGetUsersRequest), fork(watchCreateUserRequest), fork(watchDeleteUserRequest)];
 
 export default userSaga;

@@ -4,6 +4,8 @@ export const Types = {
   CREATE_USER: 'admin/create-user',
   SET_WAITING: 'admin/set-waiting',
   CREATE_USER_ERROR: 'admin/create-user-error',
+  DELETE_USER: 'admin/delete-user',
+  DELETE_USER_ERROR: 'admin/delete-user-error',
 };
 
 interface User {
@@ -36,6 +38,24 @@ export const createUserByAdmin = ({ email, name, password, role }: User) => ({
 
 export const createUserError = ({ error }: any) => ({
   type: Types.CREATE_USER_ERROR,
+  payload: {
+    error,
+  },
+});
+
+interface DeleteUser {
+  id: string;
+}
+
+export const deleteUser = ({ id }: DeleteUser) => ({
+  type: Types.DELETE_USER,
+  payload: {
+    id,
+  },
+});
+
+export const deleteUserError = ({ error }: any) => ({
+  type: Types.DELETE_USER_ERROR,
   payload: {
     error,
   },

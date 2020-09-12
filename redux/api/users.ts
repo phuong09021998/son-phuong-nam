@@ -12,3 +12,6 @@ export const loginUser = ({ email, password }: LoginUser) => {
 export const getUser = () => {
   return axios.get('/api/user');
 };
+
+
+
