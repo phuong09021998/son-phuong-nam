@@ -20,20 +20,23 @@ function* watchGetUsersRequest() {
 }
 
 function* createUser({ payload }: any) {
-  console.log(payload);
   try {
-    // console.log('ok');
-    const result = yield call(api.createUserByAdmin, {
+    yield call(api.createUserByAdmin, {
       name: payload.name,
       email: payload.email,
       password: payload.password,
       role: payload.role,
     });
-    console.log(result);
 
     yield call(getUsers);
   } catch (error) {
-    console.log(error);
+    const errordata = error.response.data;
+    if (errordata.error.includes('E11000')) {
+      yield put(actions.createUserError({ error: 'Email đã tồn tại' }));
+    } else {
+      yield put(actions.createUserError({ error: 'Đăng ký thất bại' }));
+    }
+    // if ()
   }
 }
 

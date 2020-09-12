@@ -2,6 +2,8 @@ export const Types = {
   GET_USERS: 'admin/get-users',
   GET_USERS_SUCCESS: 'admin/get-users-success',
   CREATE_USER: 'admin/create-user',
+  SET_WAITING: 'admin/set-waiting',
+  CREATE_USER_ERROR: 'admin/create-user-error',
 };
 
 interface User {
@@ -29,5 +31,12 @@ export const createUserByAdmin = ({ email, name, password, role }: User) => ({
     name,
     password,
     role,
+  },
+});
+
+export const createUserError = ({ error }: any) => ({
+  type: Types.CREATE_USER_ERROR,
+  payload: {
+    error,
   },
 });

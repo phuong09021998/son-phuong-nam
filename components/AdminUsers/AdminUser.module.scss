@@ -68,6 +68,15 @@
     }
   }
 
+  .waiting {
+    position: relative;
+    // background-color: yellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+  }
+
   .errorLabel {
     color: $pink;
     text-align: center;

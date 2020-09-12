@@ -61,7 +61,7 @@ const Formfield = ({ formdata, change, id }: Props) => {
       case 'select':
         formTemplate = (
           <div className="formBlock">
-            {formdata.showlabel ? <div className="label_inputs">{formdata.config.label}</div> : null}
+            {formdata.showlabel ? <p>{formdata.config.label}</p> : null}
             <select
               value={formdata.value}
               onBlur={(event) => change({ event, id, blur: true })}

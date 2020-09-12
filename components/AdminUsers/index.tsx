@@ -11,11 +11,11 @@ import FormField from '../FormField';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
 import Button from '@material-ui/core/Button';
 import { createUserByAdmin } from 'redux/actions/admins';
-
 interface Props {
   getUsers(): void;
   users: any;
   createUserByAdmin(data: any): void;
+  createUserError: string;
 }
 
 Modal.setAppElement('body');
@@ -69,10 +69,10 @@ const columns = [
   },
 ];
 
-function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
+function AdminUsers({ getUsers, users, createUserByAdmin, createUserError }: Props) {
   const initialForm = {
     formError: false,
-    formSuccess: '',
+    formMessage: '',
     formdata: {
       email: {
         element: 'input',
@@ -114,7 +114,7 @@ function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
         config: {
           name: 'role_input',
           type: 'name',
-          label: 'Tên',
+          label: 'Vai trò',
           options: [{ value: 'Người dùng' }, { value: 'Quản trị viên' }],
         },
         validation: {
@@ -166,6 +166,8 @@ function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [form, setForm] = useState(initialForm);
+  const [isWaiting, setWaiting] = useState(false);
+  // console.log(createUserError);
 
   useEffect(() => {
     getUsers();
@@ -174,6 +176,8 @@ function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
   useEffect(() => {
     if (users !== undefined) {
       setLoading(false);
+      setWaiting(false);
+      setOpenModal(false);
     }
   }, [users]);
 
@@ -183,6 +187,7 @@ function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
 
   const closeModal = () => {
     setOpenModal(false);
+    setForm(initialForm);
   };
 
   const submitForm = (e: any): void => {
@@ -193,14 +198,39 @@ function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
 
     if (formIsValid) {
       createUserByAdmin(dataToSubmit);
-      setOpenModal(false);
+      setWaiting(true);
     } else {
       setForm({
         ...form,
         formError: true,
+        formMessage: 'Kiểm tra lại thông tin',
       });
     }
   };
+
+  useEffect(() => {
+    if (createUserError === 'Email đã tồn tại') {
+      setForm({
+        ...form,
+        formdata: {
+          ...form.formdata,
+          email: {
+            ...form.formdata.email,
+            valid: false,
+            validationMessage: createUserError,
+          },
+        },
+      });
+
+      setWaiting(false);
+    } else {
+      setForm({
+        ...form,
+        formError: true,
+        formMessage: createUserError,
+      });
+    }
+  }, [createUserError]);
 
   const updateForm = (element: any) => {
     const newFormdata: any = update(element, form.formdata, 'admin_register');
@@ -230,7 +260,13 @@ function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
             <Table columns={columns} dataSource={usersArr} rowKey={(record) => record._id} />
           </div>
         </div>
-        <Modal isOpen={openModal} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
+        <Modal
+          isOpen={openModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+          shouldCloseOnOverlayClick={false}
+        >
           <div className={styles.modalTitle}>Thêm người dùng</div>
           <form className={styles.form} onSubmit={(event) => submitForm(event)}>
             <FormField id={'email'} formdata={form.formdata.email} change={(e: any) => updateForm(e)} />
@@ -242,7 +278,12 @@ function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
               formdata={form.formdata.confirmPassword}
               change={(e: any) => updateForm(e)}
             />
-            {form.formError && <div className={styles.errorLabel}>Kiểm tra lại thông tin</div>}
+            {form.formError && <div className={styles.errorLabel}>{form.formMessage}</div>}
+            {isWaiting && (
+              <div className={styles.waiting}>
+                <CircularProgress color="secondary" />
+              </div>
+            )}
             <Button
               variant="contained"
               color="secondary"
@@ -261,6 +302,6 @@ function AdminUsers({ getUsers, users, createUserByAdmin }: Props) {
   }
 }
 
-const mapStateToProps = (state: any) => ({ users: state.admins.data });
+const mapStateToProps = (state: any) => ({ users: state.admins.data, createUserError: state.admins.createUserError });
 
 export default connect(mapStateToProps, { getUsers, createUserByAdmin })(AdminUsers);

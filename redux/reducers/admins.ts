@@ -13,9 +13,25 @@ export default function users(state = INITIAL_STATE, action: Action) {
       return {
         ...state,
         data: action.payload,
-        error: undefined,
+        createUserError: undefined,
+        setWaiting: false,
       };
     }
+
+    case Types.SET_WAITING: {
+      return {
+        ...state,
+        isWaiting: true,
+      };
+    }
+
+    case Types.CREATE_USER_ERROR: {
+      return {
+        ...state,
+        createUserError: action.payload.error,
+      };
+    }
+
     default: {
       return state;
     }
