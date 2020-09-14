@@ -9,7 +9,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import FormField from '../FormField';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
 import Button from '@material-ui/core/Button';
-import { createUserByAdmin, editUser, deleteUser, getUsers } from 'redux/actions/admins';
+import { createUserByAdmin, editUser, deleteUser, getUsers, getUsersError } from 'redux/actions/admins';
 import { Popconfirm, message } from 'antd';
 interface Props {
   getUsers(): void;
@@ -18,6 +18,9 @@ interface Props {
   createUserError: string;
   deleteUser(data: any): void;
   deleteUserError: string;
+  editUser(data: any): void;
+  editUserError: string;
+  getUsersError: string;
 }
 
 Modal.setAppElement('body');
@@ -42,6 +45,8 @@ function AdminUsers({
   deleteUser,
   deleteUserError,
   editUser,
+  editUserError,
+  getUsersError,
 }: Props) {
   const initialForm = {
     formError: false,
@@ -136,10 +141,6 @@ function AdminUsers({
     },
   };
 
-  function confirm(id: string) {
-    deleteUser({ id });
-  }
-
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [form, setForm] = useState(initialForm);
@@ -192,6 +193,10 @@ function AdminUsers({
     },
   ];
 
+  function confirm(id: string) {
+    deleteUser({ id });
+  }
+
   const selectUserRole = (role: number) => {
     if (role === 0) {
       return 'Người dùng';
@@ -234,24 +239,6 @@ function AdminUsers({
     setOpenModal(true);
   };
 
-  useEffect(() => {
-    getUsers();
-  }, []);
-
-  useEffect(() => {
-    if (deleteUserError) {
-      message.error('Xóa thất bại');
-    }
-  }, [deleteUserError]);
-
-  useEffect(() => {
-    if (users !== undefined) {
-      setLoading(false);
-      setWaiting(false);
-      setOpenModal(false);
-    }
-  }, [users]);
-
   const handleCreate = () => {
     setEdit({ active: false, id: 'none' });
     setForm(initialForm);
@@ -261,6 +248,15 @@ function AdminUsers({
   const closeModal = () => {
     setOpenModal(false);
     setForm(initialForm);
+  };
+
+  const updateForm = (element: any) => {
+    const newFormdata: any = update(element, form.formdata, 'admin_register');
+    setForm({
+      ...form,
+      formError: false,
+      formdata: newFormdata,
+    });
   };
 
   const submitForm = (e: any): void => {
@@ -286,6 +282,30 @@ function AdminUsers({
   };
 
   useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    if (deleteUserError) {
+      message.error('Xóa thất bại');
+    }
+    if (editUserError) {
+      message.error('Sửa thất bại');
+    }
+    if (getUsersError) {
+      message.error('Lấy người dùng thất bại');
+    }
+  }, [deleteUserError, editUserError, getUsersError]);
+
+  useEffect(() => {
+    if (users !== undefined) {
+      setLoading(false);
+      setWaiting(false);
+      setOpenModal(false);
+    }
+  }, [users]);
+
+  useEffect(() => {
     if (createUserError === 'Email đã tồn tại') {
       setForm({
         ...form,
@@ -308,15 +328,6 @@ function AdminUsers({
       });
     }
   }, [createUserError]);
-
-  const updateForm = (element: any) => {
-    const newFormdata: any = update(element, form.formdata, 'admin_register');
-    setForm({
-      ...form,
-      formError: false,
-      formdata: newFormdata,
-    });
-  };
 
   if (loading) {
     return (
@@ -383,6 +394,8 @@ const mapStateToProps = (state: any) => ({
   users: state.admins.data,
   createUserError: state.admins.createUserError,
   deleteUserError: state.admins.deleteUserError,
+  editUserError: state.admins.editUserError,
+  getUsersError: state.admins.getUsersError,
 });
 
 export default connect(mapStateToProps, { getUsers, createUserByAdmin, deleteUser, editUser })(AdminUsers);

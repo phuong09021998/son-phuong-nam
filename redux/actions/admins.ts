@@ -8,6 +8,8 @@ export const Types = {
   DELETE_USER_ERROR: 'admin/delete-user-error',
   EDIT_USER: 'admin/edit-user',
   GET_USER_BY_ID: 'admin/get-user-by-id',
+  GET_USERS_ERROR: 'admin/get-users-error',
+  EDIT_USER_ERROR: 'admin/edit-user-error'
 };
 
 interface User {
@@ -25,6 +27,13 @@ export const getUsersSuccess = (users: any) => ({
   type: Types.GET_USERS_SUCCESS,
   payload: {
     ...users,
+  },
+});
+
+export const getUsersError = ({ error }: any) => ({
+  type: Types.GET_USERS_ERROR,
+  payload: {
+    error,
   },
 });
 
@@ -59,6 +68,13 @@ export const deleteUser = ({ id }: SelectUser) => ({
 
 export const deleteUserError = ({ error }: any) => ({
   type: Types.DELETE_USER_ERROR,
+  payload: {
+    error,
+  },
+});
+
+export const editUserError = ({ error }: any) => ({
+  type: Types.EDIT_USER_ERROR,
   payload: {
     error,
   },

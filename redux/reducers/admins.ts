@@ -15,6 +15,14 @@ export default function users(state = INITIAL_STATE, action: Action) {
         data: action.payload,
         createUserError: undefined,
         deleteUserError: undefined,
+        getUsersError: undefined,
+        editUserError: undefined,
+      };
+    }
+    case Types.GET_USERS_ERROR: {
+      return {
+        ...state,
+        getUsersError: action.payload.error,
       };
     }
     case Types.CREATE_USER_ERROR: {
@@ -23,10 +31,16 @@ export default function users(state = INITIAL_STATE, action: Action) {
         createUserError: action.payload.error,
       };
     }
-    case Types.DELETE_USER: {
+    case Types.DELETE_USER_ERROR: {
       return {
         ...state,
         deleteUserError: action.payload.error,
+      };
+    }
+    case Types.EDIT_USER_ERROR: {
+      return {
+        ...state,
+        editUserError: action.payload.error,
       };
     }
 

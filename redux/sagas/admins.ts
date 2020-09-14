@@ -7,11 +7,7 @@ function* getUsers() {
     const result = yield call(api.getUsers);
     yield put(actions.getUsersSuccess({ ...result.data.users }));
   } catch (e) {
-    // yield put(
-    //   actions.usersError({
-    //     error: 'An error occurred when trying to get the users',
-    //   }),
-    // );
+    yield put(actions.getUsersError({ error: 'Lấy thông tin người dùng thất bại' }));
   }
 }
 
@@ -75,7 +71,7 @@ function* updateUser({ payload }: any) {
 
     yield call(getUsers);
   } catch (error) {
-    console.log(error);
+    yield put(actions.editUserError({ error: 'Sửa người dùng thất bại' }));
   }
 }
 

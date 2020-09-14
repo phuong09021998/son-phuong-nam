@@ -98,18 +98,21 @@ function Admin({ toggleRegisterLogin, user }: Props) {
                 <div className={styles.text}>Tin Nhắn</div>
               </div>
             </Button>
-            <Button
-              className={classes.button}
-              onClick={(e) => handleMenuClick(e, 'users')} // @ts-ignore
-              style={currentActive === 'users' ? { backgroundColor: '#00acc1' } : null}
-            >
-              <div className={styles.menuItem}>
-                <div className={styles.icon}>
-                  <img src="/icons/people.svg" alt="people" />
+            {user && user.role === 2 && (
+              <Button
+                className={classes.button}
+                onClick={(e) => handleMenuClick(e, 'users')} // @ts-ignore
+                style={currentActive === 'users' ? { backgroundColor: '#00acc1' } : null}
+              >
+                <div className={styles.menuItem}>
+                  <div className={styles.icon}>
+                    <img src="/icons/people.svg" alt="people" />
+                  </div>
+                  <div className={styles.text}>Người Dùng</div>
                 </div>
-                <div className={styles.text}>Người Dùng</div>
-              </div>
-            </Button>
+              </Button>
+            )}
+
             <Button
               className={classes.button}
               onClick={(e) => handleMenuClick(e, 'posts')} // @ts-ignore
