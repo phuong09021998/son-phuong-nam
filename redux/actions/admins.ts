@@ -6,6 +6,8 @@ export const Types = {
   CREATE_USER_ERROR: 'admin/create-user-error',
   DELETE_USER: 'admin/delete-user',
   DELETE_USER_ERROR: 'admin/delete-user-error',
+  EDIT_USER: 'admin/edit-user',
+  GET_USER_BY_ID: 'admin/get-user-by-id',
 };
 
 interface User {
@@ -19,7 +21,7 @@ export const getUsers = () => ({
   type: Types.GET_USERS,
 });
 
-export const getUserSuccess = (users: any) => ({
+export const getUsersSuccess = (users: any) => ({
   type: Types.GET_USERS_SUCCESS,
   payload: {
     ...users,
@@ -43,11 +45,12 @@ export const createUserError = ({ error }: any) => ({
   },
 });
 
-interface DeleteUser {
+interface SelectUser {
   id: string;
+  fields?: any;
 }
 
-export const deleteUser = ({ id }: DeleteUser) => ({
+export const deleteUser = ({ id }: SelectUser) => ({
   type: Types.DELETE_USER,
   payload: {
     id,
@@ -58,5 +61,13 @@ export const deleteUserError = ({ error }: any) => ({
   type: Types.DELETE_USER_ERROR,
   payload: {
     error,
+  },
+});
+
+export const editUser = ({ id, fields }: SelectUser) => ({
+  type: Types.EDIT_USER,
+  payload: {
+    id,
+    fields,
   },
 });

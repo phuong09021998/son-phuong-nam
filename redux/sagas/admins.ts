@@ -5,7 +5,7 @@ import * as api from '../api/admins';
 function* getUsers() {
   try {
     const result = yield call(api.getUsers);
-    yield put(actions.getUserSuccess({ ...result.data.users }));
+    yield put(actions.getUsersSuccess({ ...result.data.users }));
   } catch (e) {
     // yield put(
     //   actions.usersError({
@@ -63,6 +63,31 @@ function* watchDeleteUserRequest() {
   }
 }
 
-const userSaga = [fork(watchGetUsersRequest), fork(watchCreateUserRequest), fork(watchDeleteUserRequest)];
+function* updateUser({ payload }: any) {
+  try {
+    yield call(api.editUser, {
+      name: payload.fields.name,
+      email: payload.fields.email,
+      password: payload.fields.password,
+      role: payload.fields.role,
+      id: payload.id,
+    });
+
+    yield call(getUsers);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* watchUpdateUserRequest() {
+  yield takeLatest(actions.Types.EDIT_USER, updateUser);
+}
+
+const userSaga = [
+  fork(watchGetUsersRequest),
+  fork(watchCreateUserRequest),
+  fork(watchDeleteUserRequest),
+  fork(watchUpdateUserRequest),
+];
 
 export default userSaga;

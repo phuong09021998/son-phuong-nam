@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getUsers } from 'redux/actions/admins';
 import styles from './AdminUser.module.scss';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Table, Tag, Space } from 'antd';
@@ -10,9 +9,8 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import FormField from '../FormField';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
 import Button from '@material-ui/core/Button';
-import { createUserByAdmin } from 'redux/actions/admins';
+import { createUserByAdmin, editUser, deleteUser, getUsers } from 'redux/actions/admins';
 import { Popconfirm, message } from 'antd';
-import { deleteUser } from 'redux/actions/admins';
 interface Props {
   getUsers(): void;
   users: any;
@@ -36,7 +34,15 @@ const customStyles = {
   },
 };
 
-function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, deleteUser, deleteUserError }: Props) {
+function AdminUsers({
+  getUsers,
+  users,
+  createUserByAdmin,
+  createUserError,
+  deleteUser,
+  deleteUserError,
+  editUser,
+}: Props) {
   const initialForm = {
     formError: false,
     formMessage: '',
@@ -138,6 +144,7 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, delet
   const [openModal, setOpenModal] = useState(false);
   const [form, setForm] = useState(initialForm);
   const [isWaiting, setWaiting] = useState(false);
+  const [edit, setEdit] = useState({ active: false, id: 'none' });
 
   const columns = [
     {
@@ -169,7 +176,7 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, delet
       key: 'action',
       render: (record: any) => (
         <Space size="middle">
-          <a>Sửa</a>
+          <a onClick={() => handleEditUser(record._id)}>Sửa</a>
           {record.role !== 2 && (
             <Popconfirm
               title="Bạn có muốn xóa người dùng này?"
@@ -184,6 +191,48 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, delet
       ),
     },
   ];
+
+  const selectUserRole = (role: number) => {
+    if (role === 0) {
+      return 'Người dùng';
+    } else if (role === 1) {
+      return 'Quản trị viên';
+    } else {
+      return 'Chủ sở hữu';
+    }
+  };
+
+  const handleEditUser = (id: string) => {
+    const usersArr: any = Object.values(users);
+    const selectedUser = usersArr.find((user: any) => user._id === id);
+    setEdit({ active: true, id: selectedUser._id });
+    setForm({
+      ...form,
+      formdata: {
+        ...form.formdata,
+        email: {
+          ...form.formdata.email,
+          value: selectedUser.email,
+          valid: true,
+        },
+        name: {
+          ...form.formdata.name,
+          value: selectedUser.name,
+          valid: true,
+        },
+        role: {
+          ...form.formdata.role,
+          value: selectUserRole(selectedUser.role),
+          valid: true,
+        },
+        password: {
+          ...form.formdata.password,
+          valid: true,
+        },
+      },
+    });
+    setOpenModal(true);
+  };
 
   useEffect(() => {
     getUsers();
@@ -204,6 +253,8 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, delet
   }, [users]);
 
   const handleCreate = () => {
+    setEdit({ active: false, id: 'none' });
+    setForm(initialForm);
     setOpenModal(true);
   };
 
@@ -219,7 +270,11 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, delet
     const formIsValid = isFormValid(form.formdata, 'admin_register');
 
     if (formIsValid) {
-      createUserByAdmin(dataToSubmit);
+      if (edit.active) {
+        editUser({ id: edit.id, fields: dataToSubmit });
+      } else {
+        createUserByAdmin(dataToSubmit);
+      }
       setWaiting(true);
     } else {
       setForm({
@@ -289,7 +344,7 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, delet
           contentLabel="Example Modal"
           shouldCloseOnOverlayClick={false}
         >
-          <div className={styles.modalTitle}>Thêm người dùng</div>
+          <div className={styles.modalTitle}>{edit.active ? 'Sửa người dùng' : 'Thêm người dùng'}</div>
           <form className={styles.form} onSubmit={(event) => submitForm(event)}>
             <FormField id={'email'} formdata={form.formdata.email} change={(e: any) => updateForm(e)} />
             <FormField id={'name'} formdata={form.formdata.name} change={(e: any) => updateForm(e)} />
@@ -312,7 +367,7 @@ function AdminUsers({ getUsers, users, createUserByAdmin, createUserError, delet
               className={styles.button}
               onClick={(event) => submitForm(event)}
             >
-              Đăng ký
+              {edit.active ? 'Sửa' : 'Đăng ký'}
             </Button>
           </form>
           <div className={styles.close}>
@@ -330,4 +385,4 @@ const mapStateToProps = (state: any) => ({
   deleteUserError: state.admins.deleteUserError,
 });
 
-export default connect(mapStateToProps, { getUsers, createUserByAdmin, deleteUser })(AdminUsers);
+export default connect(mapStateToProps, { getUsers, createUserByAdmin, deleteUser, editUser })(AdminUsers);
