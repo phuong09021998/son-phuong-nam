@@ -177,7 +177,7 @@ function AdminUsers({
       key: 'action',
       render: (record: any) => (
         <Space size="middle">
-          <a onClick={() => handleEditUser(record._id)}>Sửa</a>
+          {record.role !== 2 && <a onClick={() => handleEditUser(record._id)}>Sửa</a>}
           {record.role !== 2 && (
             <Popconfirm
               title="Bạn có muốn xóa người dùng này?"

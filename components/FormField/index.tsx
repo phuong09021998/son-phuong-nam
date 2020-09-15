@@ -67,7 +67,6 @@ const Formfield = ({ formdata, change, id }: Props) => {
               value={formdata.value}
               onBlur={(event) => change({ event, id, blur: true })}
               onChange={(event) => change({ event, id })}
-              disabled={formdata.value === 'Chủ sở hữu' ? true : false}
             >
               {/* <option value="">Select one</option> */}
               {formdata.config.options.map((item: any, i: number) => (

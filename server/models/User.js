@@ -85,6 +85,14 @@ userSchema.statics.findByToken = async function (token) {
   }
 };
 
+userSchema.statics.generateHash = async function (password) {
+  try {
+    return await bcrypt.hash(password, 8);
+  } catch (error) {
+    throw new Error('Cannot hash password');
+  }
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

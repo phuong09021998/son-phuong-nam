@@ -135,6 +135,10 @@ exports.updateUser = (req, res) => {
 
     let user;
 
+    if (fields.password) {
+      fields.password = await User.generateHash(fields.password);
+    }
+
     if (files.avatar) {
       fields.avatar = {};
 
@@ -150,7 +154,6 @@ exports.updateUser = (req, res) => {
           error: 'Image cannot be larger than 1Mb.',
         });
       }
-      console.log(files.avatar);
       fields.avatar = await handleUploadImage(files.avatar, { width: 250, height: 250 });
       user = await User.findOneAndUpdate({ _id: req.user._id }, fields, { new: true }).select('-avatar -password');
     } else {
@@ -235,7 +238,6 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
   const form = formidable({ multiples: true });
-
   form.parse(req, async (err, fields, files) => {
     if (err) {
       return res.status(400).send({
@@ -245,6 +247,10 @@ exports.updateUserById = async (req, res) => {
     }
 
     let user;
+
+    if (fields.password) {
+      fields.password = await User.generateHash(fields.password);
+    }
 
     if (files.avatar) {
       fields.avatar = {};
