@@ -32,6 +32,7 @@ exports.createPost = async (req, res) => {
 };
 
 exports.uploadPostPicture = async (req, res) => {
+  console.log(req);
   if (req.fileError) {
     return res.status(400).send({
       success: false,

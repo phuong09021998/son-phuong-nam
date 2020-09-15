@@ -9,12 +9,14 @@ import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import FormField from '../FormField';
 import Button from '@material-ui/core/Button';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
+import { createPost } from 'redux/actions/posts';
 interface Props {
   getPostsByAdmin(): void;
   posts: any;
+  createPost(data: any): void;
 }
 
-function AdminPosts({ posts, getPostsByAdmin }: Props) {
+function AdminPosts({ posts, getPostsByAdmin, createPost }: Props) {
   const initialForm = {
     formError: false,
     formMessage: '',
@@ -134,7 +136,7 @@ function AdminPosts({ posts, getPostsByAdmin }: Props) {
           <a>Sửa</a>
           <Popconfirm
             title="Bạn có muốn xóa bài viết này?"
-            onConfirm={() => confirm(record._id)}
+            onConfirm={() => handleDelete(record._id)}
             okText="Xóa"
             cancelText="Không"
           >
@@ -145,13 +147,17 @@ function AdminPosts({ posts, getPostsByAdmin }: Props) {
     },
   ];
 
+  const handleDelete = (id: string) => {
+    console.log(id);
+  };
+
   const handleCreatePost = () => {
     // console.log('create');
     setEdit({ active: true, status: 'create' });
   };
 
   const updateForm = (element: any) => {
-    const newFormdata: any = update(element, form.formdata, 'admin_register');
+    const newFormdata: any = update(element, form.formdata, 'posts');
     setForm({
       ...form,
       formError: false,
@@ -167,6 +173,7 @@ function AdminPosts({ posts, getPostsByAdmin }: Props) {
 
     if (formIsValid) {
       console.log(dataToSubmit);
+      createPost(dataToSubmit);
     } else {
       setForm({
         ...form,
@@ -183,6 +190,7 @@ function AdminPosts({ posts, getPostsByAdmin }: Props) {
   useEffect(() => {
     if (posts) {
       setLoading(false);
+      setEdit({ active: false, status: 'none' });
     }
   }, [posts]);
 
@@ -196,7 +204,9 @@ function AdminPosts({ posts, getPostsByAdmin }: Props) {
     return (
       <div className={styles.formContainer}>
         <form>
-          <div className={styles.title}>{edit.status === 'create' ? 'Thêm bài viết' : 'Sửa bài viết'}</div>
+          <div className={styles.title} onSubmit={(event) => submitForm(event)}>
+            {edit.status === 'create' ? 'Thêm bài viết' : 'Sửa bài viết'}
+          </div>
           <FormField id={'title'} formdata={form.formdata.title} change={(e: any) => updateForm(e)} />
           <FormField id={'type'} formdata={form.formdata.type} change={(e: any) => updateForm(e)} />
           <FormField id={'upload'} formdata={form.formdata.upload} change={(e: any) => updateForm(e)} />
@@ -230,4 +240,4 @@ const mapStateToProps = (state: any) => ({
   posts: state.posts.postsByAdmin,
 });
 
-export default connect(mapStateToProps, { getPostsByAdmin })(AdminPosts);
+export default connect(mapStateToProps, { getPostsByAdmin, createPost })(AdminPosts);

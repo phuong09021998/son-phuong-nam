@@ -33,6 +33,7 @@
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
+    margin-top: 1em;
   }
 
   div {
@@ -41,6 +42,13 @@
       font-weight: bold;
       margin-top: 1.5em;
       line-height: 0.6rem;
+    }
+
+    input {
+      border: none;
+      width: 100%;
+      border-bottom: 1px solid gray;
+      outline: none;
     }
 
     & > select {

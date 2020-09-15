@@ -16,6 +16,19 @@ function* watchGetPostsByAdminRequest() {
   yield takeEvery(actions.Types.GET_POSTS_BY_ADMIN, getPostsByAdmin);
 }
 
-const postSagas = [fork(watchGetPostsByAdminRequest)];
+function* createPostByAdmin({ payload }: any) {
+  try {
+    yield call(api.createPost, payload);
+    yield call(getPostsByAdmin);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* watchCreatePostsByAdminRequest() {
+  yield takeLatest(actions.Types.CREATE_POST, createPostByAdmin);
+}
+
+const postSagas = [fork(watchGetPostsByAdminRequest), fork(watchCreatePostsByAdminRequest)];
 
 export default postSagas;
