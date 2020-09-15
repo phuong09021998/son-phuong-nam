@@ -35,14 +35,6 @@ const postSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    finish: {
-      type: Boolean,
-      default: true,
-    },
-    images: {
-      type: Array,
-      default: [],
-    },
   },
   {
     timestamps: true,

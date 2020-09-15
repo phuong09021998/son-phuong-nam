@@ -12,7 +12,7 @@ interface FormElement {
     label?: string;
   };
   valid: boolean;
-  touched: boolean;
+  touched?: boolean;
   validationMessage?: string;
   showlabel?: boolean;
 }
@@ -90,6 +90,28 @@ const Formfield = ({ formdata, change, id }: Props) => {
               onChange={(event) => change({ event, id })}
             />
             {showError()}
+          </div>
+        );
+        break;
+      case 'image':
+        const loadImage = (event: any) => {
+          const output = document.getElementById('output');
+          // @ts-ignore
+          output.src = URL.createObjectURL(event.target.files[0]);
+          // @ts-ignore
+          output.onload = function () {
+            // @ts-ignore
+            URL.revokeObjectURL(output.src); // free memory
+          };
+        };
+
+        formTemplate = (
+          <div>
+            {formdata.showlabel ? <p>{formdata.config.label}</p> : null}
+
+            <input {...formdata.config} autoComplete="off" accept="image/*" type="file" onChange={loadImage} />
+            {showError()}
+            <img id="output" />
           </div>
         );
         break;

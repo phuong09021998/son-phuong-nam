@@ -13,7 +13,7 @@ router.get('/posts', getPosts);
 
 // Admin routes
 router.post('/post', auth, checkModerator, upload.single('upload'), createPost);
-router.post('/post/image/:postId', auth, checkModerator, upload.single('upload'), uploadPostPicture);
+router.post('/post/image', auth, checkModerator, upload.single('upload'), uploadPostPicture);
 router.put('/post/:postId', auth, checkModerator, updatePost);
 router.delete('/post/:postId', auth, checkModerator, deletePost);
 

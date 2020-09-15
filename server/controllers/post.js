@@ -40,20 +40,14 @@ exports.uploadPostPicture = async (req, res) => {
   }
 
   const imagePath = req.file.path;
-  const postId = req.params.postId;
 
   try {
     if (req.fileExtension !== '.svg') {
       tinify(imagePath, imagePath, { width: 600, height: 450 });
     }
-
-    const post = await Post.findByIdAndUpdate(postId, { $push: { images: imagePath } }, { new: true });
-    if (!post) {
-      throw new Error('Post not found.');
-    }
     return res.status(200).send({
       success: true,
-      path,
+      imagePath,
     });
   } catch (error) {
     return res.status(400).send({

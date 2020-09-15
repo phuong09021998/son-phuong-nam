@@ -40,6 +40,6 @@ function* watchGetUsersRequest() {
   yield takeEvery(actions.Types.GET_USER, getUsers);
 }
 
-const userSaga = [fork(watchLoginUser), fork(watchGetUsersRequest)];
+const userSagas = [fork(watchLoginUser), fork(watchGetUsersRequest)];
 
-export default userSaga;
+export default userSagas;

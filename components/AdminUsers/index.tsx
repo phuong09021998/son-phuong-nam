@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './AdminUser.module.scss';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Space, Popconfirm, message } from 'antd';
 import TopAdminTable from '../TopAdminTable';
 import Modal from 'react-modal';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FormField from '../FormField';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
 import Button from '@material-ui/core/Button';
-import { createUserByAdmin, editUser, deleteUser, getUsers, getUsersError } from 'redux/actions/admins';
-import { Popconfirm, message } from 'antd';
+import { createUserByAdmin, editUser, deleteUser, getUsers } from 'redux/actions/admins';
 interface Props {
   getUsers(): void;
   users: any;

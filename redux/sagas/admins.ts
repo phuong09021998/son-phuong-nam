@@ -79,11 +79,11 @@ function* watchUpdateUserRequest() {
   yield takeLatest(actions.Types.EDIT_USER, updateUser);
 }
 
-const userSaga = [
+const adminSagas = [
   fork(watchGetUsersRequest),
   fork(watchCreateUserRequest),
   fork(watchDeleteUserRequest),
   fork(watchUpdateUserRequest),
 ];
 
-export default userSaga;
+export default adminSagas;

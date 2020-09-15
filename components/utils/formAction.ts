@@ -2,8 +2,8 @@ interface FormElement {
   element: string;
   value: string;
   config?: {
-    name: string;
-    type: string;
+    name?: string;
+    type?: string;
     placeholder?: string;
     label?: string;
   };
@@ -14,7 +14,7 @@ interface FormElement {
     confirm?: string;
   };
   valid: boolean;
-  touched: boolean;
+  touched?: boolean;
   validationMessage?: string;
   showlabel?: boolean;
 }

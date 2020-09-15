@@ -9,7 +9,9 @@ export const Types = {
   EDIT_USER: 'admin/edit-user',
   GET_USER_BY_ID: 'admin/get-user-by-id',
   GET_USERS_ERROR: 'admin/get-users-error',
-  EDIT_USER_ERROR: 'admin/edit-user-error'
+  EDIT_USER_ERROR: 'admin/edit-user-error',
+  GET_POSTS: 'admin/get-posts',
+  GET_POSTS_SUCCESS: 'admin/get-posts-success',
 };
 
 interface User {
@@ -87,3 +89,4 @@ export const editUser = ({ id, fields }: SelectUser) => ({
     fields,
   },
 });
+
