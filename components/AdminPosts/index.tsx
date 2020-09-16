@@ -9,7 +9,7 @@ import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import FormField from '../FormField';
 import Button from '@material-ui/core/Button';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
-import { createPost, deletePost } from 'redux/actions/posts';
+import { createPost, deletePost, updatePublish, updatePost } from 'redux/actions/posts';
 interface Props {
   getPostsByAdmin(): void;
   posts: any;
@@ -18,6 +18,10 @@ interface Props {
   getPostsError: any;
   createPostError: any;
   deletePostError: any;
+  updatePublish(data: any): void;
+  updatePost(data: any): void;
+  updatePublishError: boolean;
+  updatePostError: boolean;
 }
 
 function AdminPosts({
@@ -28,6 +32,10 @@ function AdminPosts({
   getPostsError,
   createPostError,
   deletePostError,
+  updatePublish,
+  updatePost,
+  updatePublishError,
+  updatePostError,
 }: Props) {
   const initialForm = {
     formError: false,
@@ -67,11 +75,12 @@ function AdminPosts({
         showlabel: true,
         validationMessage: '',
       },
-      upload: {
+      image: {
         element: 'image',
         value: '',
         config: {
           label: 'Ảnh đại diện',
+          placeholder: '',
         },
         validation: {
           required: true,
@@ -133,20 +142,21 @@ function AdminPosts({
       title: 'Xuất bản',
       dataIndex: 'publish',
       key: 'publish',
-      render: (publish: boolean) => {
-        if (publish) {
-          return <Switch defaultChecked checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />;
-        } else {
-          return <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />;
-        }
-      },
+      render: (publish: boolean, record: any) => (
+        <Switch
+          defaultChecked={publish}
+          checkedChildren={<CheckOutlined />}
+          unCheckedChildren={<CloseOutlined />}
+          onChange={(check) => handleSwitchChange(check, record._id)}
+        />
+      ),
     },
     {
       title: 'Hành động',
       key: 'action',
       render: (record: any) => (
         <Space size="middle">
-          <a>Sửa</a>
+          <a onClick={(e) => handleEdit(e, record.urlTitle)}>Sửa</a>
           <Popconfirm
             title="Bạn có muốn xóa bài viết này?"
             onConfirm={() => handleDelete(record._id)}
@@ -159,6 +169,52 @@ function AdminPosts({
       ),
     },
   ];
+
+  const handleEdit = (e: any, urlTitle: string) => {
+    const postsArr = Object.values(posts);
+    const selectedPost: any = postsArr.find((post: any) => post.urlTitle === urlTitle);
+    setEdit({ active: true, status: selectedPost._id });
+    setForm({
+      ...form,
+      formdata: {
+        ...form.formdata,
+        title: {
+          ...form.formdata.title,
+          value: selectedPost.title,
+          valid: true,
+        },
+        type: {
+          ...form.formdata.type,
+          value: setType(selectedPost.type),
+          valid: true,
+        },
+        content: {
+          ...form.formdata.content,
+          value: selectedPost.content,
+          valid: true,
+        },
+        image: {
+          ...form.formdata.image,
+          value: `/api/post/image/${urlTitle}`,
+          valid: true,
+        },
+      },
+    });
+  };
+
+  const setType = (type: string) => {
+    if (type === 'project') {
+      return 'Dự án';
+    } else if (type === 'service') {
+      return 'Dịch vụ';
+    } else {
+      return 'Kiến thức';
+    }
+  };
+
+  const handleSwitchChange = (check: boolean, id: string) => {
+    updatePublish({ publish: check, id });
+  };
 
   const handleDelete = (id: string) => {
     deletePost({ id });
@@ -187,7 +243,12 @@ function AdminPosts({
 
     if (formIsValid) {
       setWaiting(true);
-      createPost(dataToSubmit);
+      if (edit.active && edit.status === 'create') {
+        createPost(dataToSubmit);
+      } else {
+        console.log(dataToSubmit);
+        updatePost({ ...dataToSubmit, id: edit.status });
+      }
     } else {
       setForm({
         ...form,
@@ -219,6 +280,18 @@ function AdminPosts({
       message.error(deletePostError);
     }
   }, [deletePostError]);
+
+  useEffect(() => {
+    if (deletePostError) {
+      message.error(updatePublishError);
+    }
+  }, [updatePublishError]);
+
+  useEffect(() => {
+    if (deletePostError) {
+      message.error(updatePostError);
+    }
+  }, [updatePostError]);
 
   useEffect(() => {
     if (createPostError) {
@@ -260,7 +333,7 @@ function AdminPosts({
           </div>
           <FormField id={'title'} formdata={form.formdata.title} change={(e: any) => updateForm(e)} />
           <FormField id={'type'} formdata={form.formdata.type} change={(e: any) => updateForm(e)} />
-          <FormField id={'upload'} formdata={form.formdata.upload} change={(e: any) => updateForm(e)} />
+          <FormField id={'image'} formdata={form.formdata.image} change={(e: any) => updateForm(e)} />
           <FormField id={'content'} formdata={form.formdata.content} change={(e: any) => updateForm(e)} />
           {form.formError && <div className={styles.errorLabel}>{form.formMessage}</div>}
           {isWaiting && (
@@ -304,6 +377,10 @@ const mapStateToProps = (state: any) => ({
   getPostsError: state.posts.getPostsByAdminError,
   createPostError: state.posts.createPostError,
   deletePostError: state.posts.deletePostError,
+  updatePublishError: state.posts.updatePublishError,
+  updatePostError: state.posts.updatePostError,
 });
 
-export default connect(mapStateToProps, { getPostsByAdmin, createPost, deletePost })(AdminPosts);
+export default connect(mapStateToProps, { getPostsByAdmin, createPost, deletePost, updatePublish, updatePost })(
+  AdminPosts,
+);

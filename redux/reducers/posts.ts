@@ -16,6 +16,8 @@ export default function users(state = INITIAL_STATE, action: Action) {
         getPostsByAdminError: undefined,
         createPostError: undefined,
         deletePostError: undefined,
+        updatePostError: undefined,
+        updatePublishError: undefined,
       };
     }
     case Types.GET_POSTS_BY_ADMIN_ERROR: {
@@ -34,6 +36,18 @@ export default function users(state = INITIAL_STATE, action: Action) {
       return {
         ...state,
         deletePostError: action.payload.error,
+      };
+    }
+    case Types.UPDATE_PUBLISH_ERROR: {
+      return {
+        ...state,
+        updatePublishError: action.payload.error,
+      };
+    }
+    case Types.UPDATE_ERROR: {
+      return {
+        ...state,
+        updatePostError: action.payload.error,
       };
     }
     default: {

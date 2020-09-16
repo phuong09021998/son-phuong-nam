@@ -68,13 +68,13 @@ export const update = (element: any, formdata: Formdata, formName: string) => {
 
   if (element.id === 'content') {
     newElement.value = element.event;
-  } else if (element.id === 'upload') {
+  } else if (element.id === 'image') {
     newElement.value = element.event.target.files[0];
   } else {
     newElement.value = element.event.target.value;
   }
 
-  if (element.blur || element.id === 'upload' || element.id === 'content') {
+  if (element.blur || element.id === 'image' || element.id === 'content') {
     const validData = validate(newElement, formdata);
     newElement.valid = validData[0] as boolean;
     newElement.validationMessage = validData[1] as string;
@@ -104,6 +104,10 @@ export const generateData = (formdata: Formdata, formName: string) => {
       dataToSubmit[key] = formdata[key].value === 'Quản trị viên' ? 1 : 0;
     } else if (key === 'type') {
       dataToSubmit[key] = setType(formdata[key].value);
+    } else if (key === 'image') {
+      if (typeof formdata[key].value === 'object') {
+        dataToSubmit[key] = formdata[key].value;
+      }
     } else if (key !== 'confirmPassword') {
       dataToSubmit[key] = formdata[key].value;
     }

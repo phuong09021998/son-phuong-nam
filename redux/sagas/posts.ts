@@ -49,10 +49,38 @@ function* watchDeletePostRequest() {
   }
 }
 
+function* handleUpdatePublish({ payload }: any) {
+  try {
+    yield call(api.updatePublish, payload);
+    yield call(getPostsByAdmin);
+  } catch (error) {
+    yield put(actions.updatePublishError({ error: 'Cập nhật thất bại' }));
+  }
+}
+
+function* watchUpdatePublishRequest() {
+  yield takeLatest(actions.Types.UPDATE_PUBLISH, handleUpdatePublish);
+}
+
+function* handleUpdatePostRequest({ payload }: any) {
+  try {
+    yield call(api.updatePost, payload);
+    yield call(getPostsByAdmin);
+  } catch (error) {
+    yield put(actions.updateError({ error: 'Cập nhật thất bại' }));
+  }
+}
+
+function* watchUpdatePostRequest() {
+  yield takeLatest(actions.Types.UPDATE_POST, handleUpdatePostRequest);
+}
+
 const postSagas = [
   fork(watchGetPostsByAdminRequest),
   fork(watchCreatePostsByAdminRequest),
   fork(watchDeletePostRequest),
+  fork(watchUpdatePublishRequest),
+  fork(watchUpdatePostRequest),
 ];
 
 export default postSagas;
