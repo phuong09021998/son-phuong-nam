@@ -2,91 +2,113 @@ const Post = require('../models/Post');
 const transformToUrlTitle = require('../utils/transformToUrlTitle');
 const changeAlias = require('../utils/changeAlias');
 const { clearHash } = require('../db/redis');
-const tinify = require('../utils/tinify');
+const handleUploadImage = require('../utils/handleUploadImage');
+const formidable = require('formidable');
 
 exports.createPost = async (req, res) => {
-  let post = new Post(req.body);
-  const imagePath = String(req.file.path);
+  const form = formidable({ multiples: true });
 
-  post.urlTitle = transformToUrlTitle(req.body.title) + Date.now();
-  post.defaultImg = imagePath;
-  post.simplifiedTitle = changeAlias(req.body.title);
-
-  try {
-    if (req.fileExtension !== '.svg') {
-      tinify(imagePath, imagePath, { width: 600, height: 450 });
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
     }
 
-    const doc = await post.save();
-    clearHash('posts');
-    return res.status(200).send({
-      success: true,
-      post: doc,
-    });
-  } catch (error) {
-    return res.status(400).send({
-      success: false,
-      error: error.message,
-    });
-  }
-};
+    let post = new Post(fields);
 
-exports.uploadPostPicture = async (req, res) => {
-  console.log(req);
-  if (req.fileError) {
-    return res.status(400).send({
-      success: false,
-      error: 'You must upload an image.',
-    });
-  }
-
-  const imagePath = req.file.path;
-
-  try {
-    if (req.fileExtension !== '.svg') {
-      tinify(imagePath, imagePath, { width: 600, height: 450 });
+    if (files.image) {
+      if (!/\.(jpe?g|png|gif|bmp)$/i.test(files.image.name)) {
+        return res.status(200).send({
+          success: false,
+          error: 'You must upload an image.',
+        });
+      }
+      if (files.image.size > 5000000) {
+        return res.status(200).send({
+          success: false,
+          error: 'Image cannot be larger than 5Mb.',
+        });
+      }
+      post.image = await handleUploadImage(files.image, { width: 700, height: 525 });
     }
-    return res.status(200).send({
-      success: true,
-      imagePath,
-    });
-  } catch (error) {
-    return res.status(400).send({
-      success: false,
-      error: error.message,
-    });
-  }
+
+    post.urlTitle = transformToUrlTitle(fields.title) + '-' + Date.now();
+    post.simplifiedTitle = changeAlias(fields.title);
+    try {
+      const doc = await post.save();
+      doc.image = undefined;
+      clearHash('posts');
+      return res.status(200).send({
+        success: true,
+        post: doc,
+      });
+    } catch (error) {
+      return res.status(400).send({
+        success: false,
+        error: error.message,
+      });
+    }
+  });
 };
 
 exports.updatePost = async (req, res) => {
   const postId = req.params.postId;
 
-  try {
-    const post = await Post.findByIdAndUpdate(postId, req.body, { new: true });
-    if (!post) {
-      throw new Error('No post found.');
+  const form = formidable({ multiples: true });
+
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
     }
 
-    clearHash('posts');
+    if (files.image) {
+      if (!/\.(jpe?g|png|gif|bmp)$/i.test(files.image.name)) {
+        return res.status(200).send({
+          success: false,
+          error: 'You must upload an image.',
+        });
+      }
+      if (files.image.size > 5000000) {
+        return res.status(200).send({
+          success: false,
+          error: 'Image cannot be larger than 5Mb.',
+        });
+      }
+      fields.image = await handleUploadImage(files.image, { width: 700, height: 525 });
+    }
 
-    return res.status(200).send({
-      success: true,
-      post,
-    });
-  } catch (error) {
-    return res.status(400).send({
-      success: false,
-      error: error.message,
-    });
-  }
+    if (fields.title) {
+      fields.urlTitle = transformToUrlTitle(fields.title) + '-' + Date.now();
+      fields.simplifiedTitle = changeAlias(fields.title);
+    }
+
+    try {
+      const doc = await Post.findByIdAndUpdate(postId, fields, { new: true });
+      doc.image = undefined;
+      clearHash('posts');
+      return res.status(200).send({
+        success: true,
+        post: doc,
+      });
+    } catch (error) {
+      return res.status(400).send({
+        success: false,
+        error: error.message,
+      });
+    }
+  });
 };
 
 exports.getPost = async (req, res) => {
   const postUrl = req.params.postUrl;
 
   try {
-    const post = await Post.findOne({ urlTitle: postUrl }).cache();
-
+    const post = await Post.findOne({ urlTitle: postUrl }).select('-image').cache();
     if (!post) {
       throw new Error('No post found.');
     }
@@ -110,10 +132,10 @@ exports.getPosts = async (req, res) => {
 
   try {
     const posts = await Post.find()
-      .select('-images')
       .sort([[sortBy, order]])
       .limit(limit)
       .skip(skip)
+      .select('-image')
       .cache();
 
     return res.status(200).send({
@@ -138,6 +160,25 @@ exports.deletePost = async (req, res) => {
     return res.status(200).send({
       success: true,
     });
+  } catch (error) {
+    return res.status(400).send({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+exports.getPostImage = async (req, res) => {
+  const postUrl = req.params.postUrl;
+
+  try {
+    const postImg = await Post.findOne({ urlTitle: postUrl }).select('image');
+
+    if (!postImg) {
+      throw new Error('No post found.');
+    }
+    res.set('Content-Type', postImg.image.contentType);
+    return res.status(200).send(postImg.image.data);
   } catch (error) {
     return res.status(400).send({
       success: false,

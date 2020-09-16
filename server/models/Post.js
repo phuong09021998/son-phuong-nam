@@ -16,9 +16,9 @@ const postSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    defaultImg: {
-      type: String,
-      required: true,
+    image: {
+      data: Buffer,
+      contentType: String,
     },
     urlTitle: {
       type: String,

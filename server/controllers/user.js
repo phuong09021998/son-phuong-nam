@@ -31,10 +31,10 @@ exports.createUser = (req, res) => {
           error: 'You must upload an image.',
         });
       }
-      if (files.avatar.size > 1000000) {
+      if (files.avatar.size > 5000000) {
         return res.status(200).send({
           success: false,
-          error: 'Image cannot be larger than 1Mb.',
+          error: 'Image cannot be larger than 5Mb.',
         });
       }
       user.avatar = await handleUploadImage(files.avatar, { width: 250, height: 250 });
@@ -148,10 +148,10 @@ exports.updateUser = (req, res) => {
           error: 'You must upload an image.',
         });
       }
-      if (files.avatar.size > 1000000) {
+      if (files.avatar.size > 5000000) {
         return res.status(200).send({
           success: false,
-          error: 'Image cannot be larger than 1Mb.',
+          error: 'Image cannot be larger than 5Mb.',
         });
       }
       fields.avatar = await handleUploadImage(files.avatar, { width: 250, height: 250 });

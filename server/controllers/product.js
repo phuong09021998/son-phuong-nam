@@ -1,25 +1,70 @@
 const transformToUrlTitle = require('../utils/transformToUrlTitle');
 const changeAlias = require('../utils/changeAlias');
 const { clearHash } = require('../db/redis');
-const tinify = require('../utils/tinify');
 const Product = require('../models/Product');
+const formidable = require('formidable');
+const handleUploadImage = require('../utils/handleUploadImage');
 
 exports.createProduct = async (req, res) => {
-  let product = new Product(req.body);
-  const imagePath = String(req.file.path);
+  const form = formidable({ multiples: true });
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
 
-  product.urlTitle = transformToUrlTitle(req.body.name) + Date.now();
-  product.image = imagePath;
-  product.simplifiedName = changeAlias(req.body.name);
+    let product = new Product(fields);
+
+    if (files.image) {
+      if (!/\.(jpe?g|png|gif|bmp)$/i.test(files.image.name)) {
+        return res.status(200).send({
+          success: false,
+          error: 'You must upload an image.',
+        });
+      }
+      if (files.image.size > 5000000) {
+        return res.status(200).send({
+          success: false,
+          error: 'Image cannot be larger than 5Mb.',
+        });
+      }
+      product.image = await handleUploadImage(files.image, { width: 800, height: 600 });
+    }
+
+    product.urlTitle = transformToUrlTitle(fields.name) + '-' + Date.now();
+    product.simplifiedName = changeAlias(fields.name);
+
+    try {
+      const doc = await product.save();
+      doc.image = undefined;
+      clearHash('products');
+      return res.status(200).send({
+        success: true,
+        product: doc,
+      });
+    } catch (error) {
+      return res.status(400).send({
+        success: false,
+        error: error.message,
+      });
+    }
+  });
+};
+
+exports.getProduct = async (req, res) => {
+  const productUrl = req.params.productUrl;
 
   try {
-    tinify(imagePath, imagePath, { width: 800, height: 600 });
+    const product = await Product.findOne({ urlTitle: productUrl }).select('-image').cache();
 
-    const doc = await product.save();
-    clearHash('products');
+    if (!product) {
+      throw new Error('No product found.');
+    }
     return res.status(200).send({
       success: true,
-      post: doc,
+      product,
     });
   } catch (error) {
     return res.status(400).send({
@@ -29,19 +74,17 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-exports.getProduct = async (req, res) => {
+exports.getProductImage = async (req, res) => {
   const productUrl = req.params.productUrl;
 
   try {
-    const product = await Product.findOne({ urlTitle: productUrl }).cache();
-
-    if (!product) {
-      throw new Error('No product found.');
+    const doc = await Product.findOne({ urlTitle: productUrl });
+    if (!doc) {
+      throw new Error('Cannot find product.');
     }
-    return res.status(200).send({
-      success: true,
-      product,
-    });
+
+    res.set('Content-Type', doc.image.contentType);
+    return res.status(200).send(doc.image.data);
   } catch (error) {
     return res.status(400).send({
       success: false,
@@ -52,25 +95,53 @@ exports.getProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   const productId = req.params.productId;
-
-  try {
-    const product = await Product.findByIdAndUpdate(productId, req.body, { new: true });
-    if (!product) {
-      throw new Error('No product found.');
+  const form = formidable({ multiples: true });
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
     }
 
-    clearHash('products');
+    let product = new Product(fields);
 
-    return res.status(200).send({
-      success: true,
-      product,
-    });
-  } catch (error) {
-    return res.status(400).send({
-      success: false,
-      error: error.message,
-    });
-  }
+    if (files.image) {
+      if (!/\.(jpe?g|png|gif|bmp)$/i.test(files.image.name)) {
+        return res.status(200).send({
+          success: false,
+          error: 'You must upload an image.',
+        });
+      }
+      if (files.image.size > 5000000) {
+        return res.status(200).send({
+          success: false,
+          error: 'Image cannot be larger than 5Mb.',
+        });
+      }
+      product.image = await handleUploadImage(files.image, { width: 800, height: 600 });
+    }
+
+    if (fields.name) {
+      fields.urlTitle = transformToUrlTitle(fields.name) + '-' + Date.now();
+      fields.simplifiedName = changeAlias(fields.name);
+    }
+
+    try {
+      const doc = await Product.findByIdAndUpdate(productId, fields, { new: true });
+      doc.image = undefined;
+      clearHash('products');
+      return res.status(200).send({
+        success: true,
+        product: doc,
+      });
+    } catch (error) {
+      return res.status(400).send({
+        success: false,
+        error: error.message,
+      });
+    }
+  });
 };
 
 exports.deleteProduct = async (req, res) => {
@@ -99,6 +170,7 @@ exports.getProducts = async (req, res) => {
 
   try {
     const products = await Product.find()
+      .select('-image')
       .sort([[sortBy, order]])
       .limit(limit)
       .skip(skip)
