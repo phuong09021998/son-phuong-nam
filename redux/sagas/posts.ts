@@ -6,9 +6,8 @@ function* getPostsByAdmin() {
   try {
     const items = yield call(api.getPostsByAdmin);
     yield put(actions.getPostsByAdminSuccess({ items: items.data.posts }));
-    // console.log(items.data.posts);
   } catch (error) {
-    // console.log(error);
+    yield put(actions.getPostsByAdminError({ error: 'Lấy bài viết thất bại' }));
   }
 }
 
@@ -21,7 +20,12 @@ function* createPostByAdmin({ payload }: any) {
     yield call(api.createPost, payload);
     yield call(getPostsByAdmin);
   } catch (error) {
-    console.log(error);
+    const errorData = error.response.data;
+    if (errorData.error.includes('E11000')) {
+      yield put(actions.createPostError({ error: 'Tên bài viết đã tồn tại' }));
+    } else {
+      yield put(actions.createPostError({ error: 'Tạo bài viết thất bại' }));
+    }
   }
 }
 
@@ -29,6 +33,26 @@ function* watchCreatePostsByAdminRequest() {
   yield takeLatest(actions.Types.CREATE_POST, createPostByAdmin);
 }
 
-const postSagas = [fork(watchGetPostsByAdminRequest), fork(watchCreatePostsByAdminRequest)];
+function* deletePost(payload: any) {
+  try {
+    yield call(api.deletePost, payload);
+    yield call(getPostsByAdmin);
+  } catch (e) {
+    yield put(actions.deletePostError({ error: 'Xóa thất bại' }));
+  }
+}
+
+function* watchDeletePostRequest() {
+  while (true) {
+    const { payload } = yield take(actions.Types.DELETE_POST);
+    yield call(deletePost, payload);
+  }
+}
+
+const postSagas = [
+  fork(watchGetPostsByAdminRequest),
+  fork(watchCreatePostsByAdminRequest),
+  fork(watchDeletePostRequest),
+];
 
 export default postSagas;

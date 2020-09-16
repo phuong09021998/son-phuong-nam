@@ -20,7 +20,7 @@
   padding: 2em;
 
   .title {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     color: $pink;
     text-transform: uppercase;
@@ -28,12 +28,27 @@
     padding-bottom: 2em;
   }
 
-  .button {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    font-weight: bold;
+  .errorLabel {
+    text-align: center;
+    color: $pink;
+  }
+
+  .waiting {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: 1em;
+  }
+
+  .buttonWrapper {
+    display: flex;
+    justify-content: center;
+    .button {
+      position: relative;
+      margin: 0 0.5em;
+      font-weight: bold;
+      margin-top: 1em;
+    }
   }
 
   div {

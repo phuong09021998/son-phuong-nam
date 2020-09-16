@@ -9,14 +9,26 @@ import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import FormField from '../FormField';
 import Button from '@material-ui/core/Button';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
-import { createPost } from 'redux/actions/posts';
+import { createPost, deletePost } from 'redux/actions/posts';
 interface Props {
   getPostsByAdmin(): void;
   posts: any;
   createPost(data: any): void;
+  deletePost(id: any): void;
+  getPostsError: any;
+  createPostError: any;
+  deletePostError: any;
 }
 
-function AdminPosts({ posts, getPostsByAdmin, createPost }: Props) {
+function AdminPosts({
+  posts,
+  getPostsByAdmin,
+  createPost,
+  deletePost,
+  getPostsError,
+  createPostError,
+  deletePostError,
+}: Props) {
   const initialForm = {
     formError: false,
     formMessage: '',
@@ -95,6 +107,7 @@ function AdminPosts({ posts, getPostsByAdmin, createPost }: Props) {
     status: 'none',
   });
   const [form, setForm] = useState(initialForm);
+  const [isWaiting, setWaiting] = useState(false);
 
   const columns = [
     {
@@ -148,12 +161,13 @@ function AdminPosts({ posts, getPostsByAdmin, createPost }: Props) {
   ];
 
   const handleDelete = (id: string) => {
-    console.log(id);
+    deletePost({ id });
   };
 
   const handleCreatePost = () => {
-    // console.log('create');
     setEdit({ active: true, status: 'create' });
+    setWaiting(false);
+    setForm(initialForm);
   };
 
   const updateForm = (element: any) => {
@@ -172,7 +186,7 @@ function AdminPosts({ posts, getPostsByAdmin, createPost }: Props) {
     const formIsValid = isFormValid(form.formdata, 'posts');
 
     if (formIsValid) {
-      console.log(dataToSubmit);
+      setWaiting(true);
       createPost(dataToSubmit);
     } else {
       setForm({
@@ -183,13 +197,50 @@ function AdminPosts({ posts, getPostsByAdmin, createPost }: Props) {
     }
   };
 
+  const exitForm = (e: any) => {
+    e.preventDefault();
+
+    setEdit({ active: false, status: 'none' });
+    setWaiting(false);
+  };
+
   useEffect(() => {
     getPostsByAdmin();
   }, []);
 
   useEffect(() => {
+    if (getPostsError) {
+      message.error(getPostsError);
+    }
+  }, [getPostsError]);
+
+  useEffect(() => {
+    if (deletePostError) {
+      message.error(deletePostError);
+    }
+  }, [deletePostError]);
+
+  useEffect(() => {
+    if (createPostError) {
+      setWaiting(false);
+      setForm({
+        ...form,
+        formdata: {
+          ...form.formdata,
+          title: {
+            ...form.formdata.title,
+            valid: false,
+            validationMessage: 'Tên bài viết đã tồn tại',
+          },
+        },
+      });
+    }
+  }, [createPostError]);
+
+  useEffect(() => {
     if (posts) {
       setLoading(false);
+      setWaiting(false);
       setEdit({ active: false, status: 'none' });
     }
   }, [posts]);
@@ -211,14 +262,26 @@ function AdminPosts({ posts, getPostsByAdmin, createPost }: Props) {
           <FormField id={'type'} formdata={form.formdata.type} change={(e: any) => updateForm(e)} />
           <FormField id={'upload'} formdata={form.formdata.upload} change={(e: any) => updateForm(e)} />
           <FormField id={'content'} formdata={form.formdata.content} change={(e: any) => updateForm(e)} />
-          <Button
-            variant="contained"
-            color="secondary"
-            className={styles.button}
-            onClick={(event) => submitForm(event)}
-          >
-            Xác nhận
-          </Button>
+          {form.formError && <div className={styles.errorLabel}>{form.formMessage}</div>}
+          {isWaiting && (
+            <div className={styles.waiting}>
+              <CircularProgress color="secondary" />
+            </div>
+          )}
+          <div className={styles.buttonWrapper}>
+            <Button variant="contained" color="primary" className={styles.button} onClick={(event) => exitForm(event)}>
+              Hủy
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={styles.button}
+              onClick={(event) => submitForm(event)}
+              type="submit"
+            >
+              Xác nhận
+            </Button>
+          </div>
         </form>
       </div>
     );
@@ -238,6 +301,9 @@ function AdminPosts({ posts, getPostsByAdmin, createPost }: Props) {
 
 const mapStateToProps = (state: any) => ({
   posts: state.posts.postsByAdmin,
+  getPostsError: state.posts.getPostsByAdminError,
+  createPostError: state.posts.createPostError,
+  deletePostError: state.posts.deletePostError,
 });
 
-export default connect(mapStateToProps, { getPostsByAdmin, createPost })(AdminPosts);
+export default connect(mapStateToProps, { getPostsByAdmin, createPost, deletePost })(AdminPosts);

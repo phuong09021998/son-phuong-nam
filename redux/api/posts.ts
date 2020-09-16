@@ -12,3 +12,7 @@ export const createPost = ({ title, content, type, upload }: any) => {
   formData.append('upload', upload);
   return axios.post('/api/post', formData);
 };
+
+export const deletePost = ({ id }: any) => {
+  return axios.delete(`/api/post/${id}`);
+};

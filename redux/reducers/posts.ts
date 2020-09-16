@@ -13,9 +13,29 @@ export default function users(state = INITIAL_STATE, action: Action) {
       return {
         ...state,
         postsByAdmin: action.payload.items,
+        getPostsByAdminError: undefined,
+        createPostError: undefined,
+        deletePostError: undefined,
       };
     }
-
+    case Types.GET_POSTS_BY_ADMIN_ERROR: {
+      return {
+        ...state,
+        getPostsByAdminError: action.payload.error,
+      };
+    }
+    case Types.CREATE_POST_ERROR: {
+      return {
+        ...state,
+        createPostError: action.payload.error,
+      };
+    }
+    case Types.DELETE_POST_ERROR: {
+      return {
+        ...state,
+        deletePostError: action.payload.error,
+      };
+    }
     default: {
       return state;
     }
