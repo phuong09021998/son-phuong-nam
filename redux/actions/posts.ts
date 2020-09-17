@@ -1,15 +1,15 @@
 export const Types = {
-  GET_POSTS_BY_ADMIN: 'admin/get-posts',
-  GET_POSTS_BY_ADMIN_SUCCESS: 'admin/get-posts-success',
+  GET_POSTS_BY_ADMIN: 'admin/get-posts-by-admin',
+  GET_POSTS_BY_ADMIN_SUCCESS: 'admin/get-posts-by-admin-success',
   CREATE_POST: 'admin/create-post',
-  UPDATE_PUBLISH: 'admin/update-publish',
+  UPDATE_PUBLISH: 'admin/update-publish-post',
   UPDATE_POST: 'admin/update-post',
   DELETE_POST: 'admin/delete-post',
-  GET_POSTS_BY_ADMIN_ERROR: 'admin/get-posts-error',
-  CREATE_POST_ERROR: 'admin/create-posts-error',
-  DELETE_POST_ERROR: 'admin/delete-posts-error',
-  UPDATE_PUBLISH_ERROR: 'admin/update-publish-error',
-  UPDATE_ERROR: 'admin/update-error',
+  GET_POSTS_BY_ADMIN_ERROR: 'admin/get-posts-by-admin-error',
+  CREATE_POST_ERROR: 'admin/create-post-error',
+  DELETE_POST_ERROR: 'admin/delete-post-error',
+  UPDATE_PUBLISH_ERROR: 'admin/update-publish-post-error',
+  UPDATE_ERROR: 'admin/update-post-error',
 };
 
 export const getPostsByAdmin = () => ({
