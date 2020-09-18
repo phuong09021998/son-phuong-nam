@@ -5,6 +5,8 @@ export const Types = {
   UPDATE_PUBLISH_PRODUCT: 'admin/update-publish-product',
   UPDATE_PRODUCT: 'admin/update-product',
   DELETE_PRODUCT: 'admin/delete-product',
+  UPDATE_AVAILABLE: 'admin/update-available-product',
+  UPDATE_AVAILABLE_ERROR: 'admin/update-available-product-error',
   GET_PRODUCTS_BY_ADMIN_ERROR: 'admin/get-products-by-admin-error',
   CREATE_PRODUCT_ERROR: 'admin/create-product-error',
   DELETE_PRODUCT_ERROR: 'admin/delete-product-error',
@@ -28,10 +30,18 @@ export const createProduct = (payload: any) => ({
   payload,
 });
 
-export const updatePublishProduct = ({ publish, id }: any) => ({
+export const updatePublish = ({ publish, id }: any) => ({
   type: Types.UPDATE_PUBLISH_PRODUCT,
   payload: {
     publish,
+    id,
+  },
+});
+
+export const updateAvailable = ({ available, id }: any) => ({
+  type: Types.UPDATE_AVAILABLE,
+  payload: {
+    available,
     id,
   },
 });
@@ -65,6 +75,11 @@ export const updateProduct = (payload: any) => ({
 
 export const updatePublishProductError = ({ error }: any) => ({
   type: Types.UPDATE_PUBLISH_PRODUCT_ERROR,
+  payload: { error },
+});
+
+export const updateAvailableProductError = ({ error }: any) => ({
+  type: Types.UPDATE_AVAILABLE_ERROR,
   payload: { error },
 });
 

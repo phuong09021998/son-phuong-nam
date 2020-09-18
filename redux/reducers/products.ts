@@ -18,6 +18,7 @@ export default function users(state = INITIAL_STATE, action: Action) {
         deleteProductError: undefined,
         updateProductError: undefined,
         updatePublishProductError: undefined,
+        updateAvailableProductError: undefined,
       };
     }
     case Types.GET_PRODUCTS_BY_ADMIN_ERROR: {
@@ -42,6 +43,12 @@ export default function users(state = INITIAL_STATE, action: Action) {
       return {
         ...state,
         updatePublishProductError: action.payload.error,
+      };
+    }
+    case Types.UPDATE_AVAILABLE_ERROR: {
+      return {
+        ...state,
+        updateAvailableProductError: action.payload.error,
       };
     }
     case Types.UPDATE_PRODUCT_ERROR: {

@@ -122,7 +122,7 @@ const Formfield = ({ formdata, change, id }: Props) => {
             />
             {showError()}
             <img id="output" />
-            {typeof formdata.value && formdata.value !== '' && <img src={formdata.value} />}
+            {typeof formdata.value === 'string' && formdata.value !== '' && <img src={formdata.value} />}
           </div>
         );
         break;

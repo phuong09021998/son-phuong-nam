@@ -282,13 +282,13 @@ function AdminPosts({
   }, [deletePostError]);
 
   useEffect(() => {
-    if (deletePostError) {
+    if (updatePublishError) {
       message.error(updatePublishError);
     }
   }, [updatePublishError]);
 
   useEffect(() => {
-    if (deletePostError) {
+    if (updatePostError) {
       message.error(updatePostError);
     }
   }, [updatePostError]);

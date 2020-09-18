@@ -1,4 +1,3 @@
-import { updatePublishProduct } from './../actions/products';
 import { takeLatest, takeEvery, take, call, put, fork } from 'redux-saga/effects';
 import * as actions from '../actions/products';
 import * as api from '../api/products';
@@ -6,7 +5,8 @@ import * as api from '../api/products';
 function* getProductsByAdmin() {
   try {
     const items = yield call(api.getProductsByAdmin);
-    yield put(actions.getProductsByAdminSuccess({ items: items.data.posts }));
+    // console.log(items);
+    yield put(actions.getProductsByAdminSuccess({ items: items.data.products }));
   } catch (error) {
     yield put(actions.getProductsByAdminError({ error: 'Lấy sản phẩm thất bại' }));
   }
@@ -63,6 +63,19 @@ function* watchUpdatePublishProductRequest() {
   yield takeLatest(actions.Types.UPDATE_PUBLISH_PRODUCT, handleUpdatePublishProduct);
 }
 
+function* handleUpdateAvailableProduct({ payload }: any) {
+  try {
+    yield call(api.updateAvailableProduct, payload);
+    yield call(getProductsByAdmin);
+  } catch (error) {
+    yield put(actions.updateAvailableProductError({ error: 'Cập nhật thất bại' }));
+  }
+}
+
+function* watchUpdateAvailableProductRequest() {
+  yield takeLatest(actions.Types.UPDATE_AVAILABLE, handleUpdateAvailableProduct);
+}
+
 function* handleUpdateProductRequest({ payload }: any) {
   try {
     yield call(api.updateProduct, payload);
@@ -81,6 +94,7 @@ const productSagas = [
   fork(watchCreateProductByAdminRequest),
   fork(watchDeleteProductRequest),
   fork(watchUpdatePublishProductRequest),
+  fork(watchUpdateAvailableProductRequest),
   fork(watchUpdateProductRequest),
 ];
 

@@ -18,6 +18,13 @@ export const updatePublishProduct = ({ publish, id }: any) => {
   return axios.put(`/api/product/${id}`, formData);
 };
 
+export const updateAvailableProduct = ({ available, id }: any) => {
+  console.log('run');
+  const formData = new FormData();
+  formData.append('available', available);
+  return axios.put(`/api/product/${id}`, formData);
+};
+
 export const deleteProduct = ({ id }: any) => {
   return axios.delete(`/api/product/${id}`);
 };

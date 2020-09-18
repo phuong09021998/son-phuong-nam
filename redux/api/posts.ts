@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getPostsByAdmin = () => {
-  return axios.get('/api/posts?limit=10000&skip=0&sortBy=name&order=asc');
+  return axios.get('/api/posts?limit=10000&skip=0&sortBy=title&order=asc');
 };
 
 export const createPost = ({ title, content, type, image }: any) => {
