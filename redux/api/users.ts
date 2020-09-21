@@ -13,5 +13,22 @@ export const getUser = () => {
   return axios.get('/api/user');
 };
 
+export const createUser = (payload: any) => {
+  const formData = new FormData();
+  for (const key in payload) {
+    formData.append(key, payload[key]);
+  }
+  return axios.post('/api/user', formData);
+};
 
+export const loginByGoogle = (fields: any) => {
+  return axios.post('/api/user/login/google', fields);
+};
 
+export const logoutUser = () => {
+  return axios.get('/api/user/logout');
+};
+
+export const updateUser = (fields: any) => {
+  return axios.put('/api/user', fields);
+};

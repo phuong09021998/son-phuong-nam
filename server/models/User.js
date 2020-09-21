@@ -11,6 +11,9 @@ const userSchema = new mongoose.Schema(
       trim: true,
       maxlength: 20,
     },
+    googleId: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
@@ -22,13 +25,15 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    thirdPartyAvatar: {
+      type: String,
+    },
     avatar: {
       data: Buffer,
       contentType: String,
     },
     password: {
       type: String,
-      required: true,
       trim: true,
       minlength: 6,
     },
@@ -79,10 +84,24 @@ userSchema.methods.generateToken = function () {
 userSchema.statics.findByToken = async function (token) {
   try {
     const decode = await jwt.verify(token, process.env.SECRET);
-    return User.findOne({ _id: decode, token }).select('-password');
+    const user = User.findOne({ _id: decode, token }).select('-password');
+    if (!user) {
+      throw new Error('User not found.');
+    }
+    return user;
   } catch (error) {
-    return error;
+    console.log(error.name);
+    if (error.name === 'JsonWebTokenError') {
+      try {
+        const user = await User.findOne({ token });
+        return user;
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
   }
+
+  throw new Error(error);
 };
 
 userSchema.statics.generateHash = async function (password) {

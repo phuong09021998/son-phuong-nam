@@ -13,14 +13,40 @@ export default function users(state = INITIAL_STATE, action: Action) {
       return {
         ...state,
         data: action.payload,
-        error: undefined,
+        createUserError: undefined,
+        updateUserError: undefined,
+        logoutUserError: undefined,
+        loginByGoogleError: undefined,
       };
     }
-    case Types.USER_ERROR: {
+    case Types.CREATE_USER_ERROR: {
       return {
-        error: action.payload.error,
+        ...state,
+        createUserError: action.payload.error,
       };
     }
+
+    case Types.UPDATE_USER_ERROR: {
+      return {
+        ...state,
+        updateUserError: action.payload.error,
+      };
+    }
+
+    case Types.LOG_OUT_USER_ERROR: {
+      return {
+        ...state,
+        logoutUserError: action.payload.error,
+      };
+    }
+
+    case Types.LOGIN_BY_GOOGLE_ERROR: {
+      return {
+        ...state,
+        loginByGoogleError: action.payload.error,
+      };
+    }
+
     default: {
       return state;
     }

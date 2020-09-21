@@ -27,9 +27,10 @@ interface Props {
   formdata: FormElement;
   id: string;
   change(change: Change): void;
+  Prefix: any;
 }
 
-const Formfield = ({ formdata, change, id }: Props) => {
+const Formfield = ({ formdata, change, id, Prefix }: Props) => {
   const showError = () => {
     let errorMessage = null;
 
@@ -48,7 +49,7 @@ const Formfield = ({ formdata, change, id }: Props) => {
         formTemplate = (
           <div>
             {formdata.showlabel ? <p>{formdata.config.label}</p> : null}
-
+            {Prefix && <Prefix />}
             <input
               {...formdata.config}
               value={formdata.value}

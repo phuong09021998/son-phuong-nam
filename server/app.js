@@ -9,6 +9,7 @@ require('dotenv').config();
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const productRoutes = require('./routes/product');
+const siteRoutes = require('./routes/site');
 
 // App
 const server = express();
@@ -25,5 +26,6 @@ server.use(express.static('frontend/public'));
 server.use('/api', userRoutes);
 server.use('/api', postRoutes);
 server.use('/api', productRoutes);
+server.use('/api', siteRoutes);
 
 module.exports = server;

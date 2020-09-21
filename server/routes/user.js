@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middlewares/auth');
 const checkAdmin = require('../middlewares/admin');
+
 const {
   readUser,
   createUser,
@@ -15,6 +16,7 @@ const {
   updateUserById,
   deleteUserById,
   createUserByAdmin,
+  loginByGoogle,
 } = require('../controllers/user');
 
 // User routes
@@ -24,6 +26,7 @@ router.post('/user', createUser);
 router.post('/user/login', loginUser);
 router.put('/user', auth, updateUser);
 router.get('/user/logout', auth, logoutUser);
+router.post('/user/login/google', loginByGoogle);
 
 // Admin routes
 router.get('/users', auth, checkAdmin, getAllUsers);

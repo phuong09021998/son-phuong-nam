@@ -15,7 +15,7 @@ function* loginUser({ payload }: LoginUser) {
     const result = yield call(api.loginUser, payload);
     yield put(actions.getUserSuccess({ ...result.data.user }));
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 }
 
@@ -27,19 +27,46 @@ function* getUsers() {
   try {
     const result = yield call(api.getUser);
     yield put(actions.getUserSuccess({ ...result.data.user }));
-  } catch (e) {
-    yield put(
-      actions.usersError({
-        error: 'An error occurred when trying to get the users',
-      }),
-    );
-  }
+  } catch (e) {}
 }
 
 function* watchGetUsersRequest() {
   yield takeEvery(actions.Types.GET_USER, getUsers);
 }
 
-const userSagas = [fork(watchLoginUser), fork(watchGetUsersRequest)];
+function* createUser({ payload }: any) {
+  try {
+    const result = yield call(api.createUser, payload);
+    console.log(result);
+    yield put(actions.getUserSuccess({ ...result.data.user }));
+  } catch (error) {
+    console.log(error.response);
+  }
+}
+
+function* loginByGoogle({ payload }: any) {
+  try {
+    const result = yield call(api.loginByGoogle, payload);
+    console.log(result);
+    yield put(actions.getUserSuccess({ ...result.data.user }));
+  } catch (error) {
+    const errorData = error.response.data;
+    if (errorData.error === 'Email is already in use.') {
+      yield put(actions.loginByGoogleError({ error: 'Email đã tồn tại' }));
+    } else {
+      yield put(actions.loginByGoogleError({ error: 'Lỗi bất ngờ đã xảy ra' }));
+    }
+  }
+}
+
+function* watchCreateUser() {
+  yield takeLatest(actions.Types.CREATE_USER, createUser);
+}
+
+function* watchLoginByGoogle() {
+  yield takeLatest(actions.Types.LOGIN_BY_GOOGLE, loginByGoogle);
+}
+
+const userSagas = [fork(watchLoginUser), fork(watchGetUsersRequest), fork(watchCreateUser), fork(watchLoginByGoogle)];
 
 export default userSagas;

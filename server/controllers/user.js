@@ -316,3 +316,32 @@ exports.extractUserById = async (req, res, next, id) => {
     });
   }
 };
+
+exports.loginByGoogle = async (req, res) => {
+  try {
+    const doc = await User.findOneAndUpdate({ googleId: req.body.googleId }, { token: req.body.token }, { new: true });
+    if (!doc) {
+      const user = new User(req.body);
+      const createDoc = await user.save();
+      return res.cookie('spn_auth', createDoc.token).status(200).send({
+        success: true,
+        createDoc,
+      });
+    }
+    return res.cookie('spn_auth', doc.token).status(200).send({
+      success: true,
+      user: doc,
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).send({
+        success: false,
+        error: 'Email is already in use.',
+      });
+    }
+    return res.status(400).send({
+      success: false,
+      error: 'User not found.',
+    });
+  }
+};
