@@ -21,6 +21,8 @@ function* loginUser({ payload }: LoginUser) {
       yield put(actions.loginUserError({ error: 'Sai mật khẩu' + uuidv4() }));
     } else if (errorData.error === 'User not found.') {
       yield put(actions.loginUserError({ error: 'Không tìm thấy người dùng' + uuidv4() }));
+    } else if (errorData.error === 'Cannot use normal login.') {
+      yield put(actions.loginUserError({ error: 'Không thể đăng nhập bằng cách này' + uuidv4() }));
     } else {
       yield put(actions.loginUserError({ error: errorData.error }));
     }
@@ -48,7 +50,6 @@ function* watchGetUsersRequest() {
 function* createUser({ payload }: any) {
   try {
     const result = yield call(api.createUser, payload);
-    console.log(result);
     yield put(actions.getUserSuccess({ ...result.data.user }));
   } catch (error) {
     console.log(error.response);
@@ -58,7 +59,6 @@ function* createUser({ payload }: any) {
 function* loginByGoogle({ payload }: any) {
   try {
     const result = yield call(api.loginByGoogle, payload);
-    console.log(result);
     yield put(actions.getUserSuccess({ ...result.data.user }));
   } catch (error) {
     const errorData = error.response.data;
@@ -86,12 +86,31 @@ function* watchLogOutUser() {
   }
 }
 
+function* loginByFacebook({ payload }: any) {
+  try {
+    const result = yield call(api.loginByFacebook, payload);
+    yield put(actions.getUserSuccess({ ...result.data.user }));
+  } catch (error) {
+    const errorData = error.response.data;
+    if (errorData.error === 'Email is already in use.') {
+      yield put(actions.loginByFacebookError({ error: 'Email đã tồn tại' }));
+    } else {
+      yield put(actions.loginByFacebookError({ error: 'Lỗi bất ngờ đã xảy ra' }));
+    }
+  }
+}
+
+function* watchLoginByFacebook() {
+  yield takeLatest(actions.Types.LOGIN_BY_FACEBOOK, loginByFacebook);
+}
+
 const userSagas = [
   fork(watchLoginUser),
   fork(watchGetUsersRequest),
   fork(watchCreateUser),
   fork(watchLoginByGoogle),
   fork(watchLogOutUser),
+  fork(watchLoginByFacebook),
 ];
 
 export default userSagas;

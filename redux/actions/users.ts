@@ -12,6 +12,8 @@ export const Types = {
   UPDATE_USER_ERROR: 'user/update-user-error',
   LOGIN_BY_GOOGLE: 'user/login-by-google',
   LOGIN_BY_GOOGLE_ERROR: 'user/login-by-google-error',
+  LOGIN_BY_FACEBOOK: 'user/login-by-facebook',
+  LOGIN_BY_FACEBOOK_ERROR: 'user/login-by-facebook-error',
 };
 
 interface LoginUser {
@@ -90,6 +92,20 @@ export const getUserError = () => ({
 
 export const loginUserError = ({ error }: any) => ({
   type: Types.LOGIN_USER_ERROR,
+  payload: {
+    error,
+  },
+});
+
+export const loginByFacebook = (fields: any) => ({
+  type: Types.LOGIN_BY_FACEBOOK,
+  payload: {
+    ...fields,
+  },
+});
+
+export const loginByFacebookError = ({ error }: any) => ({
+  type: Types.LOGIN_BY_FACEBOOK_ERROR,
   payload: {
     error,
   },

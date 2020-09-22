@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema(
     googleId: {
       type: String,
     },
+    facebookId: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,

@@ -151,14 +151,18 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
           <div className={styles.cart}>
             <img src="/icons/shopping-cart.svg" alt="cart" />
           </div>
-          <div className={styles.loginRegister}>
-            <div className={styles.login} onClick={handleOpenLogin}>
-              ĐĂNG NHẬP
+          {user ? (
+            renderAvatar()
+          ) : (
+            <div className={styles.loginRegister}>
+              <div className={styles.login} onClick={handleOpenLogin}>
+                ĐĂNG NHẬP
+              </div>
+              <div className={styles.register} onClick={handleOpenRegister}>
+                hoặc <span>đăng ký</span>
+              </div>
             </div>
-            <div className={styles.register} onClick={handleOpenRegister}>
-              hoặc <span>đăng ký</span>
-            </div>
-          </div>
+          )}
         </div>
       </div>
       <div className={styles.menuWrapper}>

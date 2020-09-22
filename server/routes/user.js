@@ -17,6 +17,7 @@ const {
   deleteUserById,
   createUserByAdmin,
   loginByGoogle,
+  loginByFacebook,
 } = require('../controllers/user');
 
 // User routes
@@ -27,6 +28,7 @@ router.post('/user/login', loginUser);
 router.put('/user', auth, updateUser);
 router.get('/user/logout', auth, logoutUser);
 router.post('/user/login/google', loginByGoogle);
+router.post('/user/login/facebook', loginByFacebook);
 
 // Admin routes
 router.get('/users', auth, checkAdmin, getAllUsers);

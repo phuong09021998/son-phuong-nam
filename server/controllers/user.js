@@ -187,10 +187,13 @@ exports.loginUser = async (req, res) => {
     }
 
     if (user.avatar.data) {
-      console.log(user.avatar);
       user.avatar = undefined;
       // user.hasAvatar = true;
       avatar = true;
+    }
+
+    if (!user.password) {
+      throw new Error('Cannot use normal login.');
     }
 
     const valid = await bcrypt.compare(password, user.password);
@@ -346,7 +349,40 @@ exports.loginByGoogle = async (req, res) => {
       const createDoc = await user.save();
       return res.cookie('spn_auth', createDoc.token).status(200).send({
         success: true,
-        createDoc,
+        user: createDoc,
+      });
+    }
+    return res.cookie('spn_auth', doc.token).status(200).send({
+      success: true,
+      user: doc,
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).send({
+        success: false,
+        error: 'Email is already in use.',
+      });
+    }
+    return res.status(400).send({
+      success: false,
+      error: 'User not found.',
+    });
+  }
+};
+
+exports.loginByFacebook = async (req, res) => {
+  try {
+    const doc = await User.findOneAndUpdate(
+      { facebookId: req.body.facebookId },
+      { token: req.body.token },
+      { new: true },
+    );
+    if (!doc) {
+      const user = new User(req.body);
+      const createDoc = await user.save();
+      return res.cookie('spn_auth', createDoc.token).status(200).send({
+        success: true,
+        user: createDoc,
       });
     }
     return res.cookie('spn_auth', doc.token).status(200).send({

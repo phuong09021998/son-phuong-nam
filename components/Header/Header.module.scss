@@ -13,6 +13,17 @@
     .register {
       font-size: 0.9rem !important;
     }
+
+    .avatarWrapper {
+      width: 15rem !important;
+
+      .name {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-size: 0.9rem !important;
+      }
+    }
   }
 
   @include lg-xl {
@@ -49,9 +60,11 @@
         .name {
           font-weight: bold;
           margin-top: 0.5em;
+          white-space: nowrap;
         }
         .slogan {
           font-size: 0.8rem;
+          white-space: nowrap;
         }
       }
     }
@@ -59,19 +72,20 @@
     .right {
       display: flex;
       margin-right: 0.8em;
-      flex-basis: 15em;
+      flex-basis: 10em;
       justify-content: flex-end;
       align-items: center;
+      margin-left: 2em;
 
       .avatarWrapper {
         height: 3em;
-        width: 15em;
+        width: 5em;
         display: flex;
         align-items: center;
         // margin: 0.5em 2em 0.5em 0.2em;
+        justify-content: flex-end;
         cursor: pointer;
         // background-color: yellow;
-        margin-left: 1em;
 
         .avatar {
           flex-basis: 3em;
@@ -79,7 +93,7 @@
           position: relative;
           // margin: 0 0.5em;
           .avatarName {
-            font-size: 2.5rem;
+            font-size: 2rem;
             width: 3rem;
             height: 3rem;
             display: flex;
@@ -90,9 +104,12 @@
 
         .name {
           padding-left: 0.5em;
-          font-size: 0.9rem;
+          font-size: 0.8rem;
           font-weight: bold;
           white-space: nowrap;
+          opacity: 0;
+          visibility: hidden;
+          display: none;
         }
 
         .down {
@@ -233,6 +250,40 @@
         display: flex;
         margin-top: 0.8em;
         margin-right: 0.8em;
+
+        .avatarWrapper {
+          // text-align: center;
+          display: flex;
+
+          .avatar {
+            height: 3rem;
+            width: 3rem;
+            // background-color: yellow;
+            cursor: pointer;
+
+            .avatarName {
+              width: 3rem;
+              height: 3rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 2rem;
+            }
+          }
+
+          .name {
+            display: none;
+          }
+
+          .down {
+            // display: inline;
+            // background-color: yellow;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+          }
+        }
+
         .cart {
           background-color: white;
           width: 2.2rem;

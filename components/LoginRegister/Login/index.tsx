@@ -3,12 +3,14 @@ import { update, generateData, isFormValid } from '../../utils/formAction';
 import FormField from '../../FormField';
 import styles from './Login.module.scss';
 import Button from '@material-ui/core/Button';
-import { loginUser, loginByGoogle } from 'redux/actions/users';
+import { loginUser, loginByGoogle, loginByFacebook } from 'redux/actions/users';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import GoogleLogin from 'react-google-login';
 import { message } from 'antd';
 import CircularProgress from '@material-ui/core/CircularProgress';
+// @ts-ignore
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 interface Props {
   loginUser(data: DataSubmit): any;
   user: any;
@@ -16,6 +18,8 @@ interface Props {
   loginByGoogle: any;
   loginByGoogleError: any;
   loginUserError: any;
+  loginByFacebookError: any;
+  loginByFacebook: any;
 }
 
 interface DataSubmit {
@@ -23,7 +27,16 @@ interface DataSubmit {
   password: string;
 }
 
-function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError, loginUserError }: Props) {
+function Login({
+  user,
+  loginUser,
+  close,
+  loginByGoogle,
+  loginByGoogleError,
+  loginUserError,
+  loginByFacebookError,
+  loginByFacebook,
+}: Props) {
   const router = useRouter();
   const [form, setForm] = useState({
     formError: false,
@@ -105,6 +118,17 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError, logi
     });
   };
 
+  const responseFacebook = (data: any) => {
+    // console.log(data);
+    loginByFacebook({
+      token: data.accessToken,
+      name: data.name,
+      email: data.email,
+      facebookId: data.id,
+      thirdPartyAvatar: data.picture.data.url,
+    });
+  };
+
   useEffect(() => {
     if (user) {
       if (user.role > 0) {
@@ -120,6 +144,12 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError, logi
       message.error(loginByGoogleError);
     }
   }, [loginByGoogleError]);
+
+  useEffect(() => {
+    if (loginByFacebookError) {
+      message.error(loginByFacebookError);
+    }
+  }, [loginByFacebookError]);
 
   useEffect(() => {
     if (loginUserError) {
@@ -148,6 +178,8 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError, logi
             },
           },
         });
+      } else if (loginUserError.includes('Không thể đăng nhập bằng cách này')) {
+        message.error('Email này không thể đăng nhập bằng cách này');
       } else {
         message.error(loginUserError);
       }
@@ -197,12 +229,20 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError, logi
           onFailure={responseGoogle}
           cookiePolicy={'single_host_origin'}
         />
-        <div className={styles.item}>
-          <div className={styles.icon}>
-            <img src="/icons/facebook.svg" alt="facebook" />
-          </div>
-          <div className={styles.text}>Đăng nhập bằng Facebook</div>
-        </div>
+        <FacebookLogin
+          appId="659986671317584"
+          // autoLoad
+          fields="name,email,picture,id"
+          callback={responseFacebook}
+          render={(renderProps: any) => (
+            <div className={styles.item} onClick={renderProps.onClick}>
+              <div className={styles.icon}>
+                <img src="/icons/facebook.svg" alt="facebook" />
+              </div>
+              <div className={styles.text}>Đăng nhập bằng Facebook</div>
+            </div>
+          )}
+        />
       </div>
       <div className={styles.register}>
         Hoặc <span>đăng ký tài khoản mới</span>
@@ -217,7 +257,8 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError, logi
 const mapStateToProps = (state: any) => ({
   user: state.users.data,
   loginByGoogleError: state.users.loginByGoogleError,
+  loginByFacebookError: state.users.loginByFacebookError,
   loginUserError: state.users.loginUserError,
 });
 
-export default connect(mapStateToProps, { loginUser, loginByGoogle })(Login);
+export default connect(mapStateToProps, { loginUser, loginByGoogle, loginByFacebook })(Login);

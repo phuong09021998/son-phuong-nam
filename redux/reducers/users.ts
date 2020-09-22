@@ -18,6 +18,7 @@ export default function users(state = INITIAL_STATE, action: Action) {
         logoutUserError: undefined,
         loginByGoogleError: undefined,
         loginUserError: undefined,
+        loginByFacebookError: undefined,
       };
     }
     case Types.CREATE_USER_ERROR: {
@@ -52,6 +53,13 @@ export default function users(state = INITIAL_STATE, action: Action) {
       return {
         ...state,
         loginByGoogleError: action.payload.error,
+      };
+    }
+
+    case Types.LOGIN_BY_FACEBOOK_ERROR: {
+      return {
+        ...state,
+        loginByFacebookError: action.payload.error,
       };
     }
 

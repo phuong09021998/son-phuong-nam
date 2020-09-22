@@ -25,6 +25,10 @@ export const loginByGoogle = (fields: any) => {
   return axios.post('/api/user/login/google', fields);
 };
 
+export const loginByFacebook = (fields: any) => {
+  return axios.post('/api/user/login/facebook', fields);
+};
+
 export const logoutUser = () => {
   return axios.get('/api/user/logout');
 };

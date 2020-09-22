@@ -1800,6 +1800,13 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
+"@types/react-facebook-login@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-facebook-login/-/react-facebook-login-4.1.2.tgz#5a4894fa9abd6972f1454528f2cdf2af28ef3a4d"
+  integrity sha512-GHeUSSa/GMGsNMxmwvb3OcQpfiPviPCm9QFV8u20WfpQwYI5jFhi+HZHlICfj/9oGGe+lzWC4L/4+9hQChIutQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-icons@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/react-icons/-/react-icons-3.0.0.tgz#27ca2823a6add881d06a371bfff093afc1b9c829"
@@ -8317,6 +8324,11 @@ react-dom@16.13.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
+
+react-facebook-login@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
+  integrity sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw==
 
 react-google-login@^5.1.21:
   version "5.1.21"
