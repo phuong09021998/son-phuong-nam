@@ -1,5 +1,6 @@
 export const Types = {
   LOGIN_USER: 'user/login-user',
+  LOGIN_USER_ERROR: 'user/login-user-error',
   GET_USER_SUCCESS: 'user/get-user-success',
   GET_USER: 'user/get-user',
   GET_USER_ERROR: 'user/get-user-error',
@@ -85,4 +86,11 @@ export const logOutUser = () => ({
 
 export const getUserError = () => ({
   type: Types.GET_USER_ERROR,
+});
+
+export const loginUserError = ({ error }: any) => ({
+  type: Types.LOGIN_USER_ERROR,
+  payload: {
+    error,
+  },
 });

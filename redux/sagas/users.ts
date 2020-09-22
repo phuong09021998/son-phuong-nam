@@ -1,6 +1,7 @@
 import { takeLatest, takeEvery, take, call, put, fork } from 'redux-saga/effects';
 import * as actions from '../actions/users';
 import * as api from '../api/users';
+import { v4 as uuidv4 } from 'uuid';
 
 interface LoginUser {
   type: string;
@@ -15,7 +16,14 @@ function* loginUser({ payload }: LoginUser) {
     const result = yield call(api.loginUser, payload);
     yield put(actions.getUserSuccess({ ...result.data.user }));
   } catch (error) {
-    console.log(error);
+    const errorData = error.response.data;
+    if (errorData.error === 'Password is incorrect.') {
+      yield put(actions.loginUserError({ error: 'Sai mật khẩu' + uuidv4() }));
+    } else if (errorData.error === 'User not found.') {
+      yield put(actions.loginUserError({ error: 'Không tìm thấy người dùng' + uuidv4() }));
+    } else {
+      yield put(actions.loginUserError({ error: errorData.error }));
+    }
   }
 }
 

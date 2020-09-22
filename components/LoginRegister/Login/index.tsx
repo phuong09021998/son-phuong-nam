@@ -15,6 +15,7 @@ interface Props {
   close(): void;
   loginByGoogle: any;
   loginByGoogleError: any;
+  loginUserError: any;
 }
 
 interface DataSubmit {
@@ -22,7 +23,7 @@ interface DataSubmit {
   password: string;
 }
 
-function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError }: Props) {
+function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError, loginUserError }: Props) {
   const router = useRouter();
   const [form, setForm] = useState({
     formError: false,
@@ -106,7 +107,6 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError }: Pr
 
   useEffect(() => {
     if (user) {
-      setWaiting(false);
       if (user.role > 0) {
         router.push('/admin');
       } else {
@@ -120,6 +120,39 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError }: Pr
       message.error(loginByGoogleError);
     }
   }, [loginByGoogleError]);
+
+  useEffect(() => {
+    if (loginUserError) {
+      setWaiting(false);
+      if (loginUserError.includes('Sai mật khẩu')) {
+        setForm({
+          ...form,
+          formdata: {
+            ...form.formdata,
+            password: {
+              ...form.formdata.password,
+              valid: false,
+              validationMessage: 'Sai mật khẩu',
+            },
+          },
+        });
+      } else if (loginUserError.includes('Không tìm thấy người dùng')) {
+        setForm({
+          ...form,
+          formdata: {
+            ...form.formdata,
+            email: {
+              ...form.formdata.email,
+              valid: false,
+              validationMessage: 'Không tìm thấy người dùng',
+            },
+          },
+        });
+      } else {
+        message.error(loginUserError);
+      }
+    }
+  }, [loginUserError]);
 
   return (
     <div className={styles.loginWrapper}>
@@ -184,6 +217,7 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError }: Pr
 const mapStateToProps = (state: any) => ({
   user: state.users.data,
   loginByGoogleError: state.users.loginByGoogleError,
+  loginUserError: state.users.loginUserError,
 });
 
 export default connect(mapStateToProps, { loginUser, loginByGoogle })(Login);

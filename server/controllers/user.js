@@ -5,10 +5,17 @@ const bcrypt = require('bcrypt');
 
 // User controllers
 exports.readUser = (req, res) => {
-  req.user.avatar = undefined;
+  let avatar = false;
+  if (req.user.avatar.data) {
+    avatar = true;
+  }
+
   return res.status(200).send({
     success: true,
-    user: req.user,
+    user: {
+      ...req.user._doc,
+      avatar,
+    },
   });
 };
 
@@ -172,10 +179,18 @@ exports.loginUser = async (req, res) => {
   const password = req.body.password;
 
   try {
-    const user = await User.findOne({ email }).select('-avatar');
+    let avatar = false;
+    const user = await User.findOne({ email });
 
     if (!user) {
       throw new Error('User not found.');
+    }
+
+    if (user.avatar.data) {
+      console.log(user.avatar);
+      user.avatar = undefined;
+      // user.hasAvatar = true;
+      avatar = true;
     }
 
     const valid = await bcrypt.compare(password, user.password);
@@ -187,10 +202,16 @@ exports.loginUser = async (req, res) => {
     user.generateToken();
     await User.findByIdAndUpdate(user._id, { token: user.token });
     user.password = undefined;
-    return res.cookie('spn_auth', user.token).status(200).send({
-      success: true,
-      user,
-    });
+    return res
+      .cookie('spn_auth', user.token)
+      .status(200)
+      .send({
+        success: true,
+        user: {
+          ...user._doc,
+          avatar,
+        },
+      });
   } catch (error) {
     return res.status(401).send({
       success: false,

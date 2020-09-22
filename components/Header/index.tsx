@@ -22,7 +22,6 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
   const isMediumLargeDevice: boolean = useMediaQuery({
     query: '(min-width: 769px)',
   });
-
   const handleOpenLogin = (): void => {
     toggleRegisterLogin(true, 'login');
   };
@@ -55,21 +54,27 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
       </Menu>
     );
 
-    if (user.thirdPartyAvatar) {
-      return (
-        <div className={styles.avatarWrapper}>
-          <div className={styles.avatar}>
-            <Avatar src={user.thirdPartyAvatar} />
-          </div>
-          <div className={styles.name}>{user.name}</div>
-          <div className={styles.down}>
-            <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']}>
-              <ExpandMoreIcon />
-            </Dropdown>
-          </div>
+    const setAvatar = () => {
+      if (user.avatar) {
+        return <Avatar src="/api/user/avatar" />;
+      } else if (user.thirdPartyAvatar) {
+        return <Avatar src={user.thirdPartyAvatar} />;
+      } else if (!user.avatar) {
+        return <Avatar className={styles.avatarName}>{user.name[0]}</Avatar>;
+      }
+    };
+
+    return (
+      <div className={styles.avatarWrapper}>
+        <div className={styles.avatar}>{setAvatar()}</div>
+        <div className={styles.name}>{user.name}</div>
+        <div className={styles.down}>
+          <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']}>
+            <ExpandMoreIcon />
+          </Dropdown>
         </div>
-      );
-    }
+      </div>
+    );
   };
 
   const renderMediumLargeDeviceLayout = () => (
