@@ -90,7 +90,6 @@ userSchema.statics.findByToken = async function (token) {
     }
     return user;
   } catch (error) {
-    console.log(error.name);
     if (error.name === 'JsonWebTokenError') {
       try {
         const user = await User.findOne({ token });

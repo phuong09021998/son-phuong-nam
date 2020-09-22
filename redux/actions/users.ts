@@ -2,6 +2,7 @@ export const Types = {
   LOGIN_USER: 'user/login-user',
   GET_USER_SUCCESS: 'user/get-user-success',
   GET_USER: 'user/get-user',
+  GET_USER_ERROR: 'user/get-user-error',
   CREATE_USER: 'user/create-user',
   CREATE_USER_ERROR: 'user/create-user-error',
   LOG_OUT_USER: 'user/logout-user',
@@ -76,4 +77,12 @@ export const updateUserError = ({ error }: any) => ({
   payload: {
     error,
   },
+});
+
+export const logOutUser = () => ({
+  type: Types.LOG_OUT_USER,
+});
+
+export const getUserError = () => ({
+  type: Types.GET_USER_ERROR,
 });

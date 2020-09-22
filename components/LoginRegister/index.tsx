@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Drawer } from 'antd';
 import { connect } from 'react-redux';
 import { toggleRegisterLogin } from 'redux/actions/ui';
-import { getUser } from 'redux/actions/users';
 import Login from './Login';
 import styles from './LoginRegister.module.scss';
 
@@ -12,18 +11,12 @@ interface Props {
     status: string;
   };
   toggleRegisterLogin(isOpen: boolean, status: string): void;
-  getUser(): void;
-  users: any;
 }
 
-function LoginRegister({ registerLogin, toggleRegisterLogin, getUser, users }: Props) {
+function LoginRegister({ registerLogin, toggleRegisterLogin }: Props) {
   const onClose = () => {
     toggleRegisterLogin(false, 'none');
   };
-
-  useEffect(() => {
-    getUser();
-  }, [users]);
 
   return (
     <Drawer placement="right" closable={false} onClose={onClose} visible={registerLogin.isOpen} width={400}>
@@ -37,4 +30,4 @@ function LoginRegister({ registerLogin, toggleRegisterLogin, getUser, users }: P
 
 const mapStateToProps = (state: any) => ({ registerLogin: state.ui.registerLogin, user: state.users.data });
 
-export default connect(mapStateToProps, { toggleRegisterLogin, getUser })(LoginRegister);
+export default connect(mapStateToProps, { toggleRegisterLogin })(LoginRegister);

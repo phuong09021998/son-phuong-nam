@@ -16,6 +16,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import Head from 'next/head';
+import { Menu, Dropdown } from 'antd';
+import { logOutUser } from 'redux/actions/users';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,19 +36,36 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   toggleRegisterLogin(isOpen: boolean, status: string): any;
   user: any;
+  logOutUser: any;
 }
 
-function Admin({ toggleRegisterLogin, user }: Props) {
+function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
   const [currentActive, setCurrentActive] = useState('nontification');
   const classes = useStyles();
+  const router = useRouter();
 
-  useEffect(() => {
-    toggleRegisterLogin(false, 'none');
-  });
+  const handleLogOut = () => {
+    router.push('/');
+    logOutUser();
+  };
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <div className={styles.logOut} style={{ textAlign: 'center' }} onClick={handleLogOut}>
+          Đăng xuất
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
 
   const handleMenuClick = (e: any, currentActive: string) => {
     setCurrentActive(currentActive);
   };
+
+  useEffect(() => {
+    toggleRegisterLogin(false, 'none');
+  });
 
   return (
     <React.Fragment>
@@ -161,11 +181,13 @@ function Admin({ toggleRegisterLogin, user }: Props) {
           <div className={styles.space}></div>
           <div className={styles.rightContent}>
             <div className={styles.top}>
-              <Button>
-                <div className={styles.topItem}>
-                  <PersonIcon />
-                </div>
-              </Button>
+              <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']}>
+                <Button>
+                  <div className={styles.topItem}>
+                    <PersonIcon />
+                  </div>
+                </Button>
+              </Dropdown>
               <Button>
                 <div className={styles.topItem}>
                   <NotificationsIcon />
@@ -193,4 +215,4 @@ function Admin({ toggleRegisterLogin, user }: Props) {
 
 const mapStateToProps = (state: any) => ({ user: state.users.data });
 
-export default privateRoute(connect(mapStateToProps, { toggleRegisterLogin })(Admin), true);
+export default privateRoute(connect(mapStateToProps, { toggleRegisterLogin, logOutUser })(Admin), true);

@@ -63,9 +63,37 @@
       justify-content: flex-end;
       align-items: center;
 
+      .avatarWrapper {
+        height: 3em;
+        width: 15em;
+        display: flex;
+        align-items: center;
+        // margin: 0.5em 2em 0.5em 0.2em;
+        cursor: pointer;
+        // background-color: yellow;
+        margin-left: 1em;
+
+        .avatar {
+          flex-basis: 3em;
+          flex-shrink: 0;
+          // margin: 0 0.5em;
+        }
+
+        .name {
+          padding-left: 0.5em;
+          font-size: 0.9rem;
+          font-weight: bold;
+        }
+
+        .down {
+          margin-top: 0.5em;
+        }
+      }
+
       .cart {
         background-color: white;
-        width: 2.5rem;
+        flex-basis: 2.5rem;
+        flex-shrink: 0;
         margin-right: 1.5em;
         height: 2.5rem;
         border-radius: 2.5rem;
@@ -78,6 +106,7 @@
           width: 60%;
         }
       }
+
       .loginRegister {
         .login {
           font-weight: bold;

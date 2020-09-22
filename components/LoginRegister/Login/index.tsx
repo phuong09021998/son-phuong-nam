@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import GoogleLogin from 'react-google-login';
 import { message } from 'antd';
+import CircularProgress from '@material-ui/core/CircularProgress';
 interface Props {
   loginUser(data: DataSubmit): any;
   user: any;
@@ -61,6 +62,8 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError }: Pr
     },
   });
 
+  const [waiting, setWaiting] = useState(false);
+
   const userIcon = () => <img src="/icons/user.svg" alt="user" />;
   const passwordIcon = () => <img src="/icons/password.svg" alt="password" />;
 
@@ -82,6 +85,7 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError }: Pr
 
     if (formIsValid) {
       loginUser(dataToSubmit);
+      setWaiting(true);
     } else {
       setForm({
         ...form,
@@ -102,6 +106,7 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError }: Pr
 
   useEffect(() => {
     if (user) {
+      setWaiting(false);
       if (user.role > 0) {
         router.push('/admin');
       } else {
@@ -129,6 +134,11 @@ function Login({ user, loginUser, close, loginByGoogle, loginByGoogleError }: Pr
         />
         <div className={styles.forgetPass}>Quên mật khẩu?</div>
         {form.formError && <div className={styles.errorLabel}>Kiểm tra lại thông tin</div>}
+        {waiting && (
+          <div className={styles.waiting}>
+            <CircularProgress className={styles.waitingIcon} />
+          </div>
+        )}
         <Button
           onClick={(event) => submitForm(event)}
           style={{ backgroundColor: '#e91e63' }}

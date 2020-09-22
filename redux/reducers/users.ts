@@ -26,6 +26,13 @@ export default function users(state = INITIAL_STATE, action: Action) {
       };
     }
 
+    case Types.GET_USER_ERROR: {
+      return {
+        ...state,
+        data: undefined,
+      };
+    }
+
     case Types.UPDATE_USER_ERROR: {
       return {
         ...state,

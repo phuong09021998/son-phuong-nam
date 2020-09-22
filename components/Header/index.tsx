@@ -1,20 +1,24 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import styles from './Header.module.scss';
 import Link from 'next/link';
 import { Collapse } from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import { connect } from 'react-redux';
 import { toggleRegisterLogin } from '../../redux/actions/ui';
-
+import { getUser, logOutUser } from 'redux/actions/users';
+import { Avatar, Menu, Dropdown } from 'antd';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const { Panel } = Collapse;
 
 interface Props {
   toggleRegisterLogin(isOpen: boolean, status: string): void;
+  user: any;
+  getUser: any;
+  logOutUser: any;
 }
 
-function Header({ toggleRegisterLogin }: Props) {
+function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
   const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 768px)' });
-
   const isMediumLargeDevice: boolean = useMediaQuery({
     query: '(min-width: 769px)',
   });
@@ -27,6 +31,10 @@ function Header({ toggleRegisterLogin }: Props) {
     toggleRegisterLogin(true, 'register');
   };
 
+  const handleLogOut = () => {
+    logOutUser();
+  };
+
   const renderTopMenu = () => (
     <div className={styles.topMenu}>
       <div className={styles.text}>MENU</div>
@@ -35,6 +43,34 @@ function Header({ toggleRegisterLogin }: Props) {
       </div>
     </div>
   );
+
+  const renderAvatar = () => {
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <div className={styles.logOut} style={{ textAlign: 'center' }} onClick={handleLogOut}>
+            Đăng xuất
+          </div>
+        </Menu.Item>
+      </Menu>
+    );
+
+    if (user.thirdPartyAvatar) {
+      return (
+        <div className={styles.avatarWrapper}>
+          <div className={styles.avatar}>
+            <Avatar src={user.thirdPartyAvatar} />
+          </div>
+          <div className={styles.name}>{user.name}</div>
+          <div className={styles.down}>
+            <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']}>
+              <ExpandMoreIcon />
+            </Dropdown>
+          </div>
+        </div>
+      );
+    }
+  };
 
   const renderMediumLargeDeviceLayout = () => (
     <div className={styles.header}>
@@ -76,14 +112,18 @@ function Header({ toggleRegisterLogin }: Props) {
         <div className={styles.cart}>
           <img src="/icons/shopping-cart.svg" alt="cart" />
         </div>
-        <div className={styles.loginRegister}>
-          <div className={styles.login} onClick={handleOpenLogin}>
-            ĐĂNG NHẬP
+        {user ? (
+          renderAvatar()
+        ) : (
+          <div className={styles.loginRegister}>
+            <div className={styles.login} onClick={handleOpenLogin}>
+              ĐĂNG NHẬP
+            </div>
+            <div className={styles.register} onClick={handleOpenRegister}>
+              hoặc <span>đăng ký</span>
+            </div>
           </div>
-          <div className={styles.register} onClick={handleOpenRegister}>
-            hoặc <span>đăng ký</span>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -146,6 +186,10 @@ function Header({ toggleRegisterLogin }: Props) {
     </div>
   );
 
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <Fragment>
       {isSmallDevice && renderSmallDeviceLayout()}
@@ -154,4 +198,8 @@ function Header({ toggleRegisterLogin }: Props) {
   );
 }
 
-export default connect(null, { toggleRegisterLogin })(Header);
+const mapStateToProps = (state: any) => ({
+  user: state.users.data,
+});
+
+export default connect(mapStateToProps, { toggleRegisterLogin, getUser, logOutUser })(Header);

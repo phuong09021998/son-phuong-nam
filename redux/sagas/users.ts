@@ -23,15 +23,18 @@ function* watchLoginUser() {
   yield takeLatest(actions.Types.LOGIN_USER, loginUser);
 }
 
-function* getUsers() {
+function* getUser() {
   try {
     const result = yield call(api.getUser);
     yield put(actions.getUserSuccess({ ...result.data.user }));
-  } catch (e) {}
+  } catch (e) {
+    // yield put(actions.getUserSuccess({ ...result.data.user }));
+    yield put(actions.getUserError());
+  }
 }
 
 function* watchGetUsersRequest() {
-  yield takeEvery(actions.Types.GET_USER, getUsers);
+  yield takeEvery(actions.Types.GET_USER, getUser);
 }
 
 function* createUser({ payload }: any) {
@@ -67,6 +70,20 @@ function* watchLoginByGoogle() {
   yield takeLatest(actions.Types.LOGIN_BY_GOOGLE, loginByGoogle);
 }
 
-const userSagas = [fork(watchLoginUser), fork(watchGetUsersRequest), fork(watchCreateUser), fork(watchLoginByGoogle)];
+function* watchLogOutUser() {
+  while (true) {
+    yield take(actions.Types.LOG_OUT_USER);
+    yield call(api.logoutUser);
+    yield call(getUser);
+  }
+}
+
+const userSagas = [
+  fork(watchLoginUser),
+  fork(watchGetUsersRequest),
+  fork(watchCreateUser),
+  fork(watchLoginByGoogle),
+  fork(watchLogOutUser),
+];
 
 export default userSagas;
