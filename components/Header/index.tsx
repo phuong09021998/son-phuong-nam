@@ -18,9 +18,9 @@ interface Props {
 }
 
 function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
-  const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 768px)' });
+  const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 767px)' });
   const isMediumLargeDevice: boolean = useMediaQuery({
-    query: '(min-width: 769px)',
+    query: '(min-width: 768px)',
   });
   const handleOpenLogin = (): void => {
     toggleRegisterLogin(true, 'login');
@@ -79,6 +79,7 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
 
   const renderMediumLargeDeviceLayout = () => (
     <header className={styles.header}>
+      {/* <h1>large</h1> */}
       <Link href="/">
         <div className={styles.logo}>
           <div className={styles.logoWrapper}>
@@ -134,7 +135,7 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
   );
 
   const renderSmallDeviceLayout = () => (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <div className={styles.top}>
         <Link href="/">
           <div className={styles.logo}>
@@ -192,7 +193,7 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
           </Panel>
         </Collapse>
       </div>
-    </div>
+    </header>
   );
 
   useEffect(() => {

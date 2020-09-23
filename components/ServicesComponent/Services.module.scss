@@ -1,0 +1,10 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.service {
+  margin-top: 10rem;
+
+  @include only-sm {
+    margin-top: 12rem;
+  }
+}

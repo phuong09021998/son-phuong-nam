@@ -1,9 +1,6 @@
 @import 'styles/variables.scss';
 @import 'styles/mixins.scss';
 
-@include xl {
-}
-
 .whyUsWrapper {
   margin: 5em 0;
   display: flex;
@@ -81,6 +78,9 @@
 }
 
 @include md-lg {
+  .whyUsWrapper {
+    margin: 2em 0 !important;
+  }
   .itemLarge {
     flex-basis: 15rem !important;
 
@@ -120,6 +120,8 @@
     align-items: center;
     justify-content: center;
     margin-top: 1.5rem !important;
+    margin-bottom: 1em !important;
+
     .item {
       width: 80% !important;
       flex-basis: 10rem !important;

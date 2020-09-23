@@ -3,9 +3,9 @@ import styles from './Footer.module.scss';
 import { useMediaQuery } from 'react-responsive';
 
 export default function Footer() {
-  const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 768px)' });
+  const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 767px)' });
   const isMediumLargeDevice: boolean = useMediaQuery({
-    query: '(min-width: 769px)',
+    query: '(min-width: 768px)',
   });
 
   const renderMediumLargeDeviceLayout = () => (
