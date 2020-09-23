@@ -138,10 +138,11 @@
         .login {
           font-weight: bold;
           cursor: pointer;
+          white-space: nowrap;
         }
         .register {
           font-size: 0.8rem;
-
+          white-space: nowrap;
           span {
             text-decoration: underline;
             cursor: pointer;
@@ -303,10 +304,11 @@
           .login {
             font-weight: bold;
             cursor: pointer;
+            white-space: nowrap;
           }
           .register {
             font-size: 0.7rem;
-
+            white-space: nowrap;
             span {
               text-decoration: underline;
               cursor: pointer;
