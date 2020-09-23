@@ -78,7 +78,7 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
   };
 
   const renderMediumLargeDeviceLayout = () => (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <Link href="/">
         <div className={styles.logo}>
           <div className={styles.logoWrapper}>
@@ -120,17 +120,17 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
         {user ? (
           renderAvatar()
         ) : (
-          <div className={styles.loginRegister}>
+          <header className={styles.loginRegister}>
             <div className={styles.login} onClick={handleOpenLogin}>
               ĐĂNG NHẬP
             </div>
             <div className={styles.register} onClick={handleOpenRegister}>
               hoặc <span>đăng ký</span>
             </div>
-          </div>
+          </header>
         )}
       </div>
-    </div>
+    </header>
   );
 
   const renderSmallDeviceLayout = () => (

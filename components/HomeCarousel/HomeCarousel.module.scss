@@ -1,0 +1,14 @@
+.carousel {
+  max-width: 1500px;
+  // background-color: yellow;
+  margin-top: 2em;
+  width: 100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  .item {
+    img {
+      width: 100%;
+    }
+  }
+}

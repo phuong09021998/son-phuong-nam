@@ -7,7 +7,7 @@ interface Action {
   payload?: any;
 }
 
-export default function users(state = INITIAL_STATE, action: Action) {
+export default function admins(state = INITIAL_STATE, action: Action) {
   switch (action.type) {
     case Types.GET_USERS_SUCCESS: {
       return {

@@ -4,6 +4,7 @@ import users from './users';
 import admins from './admins';
 import posts from './posts';
 import products from './products';
+import site from './site';
 
 export default combineReducers({
   users,
@@ -11,4 +12,5 @@ export default combineReducers({
   admins,
   posts,
   products,
+  site,
 });
