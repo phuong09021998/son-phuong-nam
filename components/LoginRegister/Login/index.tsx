@@ -129,6 +129,15 @@ function Login({
     });
   };
 
+  const handlePress = (event: any) => {
+    const code = event.keyCode || event.which;
+    if (code === 13) {
+      //13 is the enter keycode
+      //Do stuff in here
+      submitForm(event);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       if (user.role > 0) {
@@ -190,12 +199,19 @@ function Login({
     <div className={styles.loginWrapper}>
       <div className={styles.title}>ĐĂNG NHẬP</div>
       <form onSubmit={(event) => submitForm(event)}>
-        <FormField id={'email'} formdata={form.formdata.email} change={(e: any) => updateForm(e)} Prefix={userIcon} />
+        <FormField
+          id={'email'}
+          formdata={form.formdata.email}
+          change={(e: any) => updateForm(e)}
+          Prefix={userIcon}
+          press={(e: any) => handlePress(e)}
+        />
         <FormField
           id={'password'}
           formdata={form.formdata.password}
           change={(e: any) => updateForm(e)}
           Prefix={passwordIcon}
+          press={(e: any) => handlePress(e)}
         />
         <div className={styles.forgetPass}>Quên mật khẩu?</div>
         {form.formError && <div className={styles.errorLabel}>Kiểm tra lại thông tin</div>}
@@ -209,6 +225,7 @@ function Login({
           style={{ backgroundColor: '#e91e63' }}
           className={styles.button}
           size="large"
+          type="submit"
         >
           Xác nhận
         </Button>

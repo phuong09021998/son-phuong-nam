@@ -4,6 +4,7 @@ const changeAlias = require('../utils/changeAlias');
 const { clearHash } = require('../db/redis');
 const handleUploadImage = require('../utils/handleUploadImage');
 const formidable = require('formidable');
+const fs = require('fs');
 
 exports.createPost = async (req, res) => {
   const form = formidable({ multiples: true });
@@ -19,8 +20,8 @@ exports.createPost = async (req, res) => {
     let post = new Post(fields);
 
     if (files.image) {
-      if (!/\.(jpe?g|png|gif|bmp)$/i.test(files.image.name)) {
-        return res.status(200).send({
+      if (!/\.(jpe?g|png|gif|bmp|svg)$/i.test(files.image.name)) {
+        return res.status(400).send({
           success: false,
           error: 'You must upload an image.',
         });
@@ -31,11 +32,17 @@ exports.createPost = async (req, res) => {
           error: 'Image cannot be larger than 5Mb.',
         });
       }
-      post.image = await handleUploadImage(files.image, { width: 700, height: 525 });
+      if (/\.(jpe?g|png|gif|bmp)$/i.test(files.image.name)) {
+        post.image = await handleUploadImage(files.image, { width: 700, height: 525 });
+      } else {
+        post.image.data = fs.readFileSync(files.image.path);
+        post.image.contentType = files.image.type;
+      }
     }
 
     post.urlTitle = transformToUrlTitle(fields.title) + '-' + Date.now();
     post.simplifiedTitle = changeAlias(fields.title);
+    post.postBy = req.user.name;
     try {
       const doc = await post.save();
       doc.image = undefined;
@@ -79,7 +86,14 @@ exports.updatePost = async (req, res) => {
           error: 'Image cannot be larger than 5Mb.',
         });
       }
-      fields.image = await handleUploadImage(files.image, { width: 700, height: 525 });
+      // fields.image = await handleUploadImage(files.image, { width: 700, height: 525 });
+      if (/\.(jpe?g|png|gif|bmp)$/i.test(files.image.name)) {
+        fields.image = await handleUploadImage(files.image, { width: 700, height: 525 });
+      } else {
+        // console.log(files.image);
+        fields.image.data = fs.readFileSync(files.image.path);
+        fields.image.contentType = files.image.type;
+      }
     }
 
     if (fields.title) {

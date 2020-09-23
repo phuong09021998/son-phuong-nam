@@ -28,9 +28,10 @@ interface Props {
   id: string;
   change(change: Change): void;
   Prefix: any;
+  press?: any;
 }
 
-const Formfield = ({ formdata, change, id, Prefix }: Props) => {
+const Formfield = ({ formdata, change, id, Prefix, press }: Props) => {
   const showError = () => {
     let errorMessage = null;
 
@@ -56,6 +57,9 @@ const Formfield = ({ formdata, change, id, Prefix }: Props) => {
               onBlur={(event) => change({ event, id, blur: true })}
               onChange={(event) => change({ event, id })}
               autoComplete="off"
+              onKeyPress={(event) => {
+                press ? press(event) : null;
+              }}
             />
             {showError()}
           </div>
