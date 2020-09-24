@@ -19,6 +19,7 @@ export default function users(state = INITIAL_STATE, action: Action) {
         loginByGoogleError: undefined,
         loginUserError: undefined,
         loginByFacebookError: undefined,
+        getUserError: undefined,
       };
     }
     case Types.CREATE_USER_ERROR: {
@@ -32,6 +33,7 @@ export default function users(state = INITIAL_STATE, action: Action) {
       return {
         ...state,
         data: undefined,
+        getUserError: true,
       };
     }
 

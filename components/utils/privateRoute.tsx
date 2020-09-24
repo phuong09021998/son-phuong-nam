@@ -19,21 +19,21 @@ export default function Auth(ComposedClass: any, adminRoute = false) {
     }
 
     componentDidUpdate() {
-      const { users, router }: any = this.props;
+      const { user, router, getUserError }: any = this.props;
       const { loading } = this.state;
+      // console.log(getUserError);
+      if (getUserError) {
+        router.push('/');
+      }
 
-      if (adminRoute && loading) {
-        if (users.error || users.data.role < 1) {
+      if (adminRoute && loading && user) {
+        if (user.role < 1) {
           router.push('/');
         } else {
           return this.setState({ loading: false });
         }
-      } else if (!adminRoute && loading) {
-        if (users.error) {
-          router.push('/');
-        } else {
-          return this.setState({ loading: false });
-        }
+      } else if (!adminRoute && loading && user) {
+        return this.setState({ loading: false });
       }
     }
 
@@ -61,7 +61,8 @@ export default function Auth(ComposedClass: any, adminRoute = false) {
 
   function mapStateToProps(state: any) {
     return {
-      users: state.users,
+      user: state.users.data,
+      getUserError: state.users.getUserError,
     };
   }
 

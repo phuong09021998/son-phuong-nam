@@ -6,6 +6,7 @@
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+  margin-bottom: 10em;
 
   .img {
     width: 40rem;
@@ -106,6 +107,7 @@
   }
 
   @include only-sm {
+    margin-bottom: 13em !important;
     .aboutUsCard {
       width: 20rem;
       right: 0.7rem;

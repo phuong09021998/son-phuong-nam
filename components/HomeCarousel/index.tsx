@@ -1,6 +1,7 @@
 import React from 'react';
 import { Carousel } from 'antd';
 import styles from './HomeCarousel.module.scss';
+import LazyLoad from 'react-lazyload';
 
 interface Props {
   carousel: any;
@@ -15,13 +16,19 @@ function HomeCarousel({ carousel }: Props) {
     <div className={styles.carousel}>
       <Carousel autoplay>
         <div className={styles.item}>
-          <Image1 />
+          <LazyLoad>
+            <Image1 />
+          </LazyLoad>
         </div>
         <div className={styles.item}>
-          <Image2 />
+          <LazyLoad>
+            <Image2 />
+          </LazyLoad>
         </div>
         <div className={styles.item}>
-          <Image3 />
+          <LazyLoad>
+            <Image3 />
+          </LazyLoad>
         </div>
       </Carousel>
     </div>

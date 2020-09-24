@@ -141,16 +141,27 @@ exports.getPost = async (req, res) => {
 exports.getPosts = async (req, res) => {
   let order = req.query.order ? req.query.order : 'asc';
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+  let type = req.query.type ? req.query.type : null;
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
   let skip = parseInt(req.query.skip);
+  let posts;
 
   try {
-    const posts = await Post.find()
-      .sort([[sortBy, order]])
-      .limit(limit)
-      .skip(skip)
-      .select('-image')
-      .cache();
+    if (type) {
+      posts = await Post.find({ type })
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .skip(skip)
+        .select('-image -content')
+        .cache();
+    } else {
+      posts = await Post.find()
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .skip(skip)
+        .select('-image -content')
+        .cache();
+    }
 
     return res.status(200).send({
       success: true,

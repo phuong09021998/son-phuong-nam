@@ -1,17 +1,20 @@
 const fs = require('fs');
 const sharp = require('sharp');
+const tinify = require('tinify');
+
+tinify.key = process.env.TINIFY_KEY;
 
 const handleUploadImage = async (imageFile, { width, height }) => {
   const buffer = fs.readFileSync(imageFile.path);
   let resizeBuffer;
   if (width && height) {
-    resizeBuffer = await sharp(buffer).resize({ width, height }).png().toBuffer();
+    resizeBuffer = await tinify.fromBuffer(buffer).resize({ method: 'fit', width, height }).toBuffer();
   } else {
-    resizeBuffer = await sharp(buffer).png().toBuffer();
+    resizeBuffer = await tinify.fromBuffer(buffer).toBuffer();
   }
   return {
     data: resizeBuffer,
-    contentType: 'image/png',
+    contentType: imageFile.type,
   };
 };
 
