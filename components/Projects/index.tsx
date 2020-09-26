@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Projects.module.scss';
-import Card from 'components/Card';
+import ProjectCard from 'components/ProjectCard';
 import SeeMore from '../SeeMoreButton';
 
 export default function Projects({ projects }: any) {
@@ -10,7 +10,7 @@ export default function Projects({ projects }: any) {
       <div className={styles.cardsWrapper}>
         {projects.map((item: any, i: number) => {
           if (item.publish) {
-            return <Card title={item.title} data={item.date} urlTitle={item.urlTitle} key={i} index={i} />;
+            return <ProjectCard title={item.title} data={item.date} urlTitle={item.urlTitle} key={i} index={i} />;
           }
         })}
       </div>

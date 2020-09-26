@@ -40,6 +40,23 @@
     }
   }
 
+  @include md-lg {
+    // margin-top: 0 !important;
+
+    .title {
+      margin-bottom: 0.5em;
+      font-size: 1rem;
+    }
+
+    .cardsWrapper {
+      justify-content: center;
+
+      & > div {
+        margin: 1em;
+      }
+    }
+  }
+
   @include sm-md {
     // margin-top: 0 !important;
 
