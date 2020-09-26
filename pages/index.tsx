@@ -16,7 +16,7 @@ interface Props {
 
 export default function Home({ carousel, services, projects, products }: Props) {
   return (
-    <PageLayout>
+    <PageLayout title="Công ty TNHH MTV Xây Dựng Sơn Phương Nam">
       <HomeCarousel carousel={carousel} />
       <Services services={services} />
       <WhyUs />
