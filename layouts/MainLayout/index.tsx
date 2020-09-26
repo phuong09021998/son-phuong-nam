@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Head from 'next/head';
 import RegisterLogin from '../../components/LoginRegister';
-import ScrollToTop from 'react-scroll-to-top';
+import ScrolToTop from 'components/ScrollToTop';
 
 export default function MainLayout({ children }: any) {
   return (
@@ -18,8 +18,8 @@ export default function MainLayout({ children }: any) {
       </Head>
       <Header />
       {children}
-      <ScrollToTop smooth />
       <RegisterLogin />
+      <ScrolToTop />
       <Footer />
     </Fragment>
   );
