@@ -78,12 +78,13 @@ function* watchLoginByGoogle() {
   yield takeLatest(actions.Types.LOGIN_BY_GOOGLE, loginByGoogle);
 }
 
+function* logOutUser() {
+  yield call(api.logoutUser);
+  yield call(getUser);
+}
+
 function* watchLogOutUser() {
-  while (true) {
-    yield take(actions.Types.LOG_OUT_USER);
-    yield call(api.logoutUser);
-    yield call(getUser);
-  }
+  yield takeLatest(actions.Types.LOG_OUT_USER, logOutUser);
 }
 
 function* loginByFacebook({ payload }: any) {

@@ -1,21 +1,19 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import styles from './ProductCard.module.scss';
 // @ts-ignore
 import Fade from 'react-reveal/Fade';
 import Button from '@material-ui/core/Button';
 
 export default function ProductCard({ price, salePrice, name, urlTitle, available }: any) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/cua-hang/${urlTitle}`);
+  const handleAddToCart = (e: any) => {
+    e.preventDefault();
+    console.log('Add to cart');
   };
 
   return (
     <div className={styles.cardWrapper}>
       <Fade bottom>
-        <div className={styles.card} onClick={handleClick}>
+        <div className={styles.card}>
           {salePrice && <div className={styles.saleTag}>SALE!</div>}
           {!available && <div className={styles.outOfStock}>Hết hàng</div>}
           <div className={styles.img} style={{ background: `url('/api/product/image/${urlTitle}` }}></div>
@@ -36,6 +34,7 @@ export default function ProductCard({ price, salePrice, name, urlTitle, availabl
                   // marginBottom: '1em',
                 }}
                 disabled={available ? false : true}
+                onClick={(e): any => handleAddToCart(e)}
               >
                 THÊM VÀO GIỎ HÀNG
               </Button>

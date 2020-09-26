@@ -28,12 +28,14 @@
   }
 
   @include md-lg {
+    margin-top: 3em;
     .title {
       font-size: 1rem;
     }
   }
 
   @include md-down {
+    margin-top: 2em;
     .title {
       font-size: 1rem;
     }
