@@ -5,7 +5,7 @@ import styles from './Shop.module.scss';
 import axios from 'config/axios';
 import ProductCard from 'components/ProductCard';
 
-export default function Shop({ products }: any) {
+export default function Shop({ products, siteInfo }: any) {
   // console.log(products);
   const [items, setItems] = useState(products);
 
@@ -16,7 +16,7 @@ export default function Shop({ products }: any) {
   };
 
   return (
-    <MainLayout title="Cửa hàng">
+    <MainLayout title="Cửa hàng" contacts={siteInfo}>
       <GreenBackground name="Cửa hàng" breadcrumb="Trang chủ / Cửa hàng" />
       <div className={styles.selectWrapper}>
         <div className={styles.select}>
@@ -52,9 +52,11 @@ export default function Shop({ products }: any) {
 
 export async function getStaticProps() {
   const products = await axios.get('/products?limit=9&skip=0&sortBy=sold&order=desc');
+  const siteInfo = await axios.get('/site/info');
   return {
     props: {
       products: products.data.products,
+      siteInfo: siteInfo.data.site.siteInfo,
     },
     revalidate: 1,
   };

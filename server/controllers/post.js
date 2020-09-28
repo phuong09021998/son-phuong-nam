@@ -159,7 +159,7 @@ exports.getPosts = async (req, res) => {
         .sort([[sortBy, order]])
         .limit(limit)
         .skip(skip)
-        .select('-image -content')
+        .select('-image')
         .cache();
     }
 
@@ -204,6 +204,29 @@ exports.getPostImage = async (req, res) => {
     }
     res.set('Content-Type', postImg.image.contentType);
     return res.status(200).send(postImg.image.data);
+  } catch (error) {
+    return res.status(400).send({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+exports.getPostUrls = async (req, res) => {
+  const type = req.query.type;
+
+  try {
+    const urls = await Post.find({ publish: true, type }).select('urlTitle');
+    const paths = urls.map((url) => ({ params: { id: url.urlTitle } }));
+
+    if (!paths) {
+      throw new Error('No urls found.');
+    }
+
+    return res.status(200).send({
+      success: true,
+      paths,
+    });
   } catch (error) {
     return res.status(400).send({
       success: false,

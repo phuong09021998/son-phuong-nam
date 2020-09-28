@@ -7,7 +7,7 @@ import styles from './ProductDetail.module.scss';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
 
-export default function ShopItem({ productData }: any) {
+export default function ShopItem({ productData, siteInfo }: any) {
   const [openModal, setOpenModal] = useState(false);
 
   const customStyles = {
@@ -36,7 +36,7 @@ export default function ShopItem({ productData }: any) {
   };
   // console.log(productData);
   return (
-    <MainLayout title={productData.name}>
+    <MainLayout title={productData.name} contacts={siteInfo}>
       <GreenBackground name="Cửa hàng" breadcrumb={`Trang chủ / Cửa hàng / ${productData.name}`} />
       <div className={styles.productWrapper}>
         <div className={styles.imgWrapper}>
@@ -118,9 +118,12 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
   const productData = await axios.get(`/product/${params.id}`);
+  const siteInfo = await axios.get('/site/info');
+
   return {
     props: {
       productData: productData.data.product,
+      siteInfo: siteInfo.data.site.siteInfo,
     },
     revalidate: 1,
   };

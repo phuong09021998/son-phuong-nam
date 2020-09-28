@@ -190,8 +190,12 @@ exports.getProducts = async (req, res) => {
 
 exports.getProductUrls = async (req, res) => {
   try {
-    const urls = await Product.find().select('urlTitle');
+    const urls = await Product.find({ publish: true }).select('urlTitle');
     const paths = urls.map((url) => ({ params: { id: url.urlTitle } }));
+
+    if (!paths) {
+      throw new Error('No urls found.');
+    }
 
     return res.status(200).send({
       success: true,

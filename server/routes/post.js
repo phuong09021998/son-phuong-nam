@@ -2,12 +2,21 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middlewares/auth');
 const checkModerator = require('../middlewares/moderator');
-const { createPost, updatePost, getPost, deletePost, getPosts, getPostImage } = require('../controllers/post');
+const {
+  createPost,
+  updatePost,
+  getPost,
+  deletePost,
+  getPosts,
+  getPostImage,
+  getPostUrls,
+} = require('../controllers/post');
 
 // User routes
 router.get('/post/:postUrl', getPost);
 router.get('/posts', getPosts);
 router.get('/post/image/:postUrl', getPostImage);
+router.get('/posturls', getPostUrls);
 // Admin routes
 router.post('/post', auth, checkModerator, createPost);
 router.put('/post/:postId', auth, checkModerator, updatePost);

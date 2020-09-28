@@ -27,7 +27,7 @@ interface Props {
   formdata: FormElement;
   id: string;
   change(change: Change): void;
-  Prefix: any;
+  Prefix?: any;
   press?: any;
 }
 

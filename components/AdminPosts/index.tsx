@@ -173,6 +173,7 @@ function AdminPosts({
   const handleEdit = (e: any, urlTitle: string) => {
     const postsArr = Object.values(posts);
     const selectedPost: any = postsArr.find((post: any) => post.urlTitle === urlTitle);
+    console.log(selectedPost);
     setEdit({ active: true, status: selectedPost._id });
     setForm({
       ...form,
@@ -246,7 +247,6 @@ function AdminPosts({
       if (edit.active && edit.status === 'create') {
         createPost(dataToSubmit);
       } else {
-        console.log(dataToSubmit);
         updatePost({ ...dataToSubmit, id: edit.status });
       }
     } else {
