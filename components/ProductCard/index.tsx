@@ -3,15 +3,23 @@ import styles from './ProductCard.module.scss';
 // @ts-ignore
 import Fade from 'react-reveal/Fade';
 import Button from '@material-ui/core/Button';
+import { useRouter } from 'next/router';
 
 export default function ProductCard({ price, salePrice, name, urlTitle, available }: any) {
+  const router = useRouter();
   const handleAddToCart = (e: any) => {
     e.preventDefault();
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
     console.log('Add to cart');
   };
 
+  const handleClick = () => {
+    router.push(`/cua-hang/${urlTitle}`);
+  };
+
   return (
-    <div className={styles.cardWrapper}>
+    <div className={styles.cardWrapper} onClick={handleClick}>
       <Fade bottom>
         <div className={styles.card}>
           {salePrice && <div className={styles.saleTag}>SALE!</div>}

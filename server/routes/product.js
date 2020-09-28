@@ -9,11 +9,13 @@ const {
   deleteProduct,
   getProducts,
   getProductImage,
+  getProductUrls,
 } = require('../controllers/product');
 
 // User routes
 router.get('/product/:productUrl', getProduct);
 router.get('/products', getProducts);
+router.get('/producturls', getProductUrls);
 router.get('/product/image/:productUrl', getProductImage);
 // Admin routes
 router.post('/product', auth, checkModerator, createProduct);

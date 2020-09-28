@@ -6,7 +6,6 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      console.log(document.documentElement.scrollTop);
       if (document.documentElement.scrollTop > 100) {
         setShow(true);
       } else {

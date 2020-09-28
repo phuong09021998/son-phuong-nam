@@ -39,5 +39,6 @@ export async function getStaticProps() {
       projects: projects.data.posts,
       products: products.data.products,
     },
+    revalidate: 1,
   };
 }

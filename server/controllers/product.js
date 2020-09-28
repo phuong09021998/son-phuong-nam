@@ -187,3 +187,20 @@ exports.getProducts = async (req, res) => {
     });
   }
 };
+
+exports.getProductUrls = async (req, res) => {
+  try {
+    const urls = await Product.find().select('urlTitle');
+    const paths = urls.map((url) => ({ params: { id: url.urlTitle } }));
+
+    return res.status(200).send({
+      success: true,
+      paths,
+    });
+  } catch (error) {
+    return res.status(400).send({
+      success: false,
+      error: error.message,
+    });
+  }
+};

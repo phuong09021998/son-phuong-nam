@@ -1,48 +1,72 @@
 @import 'styles/variables.scss';
 @import 'styles/mixins.scss';
 
-.shopWrapper {
-  .blurBackgroundWrapper {
-    background-size: cover !important;
-    background-repeat: no-repeat !important;
-    // max-width: 75rem;
-    width: 100%;
-    height: 0;
-    padding-top: 40.3%;
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 75rem;
+  width: 100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+
+  & > div {
+    margin: 1em;
+  }
+}
+
+.selectWrapper {
+  max-width: 75rem;
+  width: 100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 3em 0;
+  // padding: 1em;
+  // text-align: right;
+  font-size: 0.9rem;
+
+  .select {
     position: relative;
+    background-color: blue;
+    width: 8rem;
+    left: 50%;
+    transform: translateX(-50%);
 
-    .blurBackground {
-      background-color: $green;
-      position: absolute;
-      opacity: 0.8;
-      top: 0;
-      left: 0;
+    select {
+      // height: 2rem;
+      border: 1px solid gray;
+      padding: 0.5em 2em 0.5em 1em;
+      background-color: white;
+      outline: none;
+      margin-right: 5%;
+      -moz-appearance: none; /* Firefox */
+      -webkit-appearance: none; /* Safari and Chrome */
+      appearance: none;
       width: 100%;
-      height: 0;
-      padding-top: 40.3%;
-    }
-    .wave {
-      position: absolute;
-      width: 100%;
-      left: 0;
-      transform: rotate(180deg);
-      bottom: 0;
-      opacity: 1 !important;
+      cursor: pointer;
     }
 
-    .name {
+    .arrow {
       position: absolute;
-      height: 100%;
-      width: 100%;
-      top: -3vw;
-      left: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3vw;
-      color: white;
-      font-weight: bold;
-      // padding-top: -3vw;
+      width: 1rem;
+
+      img {
+        width: 100%;
+      }
+
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
     }
+  }
+
+  @include md-xl {
+    font-size: 0.8rem;
+  }
+
+  @include md-down {
+    font-size: 0.75rem;
   }
 }
