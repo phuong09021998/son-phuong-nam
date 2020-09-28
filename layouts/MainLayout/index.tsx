@@ -5,7 +5,7 @@ import Head from 'next/head';
 import RegisterLogin from '../../components/LoginRegister';
 import ScrolToTop from 'components/ScrollToTop';
 
-export default function MainLayout({ children, title }: any) {
+export default function MainLayout({ children, title, contacts }: any) {
   return (
     <Fragment>
       <Head>
@@ -20,7 +20,7 @@ export default function MainLayout({ children, title }: any) {
       {children}
       <RegisterLogin />
       <ScrolToTop />
-      <Footer />
+      <Footer contacts={contacts} />
     </Fragment>
   );
 }

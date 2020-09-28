@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import styles from './Footer.module.scss';
 import { useMediaQuery } from 'react-responsive';
 
-export default function Footer() {
+export default function Footer({ contacts }: any) {
   const isSmallDevice: boolean = useMediaQuery({ query: '(max-width: 767px)' });
   const isMediumLargeDevice: boolean = useMediaQuery({
     query: '(min-width: 768px)',
@@ -21,25 +21,25 @@ export default function Footer() {
           <div className={styles.icon}>
             <img src="/icons/telephone.svg" alt="phone" />
           </div>
-          <div className={styles.text}>0908 108 690</div>
+          <div className={styles.text}>{contacts.phone}</div>
         </div>
         <div className={styles.contactItem}>
           <div className={styles.icon}>
             <img src="/icons/zalo.svg" alt="zalo" />
           </div>
-          <div className={styles.text}>0908 108 690</div>
+          <div className={styles.text}>{contacts.zalo}</div>
         </div>
         <div className={styles.contactItem}>
           <div className={styles.icon}>
             <img src="/icons/mail.svg" alt="email" />
           </div>
-          <div className={styles.text}>quanepoxy@gmail.com</div>
+          <div className={styles.text}>{contacts.gmail}</div>
         </div>
         <div className={styles.contactItem}>
           <div className={styles.icon}>
             <img src="/icons/facebook-2.svg" alt="facebook" />
           </div>
-          <div className={styles.text}>fb.com/epoxyphuongnam</div>
+          <div className={styles.text}>{contacts.facebook}</div>
         </div>
       </div>
     </footer>

@@ -12,11 +12,13 @@ interface Props {
   services: any;
   projects: any;
   products: any;
+  siteInfo: any;
 }
 
-export default function Home({ carousel, services, projects, products }: Props) {
+export default function Home({ carousel, services, projects, products, siteInfo }: Props) {
+  // console.log(siteInfo);
   return (
-    <PageLayout title="Công ty TNHH MTV Xây Dựng Sơn Phương Nam">
+    <PageLayout title="Công ty TNHH MTV Xây Dựng Sơn Phương Nam" contacts={siteInfo}>
       <HomeCarousel carousel={carousel} />
       <Services services={services} />
       <WhyUs />
@@ -32,12 +34,15 @@ export async function getStaticProps() {
   const services = await axios.get('/posts?type=service');
   const projects = await axios.get('/posts?type=project&sortBy=createdAt&limit=6&order=desc');
   const products = await axios.get('/products?limit=6&skip=0&sortBy=sold&order=desc');
+  const siteInfo = await axios.get('/site/info');
+
   return {
     props: {
       carousel: carousel.data.site.carousel,
       services: services.data.posts,
       projects: projects.data.posts,
       products: products.data.products,
+      siteInfo: siteInfo.data.site.siteInfo,
     },
     revalidate: 1,
   };
