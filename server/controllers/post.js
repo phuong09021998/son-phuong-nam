@@ -148,7 +148,7 @@ exports.getPosts = async (req, res) => {
 
   try {
     if (type) {
-      posts = await Post.find({ type })
+      posts = await Post.find({ type, publish: true })
         .sort([[sortBy, order]])
         .limit(limit)
         .skip(skip)
@@ -233,4 +233,15 @@ exports.getPostUrls = async (req, res) => {
       error: error.message,
     });
   }
+};
+
+exports.getPostRange = async (req, res) => {
+  const type = req.query.type;
+
+  const posts = await Post.find({ type });
+  const range = posts.length;
+  return res.status(200).send({
+    success: true,
+    range,
+  });
 };

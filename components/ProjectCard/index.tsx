@@ -5,11 +5,15 @@ import moment from 'moment';
 import Fade from 'react-reveal/Fade';
 import { useRouter } from 'next/router';
 
-export default function Card({ title, urlTitle, date, index }: any) {
+export default function Card({ title, urlTitle, date, type }: any) {
   const formatDate = moment(date).format('DD/MM/YYYY');
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/du-an/${urlTitle}`);
+    if (type === 'project') {
+      router.push(`/du-an/${urlTitle}`);
+    } else {
+      router.push(`/kien-thuc/${urlTitle}`);
+    }
   };
   return (
     <div className={styles.cardWrapper} onClick={handleClick}>
