@@ -208,3 +208,12 @@ exports.getProductUrls = async (req, res) => {
     });
   }
 };
+
+exports.getProductRange = async (req, res) => {
+  const products = await Product.find();
+  const range = products.length;
+  return res.status(200).send({
+    success: true,
+    range,
+  });
+};

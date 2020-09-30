@@ -1,19 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MainLayout from 'layouts/MainLayout';
 import GreenBackground from 'components/GreenBackground';
 import styles from './Shop.module.scss';
 import axios from 'config/axios';
 import ProductCard from 'components/ProductCard';
+import Pagination from '@material-ui/lab/Pagination';
 
-export default function Shop({ products, siteInfo }: any) {
-  // console.log(products);
+export default function Shop({ products, siteInfo, range }: any) {
+  console.log(range);
   const [items, setItems] = useState(products);
+  const [sortBy, setSortBy] = useState('createdAt');
+  const [currentPagination, setCurrentPagination] = useState(0);
+  const isFirstRun = useRef(true);
+  const count = Math.floor(range / 9 + 1);
 
   const handleSelectChange = (e: any) => {
-    axios
-      .get(`/products?limit=9&skip=0&sortBy=${e.target.value}&order=desc`)
-      .then((items) => setItems(items.data.products));
+    setSortBy(e.target.value);
   };
+
+  // @ts-ignore
+  const handlePagination = async (e: any, value: number) => {
+    setCurrentPagination(value - 1);
+  };
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    axios
+      .get(`/products?limit=9&sortBy=${sortBy}&order=desc&skip=${currentPagination * 9}`)
+      .then((items) => setItems(items.data.products));
+  }, [sortBy, currentPagination]);
 
   return (
     <MainLayout title="Cửa hàng" contacts={siteInfo}>
@@ -46,6 +64,9 @@ export default function Shop({ products, siteInfo }: any) {
           }
         })}
       </div>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Pagination count={count} color="secondary" onChange={handlePagination} />
+      </div>
     </MainLayout>
   );
 }
@@ -53,10 +74,13 @@ export default function Shop({ products, siteInfo }: any) {
 export async function getStaticProps() {
   const products = await axios.get('/products?limit=9&skip=0&sortBy=sold&order=desc');
   const siteInfo = await axios.get('/site/info');
+  const range = await axios.get('/productrange');
+
   return {
     props: {
       products: products.data.products,
       siteInfo: siteInfo.data.site.siteInfo,
+      range: range.data.range,
     },
     revalidate: 1,
   };
