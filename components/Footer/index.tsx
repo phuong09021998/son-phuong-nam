@@ -9,7 +9,7 @@ export default function Footer({ contacts }: any) {
   });
 
   const renderMediumLargeDeviceLayout = () => (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} id="footer">
       <div className={styles.copyRight}>
         <div className={styles.icon}>
           <img src="/icons/logo.svg" alt="logo" />
@@ -46,7 +46,7 @@ export default function Footer({ contacts }: any) {
   );
 
   const renderSmallDeviceLayout = () => (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} id="footer">
       <div className={styles.logo}>
         <div className={styles.logoWrapper}>
           <img src="/icons/logo.svg" alt="logo" />

@@ -1,0 +1,15 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.icon {
+  width: 5rem;
+  height: 5rem;
+  position: fixed;
+  right: 7%;
+  bottom: 5%;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+  }
+}

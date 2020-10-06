@@ -4,6 +4,7 @@ import Footer from '../../components/Footer';
 import Head from 'next/head';
 import RegisterLogin from '../../components/LoginRegister';
 import ScrolToTop from 'components/ScrollToTop';
+import ChatBubble from 'components/ChatBubble';
 
 export default function MainLayout({ children, title, contacts }: any) {
   return (
@@ -20,6 +21,7 @@ export default function MainLayout({ children, title, contacts }: any) {
       {children}
       <RegisterLogin />
       <ScrolToTop />
+      <ChatBubble />
       <Footer contacts={contacts} />
     </Fragment>
   );
