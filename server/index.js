@@ -1,20 +1,21 @@
-const server = require('./app');
+const { server, express } = require('./app');
 const next = require('next');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-// Db
-require('./db/redis');
-require('./db/mongoose');
+// Services
+require('./services/redis');
+require('./services/mongoose');
+require('./services/socketIO');
 
 const port = process.env.PORT || 3000;
 
 app
   .prepare()
   .then(() => {
-    server.get('*', (req, res) => {
+    express.get('*', (req, res) => {
       return handle(req, res);
     });
 

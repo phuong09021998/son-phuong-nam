@@ -1,6 +1,6 @@
 const transformToUrlTitle = require('../utils/transformToUrlTitle');
 const changeAlias = require('../utils/changeAlias');
-const { clearHash } = require('../db/redis');
+const { clearHash } = require('../services/redis');
 const Product = require('../models/Product');
 const formidable = require('formidable');
 const handleUploadImage = require('../utils/handleUploadImage');

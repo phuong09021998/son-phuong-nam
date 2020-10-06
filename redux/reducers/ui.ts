@@ -20,6 +20,12 @@ export default function ui(state = INITIAL_STATE, action: Action) {
         registerLogin: action.payload,
       };
     }
+    case Types.TOGGLE_CHAT_BUBBLE: {
+      return {
+        ...state,
+        openChatBubble: action.payload.isOpen,
+      };
+    }
     default: {
       return state;
     }

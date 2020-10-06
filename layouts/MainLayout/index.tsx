@@ -5,8 +5,9 @@ import Head from 'next/head';
 import RegisterLogin from '../../components/LoginRegister';
 import ScrolToTop from 'components/ScrollToTop';
 import ChatBubble from 'components/ChatBubble';
+import { connect } from 'react-redux';
 
-export default function MainLayout({ children, title, contacts }: any) {
+function MainLayout({ children, title, contacts, user }: any) {
   return (
     <Fragment>
       <Head>
@@ -21,8 +22,15 @@ export default function MainLayout({ children, title, contacts }: any) {
       {children}
       <RegisterLogin />
       <ScrolToTop />
-      <ChatBubble />
+
+      {(!user || user.role == 0) && <ChatBubble />}
       <Footer contacts={contacts} />
     </Fragment>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  user: state.users.data,
+});
+
+export default connect(mapStateToProps)(MainLayout);

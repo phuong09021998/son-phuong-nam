@@ -1,5 +1,6 @@
 export const Types = {
   TOGGLE_REGISTER_LOGIN: 'ui/toggle-register-login',
+  TOGGLE_CHAT_BUBBLE: 'ui/toggle-chat-bubble',
 };
 
 export const toggleRegisterLogin = (isOpen: boolean, status: string) => ({
@@ -7,5 +8,12 @@ export const toggleRegisterLogin = (isOpen: boolean, status: string) => ({
   payload: {
     isOpen,
     status,
+  },
+});
+
+export const toggleChatBubble = (isOpen: boolean) => ({
+  type: Types.TOGGLE_CHAT_BUBBLE,
+  payload: {
+    isOpen,
   },
 });

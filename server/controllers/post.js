@@ -1,7 +1,7 @@
 const Post = require('../models/Post');
 const transformToUrlTitle = require('../utils/transformToUrlTitle');
 const changeAlias = require('../utils/changeAlias');
-const { clearHash } = require('../db/redis');
+const { clearHash } = require('../services/redis');
 const handleUploadImage = require('../utils/handleUploadImage');
 const formidable = require('formidable');
 const fs = require('fs');
