@@ -9,6 +9,8 @@ import { toggleRegisterLogin } from 'redux/actions/ui';
 // @ts-ignore
 import io from 'socket.io-client';
 import scrollToBottom from 'components/utils/scrollBottom';
+import { message } from 'antd';
+import axios from 'config/axios';
 
 function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogin }: any) {
   const [input, setInput] = useState('');
@@ -40,7 +42,6 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
         sender: user.name,
         type: 'text',
         createdAt: Date.now(),
-        seen: false,
       });
       // @ts-ignore
       setInput('');
@@ -67,16 +68,28 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
     if (user) {
       socketRef.current = io('http://localhost:3000', { query: { roomId: user._id } });
 
-      // @ts-ignore
-      if (!messages.length) {
-        // @ts-ignore
-        socketRef.current.emit('Initialize Chat');
+      try {
+        axios.get('/messages').then((res) => {
+          if (res.data.messages.length) {
+            setMessages(res.data.messages);
+            // console.log(res.data.messages);
+          } else {
+            // @ts-ignore
+            socketRef.current.emit('Initialize Chat');
+          }
+        });
+      } catch (error) {
+        message.error(error.response.error);
       }
 
       // @ts-ignore
       socketRef.current.on('Chat Message', (msg: any) => {
         // @ts-ignore
         setMessages((oldMessages) => [...oldMessages, msg]);
+      });
+      // @ts-ignore
+      socketRef.current.on('Chat Error', (err: any) => {
+        message.error(err.response);
       });
     }
   }, [user]);

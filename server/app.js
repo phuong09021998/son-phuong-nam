@@ -10,6 +10,7 @@ const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const productRoutes = require('./routes/product');
 const siteRoutes = require('./routes/site');
+const messageRoutes = require('./routes/message');
 
 // Middleware
 express.use(bodyParser.json());
@@ -22,6 +23,7 @@ express.use('/api', userRoutes);
 express.use('/api', postRoutes);
 express.use('/api', productRoutes);
 express.use('/api', siteRoutes);
+express.use('/api', messageRoutes);
 
 const server = require('http').Server(express);
 

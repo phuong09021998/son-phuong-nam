@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 import Head from 'next/head';
 import RegisterLogin from '../../components/LoginRegister';
 import ScrolToTop from 'components/ScrollToTop';
-import ChatBubble from 'components/ChatBubble';
+import ChatBubble from 'components/ClientChatBubble';
 import { connect } from 'react-redux';
 
 function MainLayout({ children, title, contacts, user }: any) {
