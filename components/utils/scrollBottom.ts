@@ -1,7 +1,9 @@
 const scrollToBottom = () => {
   const textEl = document.getElementById('text');
   // @ts-ignore
-  textEl.scrollTop = textEl.scrollHeight;
+  if (textEl) {
+    textEl.scrollTop = textEl.scrollHeight;
+  }
 };
 
 export default scrollToBottom;

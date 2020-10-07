@@ -16,9 +16,12 @@ import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import Head from 'next/head';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, message } from 'antd';
 import { logOutUser } from 'redux/actions/users';
 import { useRouter } from 'next/router';
+import axios from 'config/axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import UserAvatar from 'components/UserAvatar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,13 +46,14 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
   const [currentActive, setCurrentActive] = useState('nontification');
   const classes = useStyles();
   const router = useRouter();
+  const [messages, setMessages] = useState([]);
 
   const handleLogOut = () => {
     router.push('/');
     logOutUser();
   };
 
-  const menu = (
+  const userDopdown = (
     <Menu>
       <Menu.Item>
         <div className={styles.logOut} style={{ textAlign: 'center' }} onClick={handleLogOut}>
@@ -59,13 +63,59 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
     </Menu>
   );
 
+  const messageDropdown = () => {
+    if (messages === null) {
+      return (
+        <div className={styles.messagesWrapper}>
+          <div className={styles.noMessage}>Không có tin nhắn nào</div>
+        </div>
+      );
+    } else if (!messages.length) {
+      return (
+        <div className={styles.messagesWrapper}>
+          <div className={styles.loading}>
+            <CircularProgress color="secondary" size={25} />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.messagesWrapper}>
+          {messages.map((message: any, i) => (
+            <div className={styles.messageItem} key={i}>
+              <div className={styles.avatar}>
+                {/* @ts-ignore */}
+                <UserAvatar userId={message.roomId} key={i} />
+              </div>
+              <div className={styles.rightMessage}>
+                <div className={styles.name}>{message.roomName}</div>
+                <div className={styles.message} style={message.seen ? { color: 'gray' } : null}>
+                  {message.sender === 'Admin' ? 'Bạn: ' : `${message.sender}: `}
+                  {message.message}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+  };
+
   const handleMenuClick = (e: any, currentActive: string) => {
     setCurrentActive(currentActive);
   };
 
   useEffect(() => {
     toggleRegisterLogin(false, 'none');
-  });
+    axios.get('/messages/admin').then((res) => {
+      if (res.data.lastChatMessages.length) {
+        setMessages(res.data.lastChatMessages);
+      } else {
+        // @ts-ignore
+        setMessages(null);
+      }
+    });
+  }, []);
 
   return (
     <React.Fragment>
@@ -181,7 +231,7 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
           <div className={styles.space}></div>
           <div className={styles.rightContent}>
             <div className={styles.top}>
-              <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']}>
+              <Dropdown overlay={userDopdown} placement="bottomCenter" trigger={['click']}>
                 <Button>
                   <div className={styles.topItem}>
                     <PersonIcon />
@@ -193,11 +243,14 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
                   <NotificationsIcon />
                 </div>
               </Button>
-              <Button>
-                <div className={styles.topItem}>
-                  <ModeCommentIcon />
-                </div>
-              </Button>
+              {/* @ts-ignore */}
+              <Dropdown overlay={messageDropdown} placement="bottomCenter" trigger={['click']}>
+                <Button>
+                  <div className={styles.topItem}>
+                    <ModeCommentIcon />
+                  </div>
+                </Button>
+              </Dropdown>
             </div>
             <hr />
             {currentActive === 'nontification' && <AdminNontification />}

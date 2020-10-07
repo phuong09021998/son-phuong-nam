@@ -24,6 +24,7 @@ const messageSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  roomName: String,
 });
 
 module.exports = mongoose.model('Message', messageSchema);

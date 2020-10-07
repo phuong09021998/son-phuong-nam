@@ -89,4 +89,3 @@ export const editUser = ({ id, fields }: SelectUser) => ({
     fields,
   },
 });
-
