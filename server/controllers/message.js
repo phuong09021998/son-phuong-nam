@@ -1,7 +1,7 @@
 const Message = require('../models/Message');
 
 exports.getMessages = async (req, res) => {
-  const roomId = req.user._id;
+  const roomId = req.body.roomId;
   try {
     const messages = await Message.find({ roomId }).sort([['createdAt', 'asc']]);
     return res.send({

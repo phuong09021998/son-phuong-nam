@@ -74,7 +74,7 @@ export const update = (element: any, formdata: Formdata, formName: string) => {
     newElement.value = element.event.target.value;
   }
 
-  if (element.blur || element.id === 'image' || element.id === 'content') {
+  if (element.blur || element.id === 'image' || element.id === 'content' || element.id === 'password') {
     const validData = validate(newElement, formdata);
     newElement.valid = validData[0] as boolean;
     newElement.validationMessage = validData[1] as string;

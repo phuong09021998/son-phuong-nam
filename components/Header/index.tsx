@@ -67,7 +67,6 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
     return (
       <div className={styles.avatarWrapper}>
         <div className={styles.avatar}>{setAvatar()}</div>
-        <div className={styles.name}>{user.name}</div>
         <div className={styles.down}>
           <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']}>
             <ExpandMoreIcon />

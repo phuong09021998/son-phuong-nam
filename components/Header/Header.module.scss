@@ -16,7 +16,7 @@
     }
 
     .avatarWrapper {
-      width: 15rem !important;
+      max-width: 15rem !important;
 
       .name {
         display: block !important;
@@ -301,6 +301,7 @@
             width: 60%;
           }
         }
+
         .loginRegister {
           .login {
             font-weight: bold;

@@ -13,20 +13,33 @@ export default function ChatWindow({
   handleTextChange,
   handleCloseChat,
   user,
+  isAdmin,
 }: any) {
   const renderChatMessages = () =>
     //@ts-ignore
     messages.map((item: any, i: number) => {
       if (item.type === 'text') {
-        return item.sender === 'Admin' ? (
-          <div className={styles.senderText} key={i}>
-            {item.message}
-          </div>
-        ) : (
-          <div className={styles.normalText} key={i}>
-            {item.message}
-          </div>
-        );
+        if (isAdmin) {
+          return item.sender === 'Admin' ? (
+            <div className={styles.normalText} key={i}>
+              {item.message}
+            </div>
+          ) : (
+            <div className={styles.senderText} key={i}>
+              {item.message}
+            </div>
+          );
+        } else {
+          return item.sender === 'Admin' ? (
+            <div className={styles.senderText} key={i}>
+              {item.message}
+            </div>
+          ) : (
+            <div className={styles.normalText} key={i}>
+              {item.message}
+            </div>
+          );
+        }
       }
     });
   return (
@@ -80,7 +93,7 @@ export default function ChatWindow({
                   }}
                 />
               </div>
-              <div className={styles.send}>
+              <div className={styles.send} onClick={handleSendMessage}>
                 <img src="/icons/send.svg" alt="send" />
               </div>
             </div>

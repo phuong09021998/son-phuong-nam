@@ -7,7 +7,6 @@ import { toggleRegisterLogin } from 'redux/actions/ui';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AdminNontification from 'components/AdminNontification';
-import AdminMessages from 'components/AdminMessages';
 import AdminUsers from 'components/AdminUsers';
 import AdminPosts from 'components/AdminPosts';
 import AdminProducts from 'components/AdminProducts';
@@ -16,12 +15,13 @@ import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import Head from 'next/head';
-import { Menu, Dropdown, message } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import { logOutUser } from 'redux/actions/users';
 import { useRouter } from 'next/router';
 import axios from 'config/axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import UserAvatar from 'components/UserAvatar';
+import AdminMessages from 'components/AdminMessages';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +46,6 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
   const [currentActive, setCurrentActive] = useState('nontification');
   const classes = useStyles();
   const router = useRouter();
-  const [messages, setMessages] = useState([]);
 
   const handleLogOut = () => {
     router.push('/');
@@ -63,58 +62,12 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
     </Menu>
   );
 
-  const messageDropdown = () => {
-    if (messages === null) {
-      return (
-        <div className={styles.messagesWrapper}>
-          <div className={styles.noMessage}>Không có tin nhắn nào</div>
-        </div>
-      );
-    } else if (!messages.length) {
-      return (
-        <div className={styles.messagesWrapper}>
-          <div className={styles.loading}>
-            <CircularProgress color="secondary" size={25} />
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className={styles.messagesWrapper}>
-          {messages.map((message: any, i) => (
-            <div className={styles.messageItem} key={i}>
-              <div className={styles.avatar}>
-                {/* @ts-ignore */}
-                <UserAvatar userId={message.roomId} key={i} />
-              </div>
-              <div className={styles.rightMessage}>
-                <div className={styles.name}>{message.roomName}</div>
-                <div className={styles.message} style={message.seen ? { color: 'gray' } : null}>
-                  {message.sender === 'Admin' ? 'Bạn: ' : `${message.sender}: `}
-                  {message.message}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-    }
-  };
-
   const handleMenuClick = (e: any, currentActive: string) => {
     setCurrentActive(currentActive);
   };
 
   useEffect(() => {
     toggleRegisterLogin(false, 'none');
-    axios.get('/messages/admin').then((res) => {
-      if (res.data.lastChatMessages.length) {
-        setMessages(res.data.lastChatMessages);
-      } else {
-        // @ts-ignore
-        setMessages(null);
-      }
-    });
   }, []);
 
   return (
@@ -244,17 +197,10 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
                 </div>
               </Button>
               {/* @ts-ignore */}
-              <Dropdown overlay={messageDropdown} placement="bottomCenter" trigger={['click']}>
-                <Button>
-                  <div className={styles.topItem}>
-                    <ModeCommentIcon />
-                  </div>
-                </Button>
-              </Dropdown>
+              <AdminMessages />
             </div>
             <hr />
             {currentActive === 'nontification' && <AdminNontification />}
-            {currentActive === 'messages' && <AdminMessages />}
             {currentActive === 'users' && user && user.role === 2 && <AdminUsers />}
             {currentActive === 'posts' && <AdminPosts />}
             {currentActive === 'products' && <AdminProducts />}

@@ -2,9 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './ChatBubble.module.scss';
 import { connect } from 'react-redux';
 import { toggleChatBubble } from 'redux/actions/ui';
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import Button from '@material-ui/core/Button';
 import { toggleRegisterLogin } from 'redux/actions/ui';
 import ChatWindow from '../ChatWindow';
 // @ts-ignore
@@ -38,12 +35,15 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
     if (input) {
       // @ts-ignore
       socketRef.current.emit('Chat Message', {
+        data: {
+          roomId: user._id,
+          message: input,
+          sender: user.name,
+          type: 'text',
+          createdAt: Date.now(),
+          roomName: user.name,
+        },
         roomId: user._id,
-        message: input,
-        sender: user.name,
-        type: 'text',
-        createdAt: Date.now(),
-        roomName: user.name,
       });
       // @ts-ignore
       setInput('');
@@ -52,10 +52,12 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
 
   useEffect(() => {
     if (user) {
-      socketRef.current = io('http://localhost:3000', { query: { roomId: user._id } });
+      socketRef.current = io();
+      // @ts-ignore
+      socketRef.current.emit('Join room', { roomId: user._id });
 
       try {
-        axios.get('/messages').then((res) => {
+        axios.post('/messages', { roomId: user._id }).then((res) => {
           if (res.data.messages.length) {
             setMessages(res.data.messages);
             // console.log(res.data.messages);

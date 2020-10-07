@@ -3,10 +3,11 @@ const io = require('socket.io')(server);
 const Message = require('../models/Message');
 
 io.on('connect', (socket) => {
-  const { roomId } = socket.handshake.query;
-  socket.join(roomId);
+  socket.on('Join room', ({ roomId }) => {
+    socket.join(roomId);
+  });
 
-  socket.on('Chat Message', (data) => {
+  socket.on('Chat Message', ({ data, roomId }) => {
     const message = new Message(data);
 
     try {

@@ -96,7 +96,7 @@ function Login({
 
     const dataToSubmit = generateData(form.formdata, 'login');
     const formIsValid = isFormValid(form.formdata, 'login');
-
+    // console.log(form.formdata);
     if (formIsValid) {
       loginUser(dataToSubmit);
       setWaiting(true);
