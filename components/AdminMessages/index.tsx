@@ -16,7 +16,7 @@ import moment from 'moment';
 
 function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
   const [messages, setMessages] = useState([]);
-  // const [isOnline, setOnline] = useState(false);
+  const [isOnline, setOnline] = useState(false);
   const [currentMessages, setCurrentMessages] = useState([]);
   const [currentRoomInfo, setCurrentRoomInfo] = useState({
     roomName: '',
@@ -37,10 +37,11 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
     // @ts-ignore
     socketRef.current.emit('Login', { userId: 'Admin' });
 
-    axios.get('/messages/admin').then((res) => {
+    axios.get('/messages/admin').then((res: any) => {
       if (res.data.lastChatMessages.length) {
         // setMessages(res.data.lastChatMessages);
         setMessages(sortMessages(res.data.lastChatMessages));
+        // @ts-ignore
       } else {
         // @ts-ignore
         setMessages(null);
@@ -50,20 +51,6 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
     socketRef.current.on('Chat Message', (data: any) => {
       // @ts-ignore
       setCurrentMessages((oldMessages) => [...oldMessages, data]);
-    });
-
-    // @ts-ignore
-    socketRef.current.on('Admin Last Messages', (data: any) => {
-      // @ts-ignore
-      const newMessages = messages.map((message: any) => {
-        if (message.roomId === data.roomId) {
-          return data;
-        } else {
-          return message;
-        }
-      });
-      // console.log(newMessages);
-      setMessages(sortMessages(newMessages));
     });
 
     // @ts-ignore
@@ -84,18 +71,24 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
     }
   }, [currentMessages, openChatWindow]);
 
-  const handleOpenWindowChat = (roomId: string) => {
-    axios.post('/messages', { roomId }).then((res) => {
-      // @ts-ignore
-      socketRef.current.emit('Join room', { roomId: res.data.messages[0].roomId });
-      setCurrentMessages(res.data.messages);
-      setCurrentRoomInfo({
-        roomId: res.data.messages[0].roomId,
-        roomName: res.data.messages[0].roomName,
-      });
-      toggleChatBubble(false);
-      toggleChatBubble(true);
+  const handleOpenWindowChat = (roomId: string, roomName: string) => {
+    // axios.post('/messages', { roomId }).then((res) => {
+    // @ts-ignore
+    socketRef.current.emit('Join room', { roomId });
+    setCurrentRoomInfo({
+      roomId: roomId,
+      roomName: roomName,
     });
+    // @ts-ignore
+    socketRef.current.emit('Set seen', { user: roomName, roomId });
+    toggleChatBubble(false);
+    toggleChatBubble(true);
+    // });
+  };
+
+  const handleSetSeen = () => {
+    // @ts-ignore
+    socketRef.current.emit('Set seen', { user: currentRoomInfo.roomName, roomId: currentRoomInfo.roomId });
   };
 
   const handleSendMessage = () => {
@@ -119,6 +112,34 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
     setInput(e.target.value);
   };
 
+  const handleLoadMessages = () => {
+    // console.log('load messages');
+    axios.get('/messages/admin').then((res: any) => {
+      if (res.data.lastChatMessages.length) {
+        // setMessages(res.data.lastChatMessages);
+        setMessages(sortMessages(res.data.lastChatMessages));
+        // @ts-ignore
+      } else {
+        // @ts-ignore
+        setMessages(null);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (currentRoomInfo.roomId && currentRoomInfo.roomName) {
+      // @ts-ignore
+      setOnline(activeUsers.includes(currentRoomInfo.roomId));
+      // @ts-ignore
+      socketRef.current.on('Set Seen', () => {
+        console.log(currentRoomInfo.roomId);
+        axios.post('/messages', { roomId: currentRoomInfo.roomId }).then((res) => {
+          setCurrentMessages(res.data.messages);
+        });
+      });
+    }
+  }, [currentRoomInfo, activeUsers]);
+
   const messageDropdown = () => {
     if (messages === null) {
       return (
@@ -138,15 +159,25 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       return (
         <div className={styles.messagesWrapper}>
           {messages.map((message: any, i) => (
-            <div className={styles.messageItem} key={i} onClick={() => handleOpenWindowChat(message.roomId)}>
+            <div
+              className={styles.messageItem}
+              key={i}
+              onClick={() => handleOpenWindowChat(message.roomId, message.roomName)}
+            >
               <div className={styles.avatar}>
                 {/* @ts-ignore */}
                 <UserAvatar userId={message.roomId} key={i} />
+                {/* @ts-ignore */}
+                {activeUsers.includes(message.roomId) && <div className={styles.dot}></div>}
               </div>
               <div className={styles.middleMessage}>
                 <div className={styles.name}>{message.roomName}</div>
                 {/* @ts-ignore */}
-                <div className={styles.message} style={message.seen ? { color: 'gray' } : null}>
+                <div
+                  className={styles.message}
+                  // @ts-ignore
+                  style={message.seen || message.sender === 'Admin' ? { color: 'gray' } : null}
+                >
                   {message.sender === 'Admin' ? 'Bạn: ' : `${message.sender}: `}
                   {message.message}
                 </div>
@@ -161,7 +192,7 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
   return (
     <>
       <Dropdown overlay={messageDropdown} placement="bottomCenter" trigger={['click']}>
-        <Button>
+        <Button onClick={() => handleLoadMessages()}>
           <div className={styles.topItem}>
             <ModeCommentIcon />
           </div>
@@ -178,7 +209,8 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
           messages={currentMessages}
           isAdmin={true}
           // @ts-ignore
-          isOnline={activeUsers.includes(currentMessages[0].roomId)}
+          isOnline={isOnline}
+          handleClick={handleSetSeen}
         />
       )}
     </>

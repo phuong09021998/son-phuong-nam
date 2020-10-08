@@ -47,6 +47,18 @@
 
     .avatar {
       margin-right: 1em;
+      position: relative;
+    }
+
+    .dot {
+      width: 1em;
+      height: 1em;
+      position: absolute;
+      // color: blue;
+      background-color: $green;
+      border-radius: 1em;
+      right: 0;
+      bottom: 0;
     }
 
     .middleMessage {
