@@ -132,7 +132,6 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       setOnline(activeUsers.includes(currentRoomInfo.roomId));
       // @ts-ignore
       socketRef.current.on('Set Seen', () => {
-        console.log(currentRoomInfo.roomId);
         axios.post('/messages', { roomId: currentRoomInfo.roomId }).then((res) => {
           setCurrentMessages(res.data.messages);
         });
