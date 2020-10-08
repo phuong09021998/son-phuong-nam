@@ -40,12 +40,17 @@
     margin: 0.2em 0;
     transition: 0.3s;
     cursor: pointer;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
 
     .avatar {
-      margin-right: 0.5em;
+      margin-right: 1em;
     }
 
-    .rightMessage {
+    .middleMessage {
+      flex-grow: 1;
       .name {
         font-size: 0.9rem;
         color: $blue;
@@ -53,7 +58,13 @@
 
       .message {
         font-size: 0.8rem;
+        position: absolute;
       }
+    }
+
+    .rightMessage {
+      font-size: 0.8rem;
+      color: gray;
     }
 
     &:hover {

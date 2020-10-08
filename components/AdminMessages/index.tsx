@@ -12,9 +12,11 @@ import scrollToBottom from 'components/utils/scrollBottom';
 import io from 'socket.io-client';
 import { toggleChatBubble } from 'redux/actions/ui';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
   const [messages, setMessages] = useState([]);
+  // const [isOnline, setOnline] = useState(false);
   const [currentMessages, setCurrentMessages] = useState([]);
   const [currentRoomInfo, setCurrentRoomInfo] = useState({
     roomName: '',
@@ -22,12 +24,23 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
   });
   const [input, setInput] = useState('');
   const socketRef = useRef();
+  const [activeUsers, setActiveUsers] = useState();
+
+  const sortMessages = (messages: any) => {
+    return messages.sort((a: any, b: any) => {
+      return b.createdAt - a.createdAt;
+    });
+  };
 
   useEffect(() => {
     socketRef.current = io();
+    // @ts-ignore
+    socketRef.current.emit('Login', { userId: 'Admin' });
+
     axios.get('/messages/admin').then((res) => {
       if (res.data.lastChatMessages.length) {
-        setMessages(res.data.lastChatMessages);
+        // setMessages(res.data.lastChatMessages);
+        setMessages(sortMessages(res.data.lastChatMessages));
       } else {
         // @ts-ignore
         setMessages(null);
@@ -37,6 +50,27 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
     socketRef.current.on('Chat Message', (data: any) => {
       // @ts-ignore
       setCurrentMessages((oldMessages) => [...oldMessages, data]);
+    });
+
+    // @ts-ignore
+    socketRef.current.on('Admin Last Messages', (data: any) => {
+      // @ts-ignore
+      const newMessages = messages.map((message: any) => {
+        if (message.roomId === data.roomId) {
+          return data;
+        } else {
+          return message;
+        }
+      });
+      // console.log(newMessages);
+      setMessages(sortMessages(newMessages));
+    });
+
+    // @ts-ignore
+    socketRef.current.on('Active Users', (data) => {
+      const dataArr = Object.values(data);
+      // @ts-ignore
+      setActiveUsers(dataArr);
     });
   }, []);
 
@@ -59,9 +93,11 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
         roomId: res.data.messages[0].roomId,
         roomName: res.data.messages[0].roomName,
       });
+      toggleChatBubble(false);
       toggleChatBubble(true);
     });
   };
+
   const handleSendMessage = () => {
     // @ts-ignore
     socketRef.current.emit('Chat Message', {
@@ -75,6 +111,7 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       },
       roomId: currentRoomInfo.roomId,
     });
+
     setInput('');
   };
 
@@ -106,7 +143,7 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
                 {/* @ts-ignore */}
                 <UserAvatar userId={message.roomId} key={i} />
               </div>
-              <div className={styles.rightMessage}>
+              <div className={styles.middleMessage}>
                 <div className={styles.name}>{message.roomName}</div>
                 {/* @ts-ignore */}
                 <div className={styles.message} style={message.seen ? { color: 'gray' } : null}>
@@ -114,6 +151,7 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
                   {message.message}
                 </div>
               </div>
+              <div className={styles.rightMessage}>{moment(message.createdAt).startOf('minute').fromNow()}</div>
             </div>
           ))}
         </div>
@@ -132,12 +170,15 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       {openChatWindow && (
         <ChatWindow
           user={true}
+          roomInfo={currentRoomInfo}
           handleSendMessage={handleSendMessage}
           input={input}
           handleTextChange={handleTextChange}
           handleCloseChat={handleCloseChat}
           messages={currentMessages}
           isAdmin={true}
+          // @ts-ignore
+          isOnline={activeUsers.includes(currentMessages[0].roomId)}
         />
       )}
     </>
