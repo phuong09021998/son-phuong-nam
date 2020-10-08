@@ -181,7 +181,9 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
                   {message.message}
                 </div>
               </div>
-              <div className={styles.rightMessage}>{moment(message.createdAt).startOf('minute').fromNow()}</div>
+              <div className={styles.rightMessage}>
+                {moment(message.createdAt).locale('vi').startOf('minute').fromNow()}
+              </div>
             </div>
           ))}
         </div>
