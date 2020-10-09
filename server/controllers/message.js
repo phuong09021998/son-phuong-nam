@@ -15,7 +15,7 @@ exports.getMessages = async (req, res) => {
 
 exports.getLastMessagesByAdmin = async (req, res) => {
   try {
-    const allChatRooms = await Message.find({ sender: { $ne: 'Admin' } }).distinct('roomId');
+    const allChatRooms = await Message.find().distinct('roomId');
     const lastChatMessages = await Promise.all(
       allChatRooms.map((room) => {
         return Message.find({ roomId: room })

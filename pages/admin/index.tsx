@@ -13,14 +13,9 @@ import AdminProducts from 'components/AdminProducts';
 import AdminOthers from 'components/AdminOthers';
 import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import Head from 'next/head';
 import { Menu, Dropdown } from 'antd';
 import { logOutUser } from 'redux/actions/users';
-import { useRouter } from 'next/router';
-import axios from 'config/axios';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import UserAvatar from 'components/UserAvatar';
 import AdminMessages from 'components/AdminMessages';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,11 +40,12 @@ interface Props {
 function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
   const [currentActive, setCurrentActive] = useState('nontification');
   const classes = useStyles();
-  const router = useRouter();
 
   const handleLogOut = () => {
-    router.push('/');
     logOutUser();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const userDopdown = (

@@ -25,6 +25,7 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
   const [input, setInput] = useState('');
   const socketRef = useRef();
   const [activeUsers, setActiveUsers] = useState();
+  const [openNontification, setOpenNontification] = useState(false);
 
   const sortMessages = (messages: any) => {
     return messages.sort((a: any, b: any) => {
@@ -41,6 +42,11 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       if (res.data.lastChatMessages.length) {
         // setMessages(res.data.lastChatMessages);
         setMessages(sortMessages(res.data.lastChatMessages));
+        res.data.lastChatMessages.map((message: any) => {
+          if (!message.seen) {
+            setOpenNontification(true);
+          }
+        });
         // @ts-ignore
       } else {
         // @ts-ignore
@@ -58,6 +64,11 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       const dataArr = Object.values(data);
       // @ts-ignore
       setActiveUsers(dataArr);
+    });
+
+    // @ts-ignore
+    socketRef.current.on('Admin Last Messages', (data) => {
+      if (data.sender !== 'Admin') setOpenNontification(true);
     });
   }, []);
 
@@ -114,6 +125,7 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
 
   const handleLoadMessages = () => {
     // console.log('load messages');
+    setOpenNontification(false);
     axios.get('/messages/admin').then((res: any) => {
       if (res.data.lastChatMessages.length) {
         // setMessages(res.data.lastChatMessages);
@@ -138,6 +150,17 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       });
     }
   }, [currentRoomInfo, activeUsers]);
+
+  // useEffect(() => {
+  //   if (messages) {
+  //     console.log(messages);
+  //     messages.map((message: any) => {
+  //       if (!message.seen) {
+  //         setOpenNontification(true);
+  //       }
+  //     });
+  //   }
+  // }, [messages]);
 
   const messageDropdown = () => {
     if (messages === null) {
@@ -196,6 +219,7 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
         <Button onClick={() => handleLoadMessages()}>
           <div className={styles.topItem}>
             <ModeCommentIcon />
+            {openNontification && <div className={styles.dot}></div>}
           </div>
         </Button>
       </Dropdown>

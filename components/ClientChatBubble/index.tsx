@@ -13,10 +13,15 @@ import axios from 'config/axios';
 function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogin }: any) {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
+  const [isOnline, setOnline] = useState(false);
   const socketRef = useRef();
 
   const handleOpenChat = () => {
     toggleChatBubble(true);
+    if (user) {
+      // @ts-ignore
+      socketRef.current.emit('Set seen', { user: 'Admin', roomId: user._id });
+    }
   };
 
   const handleCloseChat = () => {
@@ -51,8 +56,11 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
   };
 
   useEffect(() => {
+    socketRef.current = io();
+
     if (user) {
-      socketRef.current = io();
+      // @ts-ignore
+      socketRef.current.emit('Login', { userId: user._id });
       // @ts-ignore
       socketRef.current.emit('Join room', { roomId: user._id });
 
@@ -63,9 +71,7 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
             // console.log(res.data.messages);
           } else {
             // @ts-ignore
-            setMessages([]);
-            // @ts-ignore
-            socketRef.current.emit('Initialize Chat');
+            socketRef.current.emit('Initialize Chat', { roomId: user._id, roomName: user.name });
           }
         });
       } catch (error) {
@@ -81,10 +87,31 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
       socketRef.current.on('Chat Error', (err: any) => {
         message.error(err.response);
       });
+
+      // @ts-ignore
+      socketRef.current.on('Active Users', (data) => {
+        const dataArr = Object.values(data);
+        if (dataArr.includes('Admin')) {
+          setOnline(true);
+        } else {
+          setOnline(false);
+        }
+      });
+      // @ts-ignore
+      socketRef.current.on('Set Seen', () => {
+        axios.post('/messages', { roomId: user._id }).then((res) => {
+          setMessages(res.data.messages);
+        });
+      });
     } else {
       toggleChatBubble(false);
     }
   }, [user]);
+
+  const handleSetSeen = () => {
+    // @ts-ignore
+    socketRef.current.emit('Set seen', { user: 'Admin', roomId: user._id });
+  };
 
   useEffect(() => {
     if (openChatBubble) {
@@ -103,6 +130,9 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
           handleTextChange={handleTextChange}
           handleCloseChat={handleCloseChat}
           messages={messages}
+          isOnline={isOnline}
+          roomInfo={true}
+          handleClick={handleSetSeen}
         />
       ) : (
         <div className={styles.icon} onClick={handleOpenChat}>

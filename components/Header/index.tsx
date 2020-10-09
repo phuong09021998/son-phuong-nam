@@ -32,6 +32,9 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
 
   const handleLogOut = () => {
     logOutUser();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const renderTopMenu = () => (

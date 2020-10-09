@@ -1,9 +1,12 @@
 import React from 'react';
 // import { toggleChatBubble } from 'redux/actions/ui';
-import { Avatar } from 'antd';
+import { Avatar, message } from 'antd';
 import styles from './ChatWindow.module.scss';
 import { UserOutlined } from '@ant-design/icons';
 import Button from '@material-ui/core/Button';
+import UserAvatar from 'components/UserAvatar';
+import _ from 'lodash';
+import moment from 'moment';
 
 export default function ChatWindow({
   messages,
@@ -14,58 +17,108 @@ export default function ChatWindow({
   handleCloseChat,
   user,
   isAdmin,
+  isOnline,
+  roomInfo,
+  handleClick,
 }: any) {
+  // @ts-ignore
+  let lastSeenIndex: number;
+  if (isAdmin && messages.length) {
+    if (messages[messages.length - 1].sender === 'Admin') {
+      // @ts-ignore
+      lastSeenIndex = _.findLastIndex(messages, (message) => message.seen && message.sender === 'Admin');
+    }
+  } else if (!isAdmin && messages.length) {
+    if (messages[messages.length - 1].sender !== 'Admin') {
+      // @ts-ignore
+      lastSeenIndex = _.findLastIndex(messages, (message) => message.seen && message.sender !== 'Admin');
+    }
+  }
+
+  const renderTime = (i: number) => {
+    if (i !== 0) {
+      if (messages[i].createdAt - messages[i - 1].createdAt > 120000) {
+        return (
+          <div className={styles.time}>{moment(messages[i].createdAt).locale('vi').startOf('minute').fromNow()}</div>
+        );
+      }
+    } else {
+      return (
+        <div className={styles.time}>{moment(messages[i].createdAt).locale('vi').startOf('minute').fromNow()}</div>
+      );
+    }
+  };
+
   const renderChatMessages = () =>
-    //@ts-ignore
     messages.map((item: any, i: number) => {
       if (item.type === 'text') {
         if (isAdmin) {
           return item.sender === 'Admin' ? (
-            <div className={styles.normalText} key={i}>
-              {item.message}
+            <div key={i}>
+              {renderTime(i)}
+              <div className={styles.normalText}>{item.message}</div>
+              {lastSeenIndex === i && <div className={styles.seen}> ✓ Đã xem</div>}
             </div>
           ) : (
-            <div className={styles.senderText} key={i}>
-              {item.message}
+            <div key={i}>
+              {renderTime(i)}
+              <div className={styles.senderText}>{item.message}</div>
             </div>
           );
         } else {
           return item.sender === 'Admin' ? (
-            <div className={styles.senderText} key={i}>
-              {item.message}
+            <div key={i}>
+              {renderTime(i)}
+              <div className={styles.senderText}>{item.message}</div>
             </div>
           ) : (
-            <div className={styles.normalText} key={i}>
-              {item.message}
+            <div key={i}>
+              {renderTime(i)}
+              <div className={styles.normalText}>{item.message}</div>
+              {lastSeenIndex === i && <div className={styles.seen}> ✓ Đã xem</div>}
             </div>
           );
         }
       }
     });
   return (
-    <div className={styles.chatWrapper}>
+    <div className={styles.chatWrapper} onClick={handleClick}>
       <div className={styles.top}>
         <div className={styles.admin}>
           <div className={styles.leftAdmin}>
-            <div className={styles.avatar}>
-              <Avatar
-                style={{
-                  backgroundColor: '#e91e63',
-                  width: '3rem',
-                  height: '3rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.5rem',
-                }}
-                icon={<UserOutlined />}
-              />
-            </div>
+            {typeof roomInfo === 'boolean' ? (
+              <div className={styles.avatar}>
+                <Avatar
+                  style={{
+                    backgroundColor: '#e91e63',
+                    width: '3rem',
+                    height: '3rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.5rem',
+                  }}
+                  icon={<UserOutlined />}
+                />
+              </div>
+            ) : (
+              // @ts-ignore
+              <UserAvatar userId={roomInfo.roomId} />
+            )}
+
             <div className={styles.dot}></div>
           </div>
           <div className={styles.rightAdmin}>
-            <div className={styles.name}>Admin</div>
-            <div className={styles.status}>online</div>
+            {typeof roomInfo === 'boolean' ? (
+              <div className={styles.name}>Admin</div>
+            ) : (
+              <div className={styles.name}>{roomInfo.roomName}</div>
+            )}
+            {isOnline ? (
+              <div className={styles.status}>online</div>
+            ) : (
+              <div className={styles.statusOffline}>offline</div>
+            )}
           </div>
         </div>
         <div className={styles.close} onClick={handleCloseChat}>

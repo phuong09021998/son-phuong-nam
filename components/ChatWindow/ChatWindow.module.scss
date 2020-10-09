@@ -17,7 +17,9 @@
 
   @keyframes zoom {
     from {
-      transform: scale(0.1);
+      transform: scale(0.3);
+      bottom: -50%;
+      transfrom: translateY(-50%);
     }
     to {
       transform: scale(1);
@@ -51,6 +53,11 @@
           font-size: 0.8rem;
           color: $green;
         }
+
+        .statusOffline {
+          font-size: 0.8rem;
+          color: gray;
+        }
       }
     }
 
@@ -71,6 +78,7 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none;
     padding: 0 1em;
+    padding-bottom: 1em !important;
 
     &::-webkit-scrollbar {
       display: none;
@@ -81,21 +89,67 @@
       color: white;
       max-width: 60%;
       padding: 0.5em;
-      border-radius: 0.2em;
+      // border-radius: 0.2em;
       margin: 1em 0;
-      display: table;
+      overflow-wrap: break-word;
+      display: block;
+      width: fit-content;
+      position: relative;
+    }
+
+    .time {
+      font-size: 0.75rem;
+      color: gray;
+      text-align: center;
+      margin-top: 3em;
+      position: relative;
+      height: 0.5em;
     }
 
     .normalText {
       @extend .text;
       background-color: lighten($blue, 10%);
-      margin-right: auto;
+      margin-left: auto;
+      border-radius: 0.2em 0.2em 0 0.2em;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: -0.3em;
+        border-top: 0.3em solid transparent;
+        // border-top-color: blue;
+        border-left: 0.3em solid $blue;
+        border-right: 0.3 solid transparen;
+      }
+    }
+
+    .seen {
+      text-align: right;
+      font-size: 0.8em;
+      position: relative;
+      height: 0;
+      color: gray;
+      background-color: yellow;
+      transform: translateY(-1em);
+      // position: absolute;
     }
 
     .senderText {
       @extend .text;
       background-color: lighten($pink, 10%);
-      margin-left: auto;
+      margin-right: auto;
+      border-radius: 0.2em 0.2em 0.2em 0;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -0.3em;
+        border-bottom: 0.3em solid $pink;
+        border-left: 0.3em solid transparent;
+        border-right: 0.3 solid $pink;
+      }
     }
   }
 
