@@ -1,6 +1,6 @@
 import React from 'react';
 // import { toggleChatBubble } from 'redux/actions/ui';
-import { Avatar, message } from 'antd';
+import { Avatar } from 'antd';
 import styles from './ChatWindow.module.scss';
 import { UserOutlined } from '@ant-design/icons';
 import Button from '@material-ui/core/Button';
@@ -13,8 +13,6 @@ export default function ChatWindow({
   messages,
   handleOpenLogin,
   handleSendMessage,
-  input,
-  handleTextChange,
   handleCloseChat,
   user,
   isAdmin,
@@ -153,14 +151,14 @@ export default function ChatWindow({
                 <img src="/icons/send.svg" alt="send" />
               </div>
             </div>
-            <div className={styles.attachWrapper}>
+            {/* <div className={styles.attachWrapper}>
               <div className={styles.attachItem}>
                 <img src="/icons/smile.svg" alt="smile" />
               </div>
               <div className={styles.attachItem}>
                 <img src="/icons/picture.svg" alt="pucture" />
               </div>
-            </div>
+            </div> */}
           </div>
         </>
       ) : (
