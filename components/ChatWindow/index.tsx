@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import UserAvatar from 'components/UserAvatar';
 import _ from 'lodash';
 import moment from 'moment';
+import InputEmoji from 'components/EmojiInput';
 
 export default function ChatWindow({
   messages,
@@ -134,7 +135,7 @@ export default function ChatWindow({
           <div className={styles.bottom}>
             <div className={styles.inputWrapper}>
               <div className={styles.input}>
-                <input
+                {/* <input
                   value={input}
                   onChange={handleTextChange}
                   type="text"
@@ -144,7 +145,9 @@ export default function ChatWindow({
                       handleSendMessage();
                     }
                   }}
-                />
+                /> */}
+                {/* @ts-ignore */}
+                <InputEmoji cleanOnEnter onEnter={handleSendMessage} placeholder="Nhập tin nhắn" />
               </div>
               <div className={styles.send} onClick={handleSendMessage}>
                 <img src="/icons/send.svg" alt="send" />

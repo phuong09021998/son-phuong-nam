@@ -22,7 +22,6 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
     roomName: '',
     roomId: '',
   });
-  const [input, setInput] = useState('');
   const socketRef = useRef();
   const [activeUsers, setActiveUsers] = useState();
   const [openNontification, setOpenNontification] = useState(false);
@@ -42,11 +41,12 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       if (res.data.lastChatMessages.length) {
         // setMessages(res.data.lastChatMessages);
         setMessages(sortMessages(res.data.lastChatMessages));
-        res.data.lastChatMessages.map((message: any) => {
-          if (!message.seen) {
-            setOpenNontification(true);
-          }
-        });
+        if (
+          !res.data.lastChatMessages[res.data.lastChatMessages.length - 1].seen &&
+          res.data.lastChatMessages[res.data.lastChatMessages.length - 1].sender !== 'Admin'
+        ) {
+          setOpenNontification(true);
+        }
         // @ts-ignore
       } else {
         // @ts-ignore
@@ -100,27 +100,24 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
   const handleSetSeen = () => {
     // @ts-ignore
     socketRef.current.emit('Set seen', { user: currentRoomInfo.roomName, roomId: currentRoomInfo.roomId });
+    setOpenNontification(false);
   };
 
-  const handleSendMessage = () => {
-    // @ts-ignore
-    socketRef.current.emit('Chat Message', {
-      data: {
+  const handleSendMessage = (text: any) => {
+    if (text) {
+      // @ts-ignore
+      socketRef.current.emit('Chat Message', {
+        data: {
+          roomId: currentRoomInfo.roomId,
+          message: text,
+          sender: 'Admin',
+          type: 'text',
+          createdAt: Date.now(),
+          roomName: currentRoomInfo.roomName,
+        },
         roomId: currentRoomInfo.roomId,
-        message: input,
-        sender: 'Admin',
-        type: 'text',
-        createdAt: Date.now(),
-        roomName: currentRoomInfo.roomName,
-      },
-      roomId: currentRoomInfo.roomId,
-    });
-
-    setInput('');
-  };
-
-  const handleTextChange = (e: any) => {
-    setInput(e.target.value);
+      });
+    }
   };
 
   const handleLoadMessages = () => {
@@ -150,17 +147,6 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       });
     }
   }, [currentRoomInfo, activeUsers]);
-
-  // useEffect(() => {
-  //   if (messages) {
-  //     console.log(messages);
-  //     messages.map((message: any) => {
-  //       if (!message.seen) {
-  //         setOpenNontification(true);
-  //       }
-  //     });
-  //   }
-  // }, [messages]);
 
   const messageDropdown = () => {
     if (messages === null) {
@@ -228,8 +214,6 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
           user={true}
           roomInfo={currentRoomInfo}
           handleSendMessage={handleSendMessage}
-          input={input}
-          handleTextChange={handleTextChange}
           handleCloseChat={handleCloseChat}
           messages={currentMessages}
           isAdmin={true}

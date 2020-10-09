@@ -11,7 +11,6 @@ import { message } from 'antd';
 import axios from 'config/axios';
 
 function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogin }: any) {
-  const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [isOnline, setOnline] = useState(false);
   const socketRef = useRef();
@@ -28,21 +27,17 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
     toggleChatBubble(false);
   };
 
-  const handleTextChange = (e: any) => {
-    setInput(e.target.value);
-  };
-
   const handleOpenLogin = () => {
     toggleRegisterLogin(true, 'login');
   };
 
-  const handleSendMessage = () => {
-    if (input) {
+  const handleSendMessage = (text: any) => {
+    if (text) {
       // @ts-ignore
       socketRef.current.emit('Chat Message', {
         data: {
           roomId: user._id,
-          message: input,
+          message: text,
           sender: user.name,
           type: 'text',
           createdAt: Date.now(),
@@ -51,7 +46,6 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
         roomId: user._id,
       });
       // @ts-ignore
-      setInput('');
     }
   };
 
@@ -109,8 +103,10 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
   }, [user]);
 
   const handleSetSeen = () => {
-    // @ts-ignore
-    socketRef.current.emit('Set seen', { user: 'Admin', roomId: user._id });
+    if (user) {
+      // @ts-ignore
+      socketRef.current.emit('Set seen', { user: 'Admin', roomId: user._id });
+    }
   };
 
   useEffect(() => {
@@ -126,8 +122,6 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
           user={user}
           handleOpenLogin={handleOpenLogin}
           handleSendMessage={handleSendMessage}
-          input={input}
-          handleTextChange={handleTextChange}
           handleCloseChat={handleCloseChat}
           messages={messages}
           isOnline={isOnline}

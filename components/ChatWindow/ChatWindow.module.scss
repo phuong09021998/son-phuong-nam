@@ -108,7 +108,7 @@
 
     .normalText {
       @extend .text;
-      background-color: lighten($blue, 10%);
+      background-color: lighten($pink, 10%);
       margin-left: auto;
       border-radius: 0.2em 0.2em 0 0.2em;
 
@@ -119,7 +119,7 @@
         right: -0.3em;
         border-top: 0.3em solid transparent;
         // border-top-color: blue;
-        border-left: 0.3em solid $blue;
+        border-left: 0.3em solid lighten($pink, 10%);
         border-right: 0.3 solid transparen;
       }
     }
@@ -137,7 +137,7 @@
 
     .senderText {
       @extend .text;
-      background-color: lighten($pink, 10%);
+      background-color: lighten(gray, 20%);
       margin-right: auto;
       border-radius: 0.2em 0.2em 0.2em 0;
 
@@ -146,9 +146,9 @@
         position: absolute;
         bottom: 0;
         left: -0.3em;
-        border-bottom: 0.3em solid $pink;
+        border-bottom: 0.3em solid lighten(gray, 20%);
         border-left: 0.3em solid transparent;
-        border-right: 0.3 solid $pink;
+        border-right: 0.3 solid lighten(gray, 20%);
       }
     }
   }
