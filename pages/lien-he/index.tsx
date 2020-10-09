@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MainLayout from 'layouts/MainLayout';
 import axios from 'config/axios';
 import styles from './AboutUs.module.scss';
 import Button from '@material-ui/core/Button';
+import { toggleChatBubble } from 'redux/actions/ui';
+import { connect } from 'react-redux';
 
-export default function Service({ siteInfo }: any) {
+function ContactUs({ siteInfo, toggleChatBubble }: any) {
   return (
     <MainLayout title="Liên Hệ" contacts={siteInfo}>
       <div className={styles.map}>
@@ -23,7 +25,11 @@ export default function Service({ siteInfo }: any) {
           <img src="/icons/chat.svg" alt="chat" />
         </div>
         <div className={styles.button}>
-          <Button style={{ backgroundColor: '#318fb5', color: 'white' }} variant="contained">
+          <Button
+            style={{ backgroundColor: '#318fb5', color: 'white' }}
+            variant="contained"
+            onClick={() => toggleChatBubble(true)}
+          >
             Chat với chúng tôi ngay
           </Button>
         </div>
@@ -75,3 +81,5 @@ export async function getStaticProps() {
     revalidate: 1,
   };
 }
+
+export default connect(null, { toggleChatBubble })(ContactUs);

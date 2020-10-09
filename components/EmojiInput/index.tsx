@@ -474,14 +474,6 @@ function InputEmoji(
       >
         <img src="/icons/smile.svg" alt="smile" style={{ width: '1.5em' }} />
       </button>
-      <button
-        className={`react-input-emoji--button${showPicker ? ' react-input-emoji--button__show' : ''}`}
-        onClick={() => {
-          console.log('upload image');
-        }}
-      >
-        <img src="/icons/picture.svg" alt="image" style={{ width: '1.5em' }} />
-      </button>
       {showPicker && <div className="react-input-emoji--overlay" onClick={toggleShowPicker} />}
     </div>
   );

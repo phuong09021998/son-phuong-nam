@@ -41,12 +41,11 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
       if (res.data.lastChatMessages.length) {
         // setMessages(res.data.lastChatMessages);
         setMessages(sortMessages(res.data.lastChatMessages));
-        if (
-          !res.data.lastChatMessages[res.data.lastChatMessages.length - 1].seen &&
-          res.data.lastChatMessages[res.data.lastChatMessages.length - 1].sender !== 'Admin'
-        ) {
-          setOpenNontification(true);
-        }
+        res.data.lastChatMessages.map((message: any) => {
+          if (!message.seen && message.sender !== 'Admin') {
+            setOpenNontification(true);
+          }
+        });
         // @ts-ignore
       } else {
         // @ts-ignore
