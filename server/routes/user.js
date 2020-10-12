@@ -18,6 +18,7 @@ const {
   createUserByAdmin,
   loginByGoogle,
   loginByFacebook,
+  addToCart,
 } = require('../controllers/user');
 
 // User routes
@@ -25,6 +26,7 @@ router.get('/user', auth, readUser);
 router.get('/user/avatar', auth, getAvatar);
 router.post('/user', createUser);
 router.post('/user/login', loginUser);
+router.post('/user/cart', auth, addToCart);
 router.put('/user', auth, updateUser);
 router.get('/user/logout', auth, logoutUser);
 router.post('/user/login/google', loginByGoogle);

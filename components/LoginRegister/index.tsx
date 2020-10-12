@@ -19,7 +19,7 @@ function LoginRegister({ registerLogin, toggleRegisterLogin }: Props) {
   };
 
   return (
-    <Drawer placement="right" closable={false} onClose={onClose} visible={registerLogin.isOpen} width={400}>
+    <Drawer placement="right" closable={false} onClose={onClose} visible={registerLogin.isOpen} width={320}>
       <div className={styles.drawer}>
         {registerLogin.status === 'login' && <Login close={onClose} />}
         {/* {registerLogin.status === 'register' && <div>I'm a register</div>} */}

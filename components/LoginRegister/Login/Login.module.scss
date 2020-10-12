@@ -9,12 +9,12 @@
     font-weight: bold;
     text-align: center;
     color: white;
-    margin-top: 10em;
+    margin-top: 5em;
     margin-bottom: 1em;
   }
 
   form {
-    padding: 0 5em;
+    padding: 0 3em;
     position: relative;
 
     .forgetPass {
@@ -118,12 +118,44 @@
   }
 
   .close {
-    width: 2.5rem;
+    width: 2.2rem;
     cursor: pointer;
-    margin: 15em 0 0 5em;
+
+    visibility: hidden;
+    opacity: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3em;
+    position: relative;
 
     img {
       width: 100%;
+    }
+  }
+
+  @include md-xl {
+    .title {
+      margin-top: 5em;
+    }
+
+    .thirdAuthen {
+      margin-top: 3em;
+    }
+  }
+
+  @include md-down {
+    .title {
+      margin-top: 2em;
+    }
+    .thirdAuthen {
+      margin-top: 3em;
+    }
+  }
+
+  @include only-sm {
+    .close {
+      visibility: visible;
+      opacity: 1;
     }
   }
 }

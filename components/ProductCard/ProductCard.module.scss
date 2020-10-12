@@ -79,6 +79,17 @@
 
     .button {
       display: block !important;
+
+      .buttonContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 1.5rem;
+          margin-left: 0.5em;
+        }
+      }
     }
   }
 

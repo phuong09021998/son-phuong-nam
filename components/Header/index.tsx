@@ -117,19 +117,22 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
         </Link>
       </div>
       <div className={styles.right}>
-        <div className={styles.cart}>
+        {/* <div className={styles.cart}>
           <img src="/icons/shopping-cart.svg" alt="cart" />
-        </div>
+        </div> */}
         {user ? (
           renderAvatar()
         ) : (
           <header className={styles.loginRegister}>
             <div className={styles.login} onClick={handleOpenLogin}>
-              ĐĂNG NHẬP
+              <div className={styles.icon}>
+                <img src="/icons/login.svg" alt="login"/>
+              </div>
+              <div className={styles.text}>ĐĂNG NHẬP</div>
             </div>
-            <div className={styles.register} onClick={handleOpenRegister}>
+            {/* <div className={styles.register} onClick={handleOpenRegister}>
               hoặc <span>đăng ký</span>
-            </div>
+            </div> */}
           </header>
         )}
       </div>
@@ -151,19 +154,22 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
           </div>
         </Link>
         <div className={styles.right}>
-          <div className={styles.cart}>
+          {/* <div className={styles.cart}>
             <img src="/icons/shopping-cart.svg" alt="cart" />
-          </div>
+          </div> */}
           {user ? (
             renderAvatar()
           ) : (
             <div className={styles.loginRegister}>
               <div className={styles.login} onClick={handleOpenLogin}>
-                ĐĂNG NHẬP
+                <div className={styles.icon}>
+                  <img src="/icons/login.svg" alt="login"/>
+                </div>
+                <div className={styles.text}>ĐĂNG NHẬP</div>
               </div>
-              <div className={styles.register} onClick={handleOpenRegister}>
+              {/* <div className={styles.register} onClick={handleOpenRegister}>
                 hoặc <span>đăng ký</span>
-              </div>
+              </div> */}
             </div>
           )}
         </div>

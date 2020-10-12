@@ -4,14 +4,18 @@ import styles from './ProductCard.module.scss';
 import Fade from 'react-reveal/Fade';
 import Button from '@material-ui/core/Button';
 import { useRouter } from 'next/router';
+// @ts-ignore
+import currencyFormatter from 'currency-formatter'
+import { toggleChatBubble } from 'redux/actions/ui';
+import { connect } from 'react-redux';
 
-export default function ProductCard({ price, salePrice, name, urlTitle, available }: any) {
+function ProductCard({ price, salePrice, name, urlTitle, available, toggleChatBubble }: any) {
   const router = useRouter();
   const handleAddToCart = (e: any) => {
     e.preventDefault();
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
-    console.log('Add to cart');
+    toggleChatBubble(true)
   };
 
   const handleClick = () => {
@@ -27,11 +31,11 @@ export default function ProductCard({ price, salePrice, name, urlTitle, availabl
           <div className={styles.img} style={{ background: `url('/api/product/image/${urlTitle}` }}></div>
           <div className={styles.content}>
             <div className={styles.title}>{name}</div>
-            {salePrice && <div className={styles.originalPrice}>{price} đ</div>}
+            {salePrice && <div className={styles.originalPrice}>{currencyFormatter.format(price, {code: 'VND'})}</div>}
             {salePrice ? (
-              <div className={styles.price}>{salePrice} đ</div>
+              <div className={styles.price}>{currencyFormatter.format(salePrice, {code: 'VND'})}</div>
             ) : (
-              <div className={styles.price}>{price} đ</div>
+              <div className={styles.price}>{currencyFormatter.format(price, {code: 'VND'})}</div>
             )}
             <div className={styles.button}>
               <Button
@@ -41,10 +45,14 @@ export default function ProductCard({ price, salePrice, name, urlTitle, availabl
                   fontWeight: 'bold',
                   // marginBottom: '1em',
                 }}
-                disabled={available ? false : true}
+                // disabled={available ? false : true}  
                 onClick={(e): any => handleAddToCart(e)}
+                className={styles.buttonContent}
               >
-                THÊM VÀO GIỎ HÀNG
+                LIÊN HỆ
+                <div className={styles.icon}>
+                  <img src="/icons/live-chat.svg" alt="chat"/>
+                </div>
               </Button>
             </div>
           </div>
@@ -53,3 +61,5 @@ export default function ProductCard({ price, salePrice, name, urlTitle, availabl
     </div>
   );
 }
+
+export default connect(null, { toggleChatBubble })(ProductCard)

@@ -402,3 +402,18 @@ exports.loginByFacebook = async (req, res) => {
     });
   }
 };
+
+exports.addToCart = async (req, res) => {
+  const items = req.body;
+
+  try {
+    const doc = await User.findByIdAndUpdate(req.user._id, { $push: { cart: items } }, { new: true });
+
+    return res.send({
+      success: true,
+      cart: doc.cart,
+    });
+  } catch (error) {
+    return res.status(400).send({ success: false, error });
+  }
+};

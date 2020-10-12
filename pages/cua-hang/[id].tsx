@@ -6,8 +6,12 @@ import Modal from 'react-modal';
 import styles from './ProductDetail.module.scss';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
+// @ts-ignore
+import currencyFormatter from 'currency-formatter'
+import { toggleChatBubble } from 'redux/actions/ui';
+import { connect } from 'react-redux'
 
-export default function ShopItem({ productData, siteInfo }: any) {
+function ShopItem({ productData, siteInfo, toggleChatBubble }: any) {
   const [openModal, setOpenModal] = useState(false);
 
   const customStyles = {
@@ -34,6 +38,9 @@ export default function ShopItem({ productData, siteInfo }: any) {
   const handleOpenModal = () => {
     setOpenModal(true);
   };
+  const handleOpenChat = () => {
+    toggleChatBubble(true)
+  }
   // console.log(productData);
   return (
     <MainLayout title={productData.name} contacts={siteInfo}>
@@ -57,11 +64,11 @@ export default function ShopItem({ productData, siteInfo }: any) {
           <div className={styles.priceWrapper}>
             <div className={styles.title}> Giá:</div>
             <div className={styles.price}>
-              {productData.salePrice && <span>{productData.price}đ</span>}{' '}
-              {productData.salePrice ? productData.salePrice : productData.price}đ
+              {productData.salePrice && <span>{currencyFormatter.format(productData.price, {code: 'VND'})}</span>}{' '}
+              {productData.salePrice ? currencyFormatter.format(productData.salePrice, {code: 'VND'}) : currencyFormatter.format(productData.price, {code: 'VND'})}
             </div>
           </div>
-          <div className={styles.quantity}>
+          {/* <div className={styles.quantity}>
             <div className={styles.title}>Số lượng:</div>
             <div className={styles.quantityInputWrapper}>
               <div className={styles.left}>-</div>
@@ -70,7 +77,7 @@ export default function ShopItem({ productData, siteInfo }: any) {
               </div>
               <div className={styles.right}>+</div>
             </div>
-          </div>
+          </div> */}
           <div className={styles.addToCartButton}>
             <Button
               style={{
@@ -80,8 +87,13 @@ export default function ShopItem({ productData, siteInfo }: any) {
                 color: 'white',
               }}
               disabled={productData.available ? false : true}
+              className={styles.button}
+              onClick={() => handleOpenChat()}
             >
-              Thêm vào giỏ hàng
+               LIÊN HỆ
+                <div className={styles.icon}>
+                  <img src="/icons/live-chat.svg" alt="chat"/>
+                </div>
             </Button>
           </div>
         </div>
@@ -128,3 +140,5 @@ export async function getStaticProps({ params }: any) {
     revalidate: 1,
   };
 }
+
+export default connect(null, {toggleChatBubble})(ShopItem)
