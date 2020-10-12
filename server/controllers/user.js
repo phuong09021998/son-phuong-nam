@@ -2,6 +2,7 @@ const User = require('../models/User');
 const formidable = require('formidable');
 const handleUploadImage = require('../utils/handleUploadImage');
 const bcrypt = require('bcrypt');
+const Message = require('../models/Message')
 
 // User controllers
 exports.readUser = (req, res) => {
@@ -309,6 +310,7 @@ exports.deleteUserById = async (req, res) => {
   try {
     if (req.userById.role <= 1) {
       await User.findByIdAndDelete(req.userById._id);
+      await Message.deleteMany({ roomId: req.userById._id })
       return res.status(200).send({
         success: true,
       });
