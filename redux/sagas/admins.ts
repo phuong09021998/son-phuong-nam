@@ -79,11 +79,75 @@ function* watchUpdateUserRequest() {
   yield takeLatest(actions.Types.EDIT_USER, updateUser);
 }
 
+
+
+function* getCarousels() {
+  try {
+    const result = yield call(api.getSiteCarousel);
+    yield put(actions.getSiteCarouselSuccess({ ...result.data.site.carousel }));
+  } catch (e) {
+    yield put(actions.getUsersError({ error: 'Lấy thông tin băng chuyền thất bại' }));
+  }
+}
+
+function* watchGetSiteCarouselsRequest() {
+  yield takeEvery(actions.Types.GET_SITE_CAROUSEL, getCarousels);
+}
+
+function* getSiteInfos() {
+  try {
+    const result = yield call(api.getSiteInfo);
+    yield put(actions.getSiteInfoSuccess({ ...result.data.site.siteInfo }));
+  } catch (e) {
+    yield put(actions.getSiteInfoError({ error: 'Lấy thông tin liên hệ thất bại' }));
+  }
+}
+
+function* watchGetSiteInfosRequest() {
+  yield takeEvery(actions.Types.GET_SITE_INFO, getSiteInfos);
+}
+
+function* updateSiteCarousel({ payload }: any) {
+  try {
+    yield call(api.updateSiteCarousel, {
+      key: payload.key,
+      data: payload.data
+    });
+
+    yield call(getCarousels);
+  } catch (error) {
+    yield put(actions.updateSiteCarouselError({ error: 'Sửa thất bại' }));
+  }
+}
+
+function* watchUpdateSiteCarouselsRequest() {
+  yield takeLatest(actions.Types.UPDATE_SITE_CAROUSEL, updateSiteCarousel);
+}
+
+function* updateSiteInfo({ payload }: any) {
+  try {
+    yield call(api.updateSiteInfo, payload);
+
+    yield call(getSiteInfos);
+  } catch (error) {
+    yield put(actions.updateSiteInfoError({ error: 'Sửa thất bại' }));
+  }
+}
+
+function* watchUpdateSiteInfosRequest() {
+  yield takeLatest(actions.Types.UPDATE_SITE_INFO, updateSiteInfo);
+}
+
+
 const adminSagas = [
   fork(watchGetUsersRequest),
+  fork(watchGetSiteCarouselsRequest),
+  fork(watchGetSiteInfosRequest),
   fork(watchCreateUserRequest),
   fork(watchDeleteUserRequest),
   fork(watchUpdateUserRequest),
+  fork(watchUpdateSiteCarouselsRequest),
+  fork(watchUpdateSiteInfosRequest),
 ];
 
 export default adminSagas;

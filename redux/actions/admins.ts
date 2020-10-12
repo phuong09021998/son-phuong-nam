@@ -12,6 +12,16 @@ export const Types = {
   EDIT_USER_ERROR: 'admin/edit-user-error',
   GET_POSTS: 'admin/get-posts',
   GET_POSTS_SUCCESS: 'admin/get-posts-success',
+  GET_SITE_CAROUSEL: 'admin/get-site-carousel',
+  GET_SITE_CAROUSEL_SUCCESS: 'admin/get-site-carousel-success',
+  GET_SITE_INFO: 'admin/get-site-info',
+  GET_SITE_INFO_SUCCESS: 'admin/get-site-info-success',
+  UPDATE_SITE_CAROUSEL: 'admin/update-site-carousel',
+  UPDATE_SITE_CAROUSEL_ERROR: 'admin/update-site-carousel-error',
+  UPDATE_SITE_INFO: 'admin/update-site-info',
+  UPDATE_SITE_INFO_ERROR: 'admin/update-site-info-error',
+  GET_SITE_CAROUSEL_ERROR: 'admin/get-site-carousel-error',
+  GET_SITE_INFO_ERROR: 'admin/get-site-info-error',
 };
 
 interface User {
@@ -89,3 +99,55 @@ export const editUser = ({ id, fields }: SelectUser) => ({
     fields,
   },
 });
+
+export const getSiteCarousel = () => ({
+  type: Types.GET_SITE_CAROUSEL,
+});
+
+export const getSiteCarouselSuccess = (carousels: any) => ({
+  type: Types.GET_SITE_CAROUSEL_SUCCESS,
+  payload: {
+    ...carousels,
+  },
+});
+
+export const getSiteInfo = () => ({
+  type: Types.GET_SITE_INFO,
+});
+
+export const getSiteInfoSuccess = (infos: any) => ({
+  type: Types.GET_SITE_INFO_SUCCESS,
+  payload: {
+    ...infos,
+  },
+});
+
+export const updateSiteCarousel = ({ key, data }: any) => ({
+  type: Types.UPDATE_SITE_CAROUSEL,
+  payload: {
+    key,
+    data
+  },
+});
+
+export const updateSiteCarouselError = ({ error }: any) => ({
+  type: Types.UPDATE_SITE_CAROUSEL_ERROR,
+  payload: { error }
+})
+
+export const updateSiteInfo = ({ infos }: any) => ({
+  type: Types.UPDATE_SITE_INFO,
+  payload: {
+    infos
+  }
+})
+
+export const updateSiteInfoError = ({ error }: any) => ({
+  type: Types.UPDATE_SITE_INFO_ERROR,
+  payload: { error }
+})
+
+export const getSiteInfoError = ({ error }: any) => ({
+  type: Types.GET_SITE_INFO_ERROR,
+  payload: { error }
+})

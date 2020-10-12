@@ -43,6 +43,50 @@ export default function admins(state = INITIAL_STATE, action: Action) {
         editUserError: action.payload.error,
       };
     }
+    case Types.GET_SITE_CAROUSEL_SUCCESS: {
+      return {
+        ...state,
+        carousels: action.payload,
+        getSiteCarouselError: undefined,
+        updateSiteCarouselError: undefined,
+        
+      }
+    }
+
+    case Types.GET_SITE_INFO_SUCCESS: {
+      return {
+        ...state,
+        siteInfos: action.payload,
+        updateSiteInfoError: undefined,
+        getSiteInfoError: undefined,
+      }
+    }
+
+    case Types.GET_SITE_CAROUSEL_ERROR: {
+      return {
+        ...state,
+        getSiteCarouselError: action.payload.error
+      }
+    }
+
+    case Types.GET_SITE_INFO_ERROR: {
+      return {
+        ...state,
+        getSiteInfoError: action.payload.error
+      }
+    }
+    case Types.UPDATE_SITE_INFO_ERROR: {
+      return {
+        ...state,
+        updateSiteInfoError: action.payload.error
+      }
+    }
+    case Types.UPDATE_SITE_CAROUSEL_ERROR: {
+      return {
+        ...state,
+        updateSiteCarouselError: action.payload.error
+      }
+    }
 
     default: {
       return state;

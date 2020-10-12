@@ -12,7 +12,6 @@ import AdminPosts from 'components/AdminPosts';
 import AdminProducts from 'components/AdminProducts';
 import AdminOthers from 'components/AdminOthers';
 import PersonIcon from '@material-ui/icons/Person';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import Head from 'next/head';
 import { Menu, Dropdown } from 'antd';
 import { logOutUser } from 'redux/actions/users';
@@ -38,7 +37,7 @@ interface Props {
 }
 
 function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
-  const [currentActive, setCurrentActive] = useState('nontification');
+  const [currentActive, setCurrentActive] = useState('posts');
   const classes = useStyles();
 
   const handleLogOut = () => {

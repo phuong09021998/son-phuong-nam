@@ -139,6 +139,7 @@ function AdminProducts({
       title: 'Giá',
       dataIndex: 'price',
       key: 'price',
+      // @ts-ignore
       render: (price: number, doc: any) => {
         if (doc.salePrice) {
           return currencyFormatter.format(doc.salePrice, {code: 'VND'})
@@ -192,6 +193,8 @@ function AdminProducts({
     },
   ];
 
+
+  // @ts-ignore
   const handleEdit = (e: any, urlTitle: string) => {
     const productsArr = Object.values(products);
     const selectedProduct: any = productsArr.find((product: any) => product.urlTitle === urlTitle);

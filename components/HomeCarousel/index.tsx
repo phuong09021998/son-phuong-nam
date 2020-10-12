@@ -8,9 +8,9 @@ interface Props {
 }
 
 function HomeCarousel({ carousel }: Props) {
-  const Image1 = () => <img src={`data:${carousel[0].contentType};base64,${Buffer.from(carousel[0].data)}`} />;
-  const Image2 = () => <img src={`data:${carousel[1].contentType};base64,${Buffer.from(carousel[1].data)}`} />;
-  const Image3 = () => <img src={`data:${carousel[2].contentType};base64,${Buffer.from(carousel[2].data)}`} />;
+  const Image1 = () => <img src={`data:${carousel[0].contentType};base64,${Buffer.from(carousel[0].data)}`} alt="Thi công sơn epoxy, sơn nền nhà xưởng hcm"/>;
+  const Image2 = () => <img src={`data:${carousel[1].contentType};base64,${Buffer.from(carousel[1].data)}`} alt="Thi công sơn epoxy, sơn nền nhà xưởng hcm"/>;
+  const Image3 = () => <img src={`data:${carousel[2].contentType};base64,${Buffer.from(carousel[2].data)}`} alt="Thi công sơn epoxy, sơn nền nhà xưởng hcm"/>;
 
   return (
     <div className={styles.carousel}>

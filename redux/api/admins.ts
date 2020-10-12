@@ -37,3 +37,22 @@ export const editUser = ({ id, name, email, password, role }: User) => {
   formData.append('role', String(role));
   return axios.put(`/api/user/${id}`, formData);
 };
+
+export const getSiteCarousel = () => {
+  return axios.get('/api/site/carousel')
+}
+
+export const getSiteInfo = () => {
+  return axios.get('/api/site/info')
+}
+
+export const updateSiteCarousel = ({ key, data }: any) => {
+  const formData = new FormData();
+  formData.append('key', key)
+  formData.append('image', data)
+  return axios.put('/api/site/carousel', formData)
+}
+
+export const updateSiteInfo = ({ infos }: any) => {
+  return axios.put('/api/site/info', infos)
+}
