@@ -16,6 +16,8 @@ import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import FormField from '../FormField';
 import Button from '@material-ui/core/Button';
 import { update, generateData, isFormValid } from 'components/utils/formAction';
+// @ts-ignore
+import currencyFormatter from 'currency-formatter'
 interface Props {
   getProductsByAdmin(): void;
   products: any;
@@ -137,7 +139,13 @@ function AdminProducts({
       title: 'Giá',
       dataIndex: 'price',
       key: 'price',
-      render: (price: number) => `${price} VNĐ`,
+      render: (price: number, doc: any) => {
+        if (doc.salePrice) {
+          return currencyFormatter.format(doc.salePrice, {code: 'VND'})
+        } else {
+          return currencyFormatter.format(doc.price, {code: 'VND'})
+        }
+      },
     },
     {
       title: 'Xuất bản',
