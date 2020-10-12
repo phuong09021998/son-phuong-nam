@@ -213,7 +213,6 @@ function Login({
           Prefix={passwordIcon}
           press={(e: any) => handlePress(e)}
         />
-        <div className={styles.forgetPass}>Quên mật khẩu?</div>
         {form.formError && <div className={styles.errorLabel}>Kiểm tra lại thông tin</div>}
         {waiting && (
           <div className={styles.waiting}>
@@ -260,9 +259,6 @@ function Login({
             </div>
           )}
         />
-      </div>
-      <div className={styles.register}>
-        Hoặc <span>đăng ký tài khoản mới</span>
       </div>
       <div className={styles.close} onClick={close}>
         <img src="/icons/close.svg" alt="close" />

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { toggleRegisterLogin } from 'redux/actions/ui';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import AdminNontification from 'components/AdminNontification';
+// import AdminNontification from 'components/AdminNontification';
 import AdminUsers from 'components/AdminUsers';
 import AdminPosts from 'components/AdminPosts';
 import AdminProducts from 'components/AdminProducts';
@@ -96,7 +96,7 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
           </Link>
           <hr />
           <div className={styles.mainMenu}>
-            <Button
+            {/* <Button
               className={classes.button}
               onClick={(e) => handleMenuClick(e, 'nontification')}
               // @ts-ignore
@@ -108,8 +108,8 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
                 </div>
                 <div className={styles.text}>Thông Báo</div>
               </div>
-            </Button>
-            <Button
+            </Button> */}
+            {/* <Button
               className={classes.button}
               onClick={(e) => handleMenuClick(e, 'messages')}
               // @ts-ignore
@@ -121,7 +121,7 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
                 </div>
                 <div className={styles.text}>Tin Nhắn</div>
               </div>
-            </Button>
+            </Button> */}
             {user && user.role === 2 && (
               <Button
                 className={classes.button}
@@ -187,16 +187,16 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
                   </div>
                 </Button>
               </Dropdown>
-              <Button>
+              {/* <Button>
                 <div className={styles.topItem}>
                   <NotificationsIcon />
                 </div>
-              </Button>
+              </Button> */}
               {/* @ts-ignore */}
               <AdminMessages />
             </div>
             <hr />
-            {currentActive === 'nontification' && <AdminNontification />}
+            {/* {currentActive === 'nontification' && <AdminNontification />} */}
             {currentActive === 'users' && user && user.role === 2 && <AdminUsers />}
             {currentActive === 'posts' && <AdminPosts />}
             {currentActive === 'products' && <AdminProducts />}
