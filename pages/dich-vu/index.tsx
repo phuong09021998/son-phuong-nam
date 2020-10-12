@@ -6,7 +6,7 @@ import Services from 'components/ServicesComponent';
 
 export default function Service({ siteInfo, services }: any) {
   return (
-    <MainLayout title="Dịch vụ" contacts={siteInfo}>
+    <MainLayout title="Dịch vụ | Sơn Phương Nam" contacts={siteInfo}>
       <GreenBackground name="Dịch vụ" breadcrumb="Trang chủ / Dịch vụ" />
       <div style={{ height: '3rem' }} />
       <Services services={services} disableBackground={true} disableTitle={true} />

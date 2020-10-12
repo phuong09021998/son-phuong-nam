@@ -18,7 +18,7 @@ interface Props {
 export default function Home({ carousel, services, projects, products, siteInfo }: Props) {
   // console.log(siteInfo);
   return (
-    <PageLayout title="Công ty TNHH MTV Xây Dựng Sơn Phương Nam" contacts={siteInfo}>
+    <PageLayout title="Thi công sơn Epoxy, sơn nền nhà xưởng, dịch vụ chống thấm chất lượng hàng đầu HCM | Sơn Phương Nam" contacts={siteInfo}>
       <HomeCarousel carousel={carousel} />
       <Services services={services} />
       <WhyUs />

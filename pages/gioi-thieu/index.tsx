@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MainLayout from 'layouts/MainLayout';
 import axios from 'config/axios';
 import GreenBackground from 'components/GreenBackground';
@@ -9,7 +9,7 @@ import Services from 'components/ServicesComponent';
 
 export default function Service({ siteInfo, services }: any) {
   return (
-    <MainLayout title="Dự án" contacts={siteInfo}>
+    <MainLayout title="Giới Thiệu | Sơn Phương Nam" contacts={siteInfo}>
       <GreenBackground name="Giới Thiệu" breadcrumb="Trang chủ / Giới Thiệu" />
       <div className={styles.aboutUsWrapper}>
         <Fade left>

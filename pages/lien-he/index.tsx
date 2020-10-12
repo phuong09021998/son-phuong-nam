@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 function ContactUs({ siteInfo, toggleChatBubble }: any) {
   return (
-    <MainLayout title="Liên Hệ" contacts={siteInfo}>
+    <MainLayout title="Liên Hệ | Sơn Phương Nam" contacts={siteInfo}>
       <div className={styles.map}>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15671.092646478764!2d106.89412763680284!3d10.904836525750774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174dfa55b1ddffb%3A0x3b978e34103b4f14!2zQ3R5IFROSEggTVRWIFhEIFPGoW4gUGjGsMahbmcgTmFt!5e0!3m2!1svi!2s!4v1601951985583!5m2!1svi!2s"

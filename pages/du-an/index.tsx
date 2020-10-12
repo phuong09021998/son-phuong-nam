@@ -22,7 +22,7 @@ export default function Service({ siteInfo, projects, range }: any) {
   };
 
   return (
-    <MainLayout title="Dự án" contacts={siteInfo}>
+    <MainLayout title="Dự án | Sơn Phương Nam" contacts={siteInfo}>
       <GreenBackground name="Dự án" breadcrumb="Trang chủ / Dự án" />
       <div style={{ height: '3rem' }} />
       <Projects projects={items} disableTitle={true} disableLoadMore={true} />

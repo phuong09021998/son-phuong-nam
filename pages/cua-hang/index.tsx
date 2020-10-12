@@ -7,7 +7,6 @@ import ProductCard from 'components/ProductCard';
 import Pagination from '@material-ui/lab/Pagination';
 
 export default function Shop({ products, siteInfo, range }: any) {
-  console.log(range);
   const [items, setItems] = useState(products);
   const [sortBy, setSortBy] = useState('createdAt');
   const [currentPagination, setCurrentPagination] = useState(0);
@@ -34,7 +33,7 @@ export default function Shop({ products, siteInfo, range }: any) {
   }, [sortBy, currentPagination]);
 
   return (
-    <MainLayout title="Cửa hàng" contacts={siteInfo}>
+    <MainLayout title="Cửa hàng | Sơn Phương Nam" contacts={siteInfo}>
       <GreenBackground name="Cửa hàng" breadcrumb="Trang chủ / Cửa hàng" />
       <div className={styles.selectWrapper}>
         <div className={styles.select}>
