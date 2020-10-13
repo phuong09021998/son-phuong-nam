@@ -1,0 +1,1 @@
+{"ast":null,"code":"const scrollToBottom = () => {\n  const textEl = document.getElementById('text'); // @ts-ignore\n\n  if (textEl) {\n    textEl.scrollTop = textEl.scrollHeight;\n  }\n};\n\nexport default scrollToBottom;","map":null,"metadata":{},"sourceType":"module"}

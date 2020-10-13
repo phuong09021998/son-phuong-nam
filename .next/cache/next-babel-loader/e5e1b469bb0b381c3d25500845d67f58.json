@@ -1,0 +1,1 @@
+{"ast":null,"code":"import axios from 'axios';\nvar axiosInstance = axios.create({\n  baseURL: 'http://149.28.155.221/api'\n  /* other custom settings */\n\n});\nexport default axiosInstance;","map":null,"metadata":{},"sourceType":"module"}

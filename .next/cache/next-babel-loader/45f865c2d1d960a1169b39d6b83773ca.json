@@ -1,0 +1,1 @@
+{"ast":null,"code":"import axios from 'axios';\nvar axiosInstance = axios.create({\n  baseURL: 'http:localhost:3000/api'\n  /* other custom settings */\n\n});\nexport default axiosInstance;","map":null,"metadata":{},"sourceType":"module"}
