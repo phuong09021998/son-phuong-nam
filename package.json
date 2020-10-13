@@ -3,11 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon server/index.js",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node server/index.js",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "test": "jest --runInBand --watch"
+    "start": "next start -p 8000",
+    "test": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watch",
+    "test:coverage": "NODE_ENV=test jest --coverage",
+    "test:cypress": "NODE_ENV=test cypress open",
+    "lint": "eslint .",
+    "lint:watch": "esw . --watch --cache",
+    "lint:watchAll": "esw . --watch",
+    "circleci:run": "circleci local execute --job $JOB"
   },
   "husky": {
     "hooks": {
