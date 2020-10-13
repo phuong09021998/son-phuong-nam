@@ -57,6 +57,7 @@ function Admin({ toggleRegisterLogin, user, logOutUser }: Props) {
     </Menu>
   );
 
+  // @ts-ignore
   const handleMenuClick = (e: any, currentActive: string) => {
     setCurrentActive(currentActive);
   };

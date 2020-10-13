@@ -154,6 +154,7 @@ const Formfield = ({ formdata, change, id, Prefix, press }: Props) => {
                   'undo redo | formatselect | bold italic backcolor | \
                   alignleft aligncenter alignright alignjustify | \
                   bullist numlist outdent indent | removeformat | image |help',
+                // @ts-ignore
                 file_picker_callback: function (cb: any, value: any, meta: any) {
                   const input = document.createElement('input');
                   input.setAttribute('type', 'file');

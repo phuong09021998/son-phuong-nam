@@ -58,6 +58,7 @@ export const validate = (element: FormElement, formdata: Formdata) => {
   return error;
 };
 
+// @ts-ignore
 export const update = (element: any, formdata: Formdata, formName: string) => {
   const newFormdata: Formdata = {
     ...formdata,
@@ -86,6 +87,7 @@ export const update = (element: any, formdata: Formdata, formName: string) => {
   return newFormdata;
 };
 
+// @ts-ignore
 export const generateData = (formdata: Formdata, formName: string) => {
   const dataToSubmit: any = {};
 
@@ -116,6 +118,7 @@ export const generateData = (formdata: Formdata, formName: string) => {
   return dataToSubmit;
 };
 
+// @ts-ignore
 export const isFormValid = (formdata: Formdata, formName: string) => {
   let formIsValid = true;
 

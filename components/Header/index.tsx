@@ -26,9 +26,9 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
     toggleRegisterLogin(true, 'login');
   };
 
-  const handleOpenRegister = (): void => {
-    toggleRegisterLogin(true, 'register');
-  };
+  // const handleOpenRegister = (): void => {
+  //   toggleRegisterLogin(true, 'register');
+  // };
 
   const handleLogOut = () => {
     logOutUser();

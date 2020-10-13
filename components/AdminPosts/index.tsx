@@ -170,6 +170,7 @@ function AdminPosts({
     },
   ];
 
+  // @ts-ignore
   const handleEdit = (e: any, urlTitle: string) => {
     const postsArr = Object.values(posts);
     const selectedPost: any = postsArr.find((post: any) => post.urlTitle === urlTitle);
