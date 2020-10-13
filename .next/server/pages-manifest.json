@@ -1,6 +1,18 @@
 {
   "/_app": "pages/_app.js",
+  "/admin": "pages/admin.html",
+  "/cua-hang/[id]": "pages/cua-hang/[id].js",
+  "/cua-hang": "pages/cua-hang.js",
+  "/dich-vu/[id]": "pages/dich-vu/[id].js",
+  "/dich-vu": "pages/dich-vu.js",
+  "/du-an/[id]": "pages/du-an/[id].js",
+  "/du-an": "pages/du-an.js",
+  "/gioi-thieu": "pages/gioi-thieu.js",
+  "/": "pages/index.js",
+  "/kien-thuc/[id]": "pages/kien-thuc/[id].js",
+  "/kien-thuc": "pages/kien-thuc.js",
+  "/lien-he": "pages/lien-he.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js"
+  "/404": "pages/404.html"
 }
