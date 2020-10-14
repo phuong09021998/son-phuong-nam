@@ -227,6 +227,15 @@ module.exports = require("redux-saga");
 
 /***/ }),
 
+/***/ "8nVP":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const baseURL = "http://149.28.155.221:3000";
+/* harmony default export */ __webpack_exports__["a"] = (baseURL);
+
+/***/ }),
+
 /***/ "BKUt":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1097,19 +1106,23 @@ var effects_ = __webpack_require__("RmXt");
 var external_axios_ = __webpack_require__("zr5I");
 var external_axios_default = /*#__PURE__*/__webpack_require__.n(external_axios_);
 
+// EXTERNAL MODULE: ./config/basedUrl.ts
+var basedUrl = __webpack_require__("8nVP");
+
 // CONCATENATED MODULE: ./redux/api/users.ts
+
 
 const loginUser = ({
   email,
   password
 }) => {
-  return external_axios_default.a.post('/api/user/login', {
+  return external_axios_default.a.post(`${basedUrl["a" /* default */]}/api/user/login`, {
     email,
     password
   });
 };
 const getUser = () => {
-  return external_axios_default.a.get('/api/user');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/user`);
 };
 const createUser = payload => {
   const formData = new FormData();
@@ -1118,19 +1131,19 @@ const createUser = payload => {
     formData.append(key, payload[key]);
   }
 
-  return external_axios_default.a.post('/api/user', formData);
+  return external_axios_default.a.post(`${basedUrl["a" /* default */]}/api/user`, formData);
 };
 const loginByGoogle = fields => {
-  return external_axios_default.a.post('/api/user/login/google', fields);
+  return external_axios_default.a.post(`${basedUrl["a" /* default */]}/api/user/login/google`, fields);
 };
 const loginByFacebook = fields => {
-  return external_axios_default.a.post('/api/user/login/facebook', fields);
+  return external_axios_default.a.post(`${basedUrl["a" /* default */]}/api/user/login/facebook`, fields);
 };
 const logoutUser = () => {
-  return external_axios_default.a.get('/api/user/logout');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/user/logout`);
 };
 const updateUser = fields => {
-  return external_axios_default.a.put('/api/user', fields);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/user`, fields);
 };
 // EXTERNAL MODULE: external "uuid"
 var external_uuid_ = __webpack_require__("kNaX");
@@ -1272,8 +1285,9 @@ const userSagas = [Object(effects_["fork"])(watchLoginUser), Object(effects_["fo
 /* harmony default export */ var sagas_users = (userSagas);
 // CONCATENATED MODULE: ./redux/api/admins.ts
 
+
 const getUsers = () => {
-  return external_axios_default.a.get('/api/users');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/users`);
 };
 const createUserByAdmin = ({
   email,
@@ -1286,12 +1300,12 @@ const createUserByAdmin = ({
   formData.append('name', name);
   formData.append('password', password);
   formData.append('role', String(role));
-  return external_axios_default.a.post('/api/admin/user', formData);
+  return external_axios_default.a.post(`${basedUrl["a" /* default */]}/api/admin/user`, formData);
 };
 const deleteUser = ({
   id
 }) => {
-  return external_axios_default.a.delete(`/api/user/${id}`);
+  return external_axios_default.a.delete(`${basedUrl["a" /* default */]}/api/user/${id}`);
 };
 const editUser = ({
   id,
@@ -1305,13 +1319,13 @@ const editUser = ({
   formData.append('name', name);
   formData.append('password', password);
   formData.append('role', String(role));
-  return external_axios_default.a.put(`/api/user/${id}`, formData);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/user/${id}`, formData);
 };
 const getSiteCarousel = () => {
-  return external_axios_default.a.get('/api/site/carousel');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/site/carousel`);
 };
 const admins_getSiteInfo = () => {
-  return external_axios_default.a.get('/api/site/info');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/site/info`);
 };
 const updateSiteCarousel = ({
   key,
@@ -1320,12 +1334,12 @@ const updateSiteCarousel = ({
   const formData = new FormData();
   formData.append('key', key);
   formData.append('image', data);
-  return external_axios_default.a.put('/api/site/carousel', formData);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/site/carousel`, formData);
 };
 const updateSiteInfo = ({
   infos
 }) => {
-  return external_axios_default.a.put('/api/site/info', infos);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/site/info`, infos);
 };
 // CONCATENATED MODULE: ./redux/sagas/admins.ts
 function sagas_admins_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -1497,8 +1511,9 @@ const adminSagas = [Object(effects_["fork"])(admins_watchGetUsersRequest), Objec
 /* harmony default export */ var sagas_admins = (adminSagas);
 // CONCATENATED MODULE: ./redux/api/posts.ts
 
+
 const getPostsByAdmin = () => {
-  return external_axios_default.a.get('/api/posts?limit=10000&skip=0&sortBy=type&order=asc');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/posts?limit=10000&skip=0&sortBy=type&order=asc`);
 };
 const createPost = ({
   title,
@@ -1511,7 +1526,7 @@ const createPost = ({
   formData.append('content', content);
   formData.append('type', type);
   formData.append('image', image);
-  return external_axios_default.a.post('/api/post', formData);
+  return external_axios_default.a.post(`${basedUrl["a" /* default */]}/api/post`, formData);
 };
 const updatePublish = ({
   publish,
@@ -1519,12 +1534,12 @@ const updatePublish = ({
 }) => {
   const formData = new FormData();
   formData.append('publish', publish);
-  return external_axios_default.a.put(`/api/post/${id}`, formData);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/post/${id}`, formData);
 };
 const deletePost = ({
   id
 }) => {
-  return external_axios_default.a.delete(`/api/post/${id}`);
+  return external_axios_default.a.delete(`${basedUrl["a" /* default */]}/api/post/${id}`);
 };
 const updatePost = payload => {
   const formData = new FormData();
@@ -1533,7 +1548,7 @@ const updatePost = payload => {
     formData.append(key, payload[key]);
   }
 
-  return external_axios_default.a.put(`/api/post/${payload.id}`, formData);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/post/${payload.id}`, formData);
 };
 // CONCATENATED MODULE: ./redux/sagas/posts.ts
 
@@ -1640,8 +1655,9 @@ const postSagas = [Object(effects_["fork"])(watchGetPostsByAdminRequest), Object
 /* harmony default export */ var sagas_posts = (postSagas);
 // CONCATENATED MODULE: ./redux/api/products.ts
 
+
 const getProductsByAdmin = () => {
-  return external_axios_default.a.get('/api/products?limit=10000&skip=0&sortBy=name&order=asc');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/products?limit=10000&skip=0&sortBy=name&order=asc`);
 };
 const createProduct = payload => {
   const formData = new FormData();
@@ -1650,7 +1666,7 @@ const createProduct = payload => {
     formData.append(key, payload[key]);
   }
 
-  return external_axios_default.a.post('/api/product', formData);
+  return external_axios_default.a.post(`${basedUrl["a" /* default */]}/api/product`, formData);
 };
 const updatePublishProduct = ({
   publish,
@@ -1658,7 +1674,7 @@ const updatePublishProduct = ({
 }) => {
   const formData = new FormData();
   formData.append('publish', publish);
-  return external_axios_default.a.put(`/api/product/${id}`, formData);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/product/${id}`, formData);
 };
 const updateAvailableProduct = ({
   available,
@@ -1667,12 +1683,12 @@ const updateAvailableProduct = ({
   console.log('run');
   const formData = new FormData();
   formData.append('available', available);
-  return external_axios_default.a.put(`/api/product/${id}`, formData);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/product/${id}`, formData);
 };
 const deleteProduct = ({
   id
 }) => {
-  return external_axios_default.a.delete(`/api/product/${id}`);
+  return external_axios_default.a.delete(`${basedUrl["a" /* default */]}/api/product/${id}`);
 };
 const updateProduct = payload => {
   const formData = new FormData();
@@ -1681,7 +1697,7 @@ const updateProduct = payload => {
     formData.append(key, payload[key]);
   }
 
-  return external_axios_default.a.put(`/api/product/${payload.id}`, formData);
+  return external_axios_default.a.put(`${basedUrl["a" /* default */]}/api/product/${payload.id}`, formData);
 };
 // CONCATENATED MODULE: ./redux/sagas/products.ts
 
@@ -1806,11 +1822,12 @@ const productSagas = [Object(effects_["fork"])(watchGetProductsByAdminRequest), 
 /* harmony default export */ var sagas_products = (productSagas);
 // CONCATENATED MODULE: ./redux/api/site.ts
 
+
 const site_getCarousel = () => {
-  return external_axios_default.a.get('/api/site/carousel');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/site/carousel`);
 };
 const site_getSiteInfo = () => {
-  return external_axios_default.a.get('/api/site/info');
+  return external_axios_default.a.get(`${basedUrl["a" /* default */]}/api/site/info`);
 };
 // CONCATENATED MODULE: ./redux/sagas/site.ts
 

@@ -2483,6 +2483,9 @@ var scrollBottom = __webpack_require__("giyP");
 // EXTERNAL MODULE: ./config/axios.ts
 var axios = __webpack_require__("euk0");
 
+// EXTERNAL MODULE: ./config/basedUrl.ts
+var basedUrl = __webpack_require__("8nVP");
+
 // CONCATENATED MODULE: ./components/ClientChatBubble/index.tsx
 var ClientChatBubble_jsx = external_react_default.a.createElement;
 
@@ -2491,6 +2494,7 @@ var ClientChatBubble_jsx = external_react_default.a.createElement;
 
 
  // @ts-ignore
+
 
 
 
@@ -2551,7 +2555,7 @@ function ChatBubble({
   };
 
   Object(external_react_["useEffect"])(() => {
-    socketRef.current = external_socket_io_client_default()();
+    socketRef.current = external_socket_io_client_default()(basedUrl["a" /* default */]);
 
     if (user) {
       // @ts-ignore

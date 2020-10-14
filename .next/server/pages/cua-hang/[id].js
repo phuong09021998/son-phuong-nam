@@ -2386,6 +2386,9 @@ var scrollBottom = __webpack_require__("giyP");
 // EXTERNAL MODULE: ./config/axios.ts
 var axios = __webpack_require__("euk0");
 
+// EXTERNAL MODULE: ./config/basedUrl.ts
+var basedUrl = __webpack_require__("8nVP");
+
 // CONCATENATED MODULE: ./components/ClientChatBubble/index.tsx
 var ClientChatBubble_jsx = external_react_default.a.createElement;
 
@@ -2394,6 +2397,7 @@ var ClientChatBubble_jsx = external_react_default.a.createElement;
 
 
  // @ts-ignore
+
 
 
 
@@ -2454,7 +2458,7 @@ function ChatBubble({
   };
 
   Object(external_react_["useEffect"])(() => {
-    socketRef.current = external_socket_io_client_default()();
+    socketRef.current = external_socket_io_client_default()(basedUrl["a" /* default */]);
 
     if (user) {
       // @ts-ignore
@@ -4753,6 +4757,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_actions_ui__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("YIbT");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("h74D");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var config_basedUrl__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__("8nVP");
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -4762,6 +4767,7 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
  // @ts-ignore
+
 
 
 
@@ -4831,7 +4837,7 @@ function ShopItem({
   })), __jsx("div", {
     className: _ProductDetail_module_scss__WEBPACK_IMPORTED_MODULE_5___default.a.img
   }, __jsx("img", {
-    src: `/api/product/image/${productData.urlTitle}`,
+    src: `${config_basedUrl__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"]}/api/product/image/${productData.urlTitle}`,
     alt: productData.urlTitle
   }))), __jsx("div", {
     className: _ProductDetail_module_scss__WEBPACK_IMPORTED_MODULE_5___default.a.info
@@ -4883,7 +4889,7 @@ function ShopItem({
     style: customStyles,
     contentLabel: "Example Modal"
   }, __jsx("img", {
-    src: `/api/product/image/${productData.urlTitle}`,
+    src: `${config_basedUrl__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"]}/api/product/image/${productData.urlTitle}`,
     alt: productData.urlTitle
   }), __jsx("div", {
     className: _ProductDetail_module_scss__WEBPACK_IMPORTED_MODULE_5___default.a.closeModal,
