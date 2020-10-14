@@ -512,7 +512,7 @@ function Services({
   }, item.title), __jsx("div", {
     className: _Services_module_scss__WEBPACK_IMPORTED_MODULE_1___default.a.icon
   }, __jsx("img", {
-    src: `/api/post/image/${item.urlTitle}`,
+    src: `${config_basedUrl__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]}/api/post/image/${item.urlTitle}`,
     alt: "icon"
   }))))))));
 }
