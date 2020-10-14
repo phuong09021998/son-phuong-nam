@@ -1,4 +1,5 @@
 import axios from 'axios';
+import baseUrl from 'config/basedUrl'
 
 interface User {
   email: string;
@@ -9,7 +10,7 @@ interface User {
 }
 
 export const getUsers = () => {
-  return axios.get('/api/users');
+  return axios.get(`${baseUrl}/api/users`);
 };
 
 export const createUserByAdmin = ({ email, name, role, password }: User) => {
@@ -18,7 +19,7 @@ export const createUserByAdmin = ({ email, name, role, password }: User) => {
   formData.append('name', name);
   formData.append('password', password);
   formData.append('role', String(role));
-  return axios.post('/api/admin/user', formData);
+  return axios.post(`${baseUrl}/api/admin/user`, formData);
 };
 
 interface SelectUser {
@@ -26,7 +27,7 @@ interface SelectUser {
 }
 
 export const deleteUser = ({ id }: SelectUser) => {
-  return axios.delete(`/api/user/${id}`);
+  return axios.delete(`${baseUrl}/api/user/${id}`);
 };
 
 export const editUser = ({ id, name, email, password, role }: User) => {
@@ -35,24 +36,24 @@ export const editUser = ({ id, name, email, password, role }: User) => {
   formData.append('name', name);
   formData.append('password', password);
   formData.append('role', String(role));
-  return axios.put(`/api/user/${id}`, formData);
+  return axios.put(`${baseUrl}/api/user/${id}`, formData);
 };
 
 export const getSiteCarousel = () => {
-  return axios.get('/api/site/carousel')
+  return axios.get(`${baseUrl}/api/site/carousel`)
 }
 
 export const getSiteInfo = () => {
-  return axios.get('/api/site/info')
+  return axios.get(`${baseUrl}/api/site/info`)
 }
 
 export const updateSiteCarousel = ({ key, data }: any) => {
   const formData = new FormData();
   formData.append('key', key)
   formData.append('image', data)
-  return axios.put('/api/site/carousel', formData)
+  return axios.put(`${baseUrl}/api/site/carousel`, formData)
 }
 
 export const updateSiteInfo = ({ infos }: any) => {
-  return axios.put('/api/site/info', infos)
+  return axios.put(`${baseUrl}/api/site/info`, infos)
 }

@@ -13,6 +13,7 @@ import io from 'socket.io-client';
 import { toggleChatBubble } from 'redux/actions/ui';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import baseUrl from 'config/basedUrl'
 
 function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
   const [messages, setMessages] = useState([]);
@@ -33,7 +34,7 @@ function AdminMessages({ toggleChatBubble, openChatWindow }: any) {
   };
 
   useEffect(() => {
-    socketRef.current = io();
+    socketRef.current = io(baseUrl);
     // @ts-ignore
     socketRef.current.emit('Login', { userId: 'Admin' });
 

@@ -10,6 +10,7 @@ import Link from 'next/link';
 import currencyFormatter from 'currency-formatter'
 import { toggleChatBubble } from 'redux/actions/ui';
 import { connect } from 'react-redux'
+import baseUrl from 'config/basedUrl'
 
 function ShopItem({ productData, siteInfo, toggleChatBubble }: any) {
   const [openModal, setOpenModal] = useState(false);
@@ -56,7 +57,7 @@ function ShopItem({ productData, siteInfo, toggleChatBubble }: any) {
             <img src="/icons/search.svg" alt="zoom" />
           </div>
           <div className={styles.img}>
-            <img src={`/api/product/image/${productData.urlTitle}`} alt={productData.urlTitle} />
+            <img src={`${baseUrl}/api/product/image/${productData.urlTitle}`} alt={productData.urlTitle} />
           </div>
         </div>
         <div className={styles.info}>
@@ -110,7 +111,7 @@ function ShopItem({ productData, siteInfo, toggleChatBubble }: any) {
       </div>
 
       <Modal isOpen={openModal} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
-        <img src={`/api/product/image/${productData.urlTitle}`} alt={productData.urlTitle} />
+        <img src={`${baseUrl}/api/product/image/${productData.urlTitle}`} alt={productData.urlTitle} />
         <div className={styles.closeModal} onClick={closeModal}>
           <img src="/icons/close-2.svg" alt="close" />
         </div>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import baseUrl from 'config/basedUrl'
 
 interface LoginUser {
   email: string;
@@ -6,11 +7,11 @@ interface LoginUser {
 }
 
 export const loginUser = ({ email, password }: LoginUser) => {
-  return axios.post('/api/user/login', { email, password });
+  return axios.post(`${baseUrl}/api/user/login`, { email, password });
 };
 
 export const getUser = () => {
-  return axios.get('/api/user');
+  return axios.get(`${baseUrl}/api/user`);
 };
 
 export const createUser = (payload: any) => {
@@ -18,21 +19,21 @@ export const createUser = (payload: any) => {
   for (const key in payload) {
     formData.append(key, payload[key]);
   }
-  return axios.post('/api/user', formData);
+  return axios.post(`${baseUrl}/api/user`, formData);
 };
 
 export const loginByGoogle = (fields: any) => {
-  return axios.post('/api/user/login/google', fields);
+  return axios.post(`${baseUrl}/api/user/login/google`, fields);
 };
 
 export const loginByFacebook = (fields: any) => {
-  return axios.post('/api/user/login/facebook', fields);
+  return axios.post(`${baseUrl}/api/user/login/facebook`, fields);
 };
 
 export const logoutUser = () => {
-  return axios.get('/api/user/logout');
+  return axios.get(`${baseUrl}/api/user/logout`);
 };
 
 export const updateUser = (fields: any) => {
-  return axios.put('/api/user', fields);
+  return axios.put(`${baseUrl}/api/user`, fields);
 };

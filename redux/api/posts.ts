@@ -1,7 +1,8 @@
 import axios from 'axios';
+import baseUrl from 'config/basedUrl'
 
 export const getPostsByAdmin = () => {
-  return axios.get('/api/posts?limit=10000&skip=0&sortBy=type&order=asc');
+  return axios.get(`${baseUrl}/api/posts?limit=10000&skip=0&sortBy=type&order=asc`);
 };
 
 export const createPost = ({ title, content, type, image }: any) => {
@@ -10,17 +11,17 @@ export const createPost = ({ title, content, type, image }: any) => {
   formData.append('content', content);
   formData.append('type', type);
   formData.append('image', image);
-  return axios.post('/api/post', formData);
+  return axios.post(`${baseUrl}/api/post`, formData);
 };
 
 export const updatePublish = ({ publish, id }: any) => {
   const formData = new FormData();
   formData.append('publish', publish);
-  return axios.put(`/api/post/${id}`, formData);
+  return axios.put(`${baseUrl}/api/post/${id}`, formData);
 };
 
 export const deletePost = ({ id }: any) => {
-  return axios.delete(`/api/post/${id}`);
+  return axios.delete(`${baseUrl}/api/post/${id}`);
 };
 
 export const updatePost = (payload: any) => {
@@ -29,5 +30,5 @@ export const updatePost = (payload: any) => {
     formData.append(key, payload[key]);
   }
 
-  return axios.put(`/api/post/${payload.id}`, formData);
+  return axios.put(`${baseUrl}/api/post/${payload.id}`, formData);
 };

@@ -9,6 +9,7 @@ import io from 'socket.io-client';
 import scrollToBottom from 'components/utils/scrollBottom';
 import { message } from 'antd';
 import axios from 'config/axios';
+import baseUrl from 'config/basedUrl';
 
 function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogin }: any) {
   const [messages, setMessages] = useState([]);
@@ -50,7 +51,7 @@ function ChatBubble({ openChatBubble, toggleChatBubble, user, toggleRegisterLogi
   };
 
   useEffect(() => {
-    socketRef.current = io();
+    socketRef.current = io(baseUrl);
 
     if (user) {
       // @ts-ignore
