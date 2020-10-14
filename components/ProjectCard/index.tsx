@@ -4,6 +4,7 @@ import moment from 'moment';
 // @ts-ignore
 import Fade from 'react-reveal/Fade';
 import { useRouter } from 'next/router';
+import baseUrl from 'config/basedUrl';
 
 export default function Card({ title, urlTitle, date, type }: any) {
   const formatDate = moment(date).format('DD/MM/YYYY');
@@ -18,7 +19,7 @@ export default function Card({ title, urlTitle, date, type }: any) {
   return (
     <div className={styles.cardWrapper} onClick={handleClick}>
       <Fade bottom>
-        <div className={styles.card} style={{ background: `url('/api/post/image/${urlTitle}')` }}>
+        <div className={styles.card} style={{ background: `url('${baseUrl}/api/post/image/${urlTitle}')` }}>
           <div className={styles.dateWrapper}>
             <div className={styles.dateIcon}>
               <img src="/icons/clock.svg" alt="clock" />

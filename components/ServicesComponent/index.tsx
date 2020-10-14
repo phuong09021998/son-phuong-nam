@@ -4,6 +4,7 @@ import WaveLayout from 'layouts/WaveBackgroundLayout';
 // @ts-ignore
 import Fade from 'react-reveal/Fade';
 import { useRouter } from 'next/router';
+import baseUrl from 'config/basedUrl'
 
 export default function Services({ services, disableTitle, disableBackground }: any) {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function Services({ services, disableTitle, disableBackground }: 
                 <div className={styles.item} onClick={() => handleClick(item.urlTitle)}>
                   <div className={styles.name}>{item.title}</div>
                   <div className={styles.icon}>
-                    <img src={`/api/post/image/${item.urlTitle}`} alt="icon" />
+                    <img src={`${baseUrl}/api/post/image/${item.urlTitle}`} alt="icon" />
                   </div>
                 </div>
               </Fade>

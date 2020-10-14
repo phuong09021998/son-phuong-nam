@@ -435,6 +435,15 @@ module.exports = _interopRequireWildcard;
 
 /***/ }),
 
+/***/ "8nVP":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const baseURL = "http://149.28.155.221:3000";
+/* harmony default export */ __webpack_exports__["a"] = (baseURL);
+
+/***/ }),
+
 /***/ "9N20":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -449,10 +458,12 @@ module.exports = _interopRequireWildcard;
 /* harmony import */ var react_reveal_Fade__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_reveal_Fade__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("4Q3z");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var config_basedUrl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("8nVP");
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
  // @ts-ignore
+
 
 
 
@@ -483,7 +494,7 @@ function Services({
   }, item.title), __jsx("div", {
     className: _Services_module_scss__WEBPACK_IMPORTED_MODULE_1___default.a.icon
   }, __jsx("img", {
-    src: `/api/post/image/${item.urlTitle}`,
+    src: `${config_basedUrl__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]}/api/post/image/${item.urlTitle}`,
     alt: "icon"
   }))))))) : __jsx(layouts_WaveBackgroundLayout__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"], null, !disableTitle && __jsx("div", {
     className: _Services_module_scss__WEBPACK_IMPORTED_MODULE_1___default.a.title
@@ -4287,9 +4298,11 @@ Router.events = (0, _mitt.default)();
 "use strict";
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("zr5I");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _basedUrl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("8nVP");
+
 
 const axiosInstance = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: 'http://localhost:3000/api'
+  baseURL: `${_basedUrl__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]}/api`
   /* other custom settings */
 
 });
@@ -4539,7 +4552,9 @@ module.exports = require("next/dist/next-server/lib/utils.js");
 /* harmony import */ var _UserAvatar_module_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_UserAvatar_module_scss__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("Exp3");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var config_basedUrl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("8nVP");
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
 
 
 
@@ -4567,7 +4582,7 @@ function UserAvatar({
       return __jsx("div", {
         className: _UserAvatar_module_scss__WEBPACK_IMPORTED_MODULE_2___default.a.avatar
       }, __jsx(antd__WEBPACK_IMPORTED_MODULE_3__["Avatar"], {
-        src: "/api/user/avatar"
+        src: `${config_basedUrl__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"]}/api/user/avatar`
       })); // @ts-ignore
     } else if (user.thirdPartyAvatar) {
       return __jsx("div", {

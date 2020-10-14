@@ -3,6 +3,7 @@ import axios from 'config/axios';
 import styles from './UserAvatar.module.scss';
 import { Skeleton } from 'antd';
 import { Avatar } from 'antd';
+import baseUrl from 'config/basedUrl'
 
 function UserAvatar({ userId }: any) {
   const [user, setUser] = useState();
@@ -18,7 +19,7 @@ function UserAvatar({ userId }: any) {
     if (user.avatar) {
       return (
         <div className={styles.avatar}>
-          <Avatar src="/api/user/avatar" />
+          <Avatar src={`${baseUrl}/api/user/avatar`} />
         </div>
       );
 

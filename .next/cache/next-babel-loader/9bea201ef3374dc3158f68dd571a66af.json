@@ -1,0 +1,1 @@
+{"ast":null,"code":"import axios from 'axios';\nimport baseUrl from './basedUrl';\nconst axiosInstance = axios.create({\n  baseURL: `${baseUrl}/api`\n  /* other custom settings */\n\n});\nexport default axiosInstance;","map":null,"metadata":{},"sourceType":"module"}

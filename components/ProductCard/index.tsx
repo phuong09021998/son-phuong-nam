@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import currencyFormatter from 'currency-formatter'
 import { toggleChatBubble } from 'redux/actions/ui';
 import { connect } from 'react-redux';
+import baseUrl from 'config/basedUrl'
 
 function ProductCard({ price, salePrice, name, urlTitle, available, toggleChatBubble }: any) {
   const router = useRouter();
@@ -28,7 +29,7 @@ function ProductCard({ price, salePrice, name, urlTitle, available, toggleChatBu
         <div className={styles.card}>
           {salePrice && <div className={styles.saleTag}>SALE!</div>}
           {!available && <div className={styles.outOfStock}>Hết hàng</div>}
-          <div className={styles.img} style={{ background: `url('/api/product/image/${urlTitle}` }}></div>
+          <div className={styles.img} style={{ background: `url('${baseUrl}/api/product/image/${urlTitle}` }}></div>
           <div className={styles.content}>
             <div className={styles.title}>{name}</div>
             {salePrice && <div className={styles.originalPrice}>{currencyFormatter.format(price, {code: 'VND'})}</div>}
