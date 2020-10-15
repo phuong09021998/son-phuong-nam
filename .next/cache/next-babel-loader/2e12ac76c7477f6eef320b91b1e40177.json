@@ -1,0 +1,1 @@
+{"ast":null,"code":"import axios from 'axios';\nimport baseUrl from 'config/basedUrl';\nexport const getCarousel = () => {\n  return axios.get(`${baseUrl}/api/site/carousel`);\n};\nexport const getSiteInfo = () => {\n  return axios.get(`${baseUrl}/api/site/info`);\n};","map":null,"metadata":{},"sourceType":"module"}
