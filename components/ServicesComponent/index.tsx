@@ -19,14 +19,14 @@ export default function Services({ services, disableTitle, disableBackground }: 
 
           <div className={styles.servicesWrapper}>
             {services.map((item: any, i: number) => (
-              <Fade left={i % 2 ? false : true} right={i % 2 ? true : false} key={i}>
-                <div className={styles.item} onClick={() => handleClick(item.urlTitle)}>
+              // <Fade left={i % 2 ? false : true} right={i % 2 ? true : false} key={i}>
+                <div className={styles.item} onClick={() => handleClick(item.urlTitle)} key={i}>
                   <div className={styles.name}>{item.title}</div>
                   <div className={styles.icon}>
                     <img src={`${baseUrl}/api/post/image/${item.urlTitle}`} alt="icon" />
                   </div>
                 </div>
-              </Fade>
+              // </Fade>
             ))}
           </div>
         </>
@@ -36,14 +36,14 @@ export default function Services({ services, disableTitle, disableBackground }: 
 
           <div className={styles.servicesWrapper}>
             {services.map((item: any, i: number) => (
-              <Fade left={i % 2 ? false : true} right={i % 2 ? true : false} key={i}>
-                <div className={styles.item} onClick={() => handleClick(item.urlTitle)}>
+              // <Fade left={i % 2 ? false : true} right={i % 2 ? true : false} key={i}>
+                <div className={styles.item} onClick={() => handleClick(item.urlTitle)} key={i}>
                   <div className={styles.name}>{item.title}</div>
                   <div className={styles.icon}>
                     <img src={`${baseUrl}/api/post/image/${item.urlTitle}`} alt="icon" />
                   </div>
                 </div>
-              </Fade>
+              // </Fade>
             ))}
           </div>
         </WaveLayout>

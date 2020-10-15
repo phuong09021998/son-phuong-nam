@@ -8,12 +8,12 @@ export default function AboutUs() {
   return (
     <WaveLayout>
       <div className={styles.aboutUsWrapper}>
-        <Fade left>
+        {/* <Fade left> */}
           <div className={styles.img}>
             <img src="/images/about-us-img.jpg" alt="About Us" />
           </div>
-        </Fade>
-        <Fade right>
+        {/* </Fade> */}
+        {/* <Fade right> */}
           <div className={styles.aboutUsCard}>
             <div className={styles.title}>Về chúng tôi</div>
             <div className={styles.question}>Chúng tôi là ai?</div>
@@ -23,7 +23,7 @@ export default function AboutUs() {
               kiệm triệt để chi phí đầu tư nhà xưởng ban đầu chính hãng giá rẻ ở Tp. Hồ Chí Minh...
             </div>
           </div>
-        </Fade>
+        {/* </Fade> */}
       </div>
     </WaveLayout>
   );

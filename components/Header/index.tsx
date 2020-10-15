@@ -9,6 +9,7 @@ import { getUser, logOutUser } from 'redux/actions/users';
 import { Avatar, Menu, Dropdown } from 'antd';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const { Panel } = Collapse;
+import { useRouter } from 'next/router'
 
 interface Props {
   toggleRegisterLogin(isOpen: boolean, status: string): void;
@@ -22,9 +23,16 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
   const isMediumLargeDevice: boolean = useMediaQuery({
     query: '(min-width: 768px)',
   });
+
+  const router = useRouter()
+
   const handleOpenLogin = (): void => {
     toggleRegisterLogin(true, 'login');
   };
+
+  const handleLinkClick = (link: string) => {
+    router.push(link);
+  }
 
   // const handleOpenRegister = (): void => {
   //   toggleRegisterLogin(true, 'register');
@@ -66,6 +74,8 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
         return <Avatar className={styles.avatarName}>{user.name[0]}</Avatar>;
       }
     };
+    
+   
 
     return (
       <div className={styles.avatarWrapper}>
@@ -94,27 +104,27 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
         </div>
       </Link>
       <div className={styles.menuWrapper}>
-        <Link href="/">
-          <div className={styles.menuItem}>Trang Chủ</div>
-        </Link>
-        <Link href="/cua-hang">
-          <div className={styles.menuItem}>Cửa Hàng</div>
-        </Link>
-        <Link href="/dich-vu">
-          <div className={styles.menuItem}>Dịch Vụ</div>
-        </Link>
-        <Link href="/du-an">
-          <div className={styles.menuItem}>Dự Án</div>
-        </Link>
-        <Link href="/kien-thuc">
-          <div className={styles.menuItem}>Kiến Thức</div>
-        </Link>
-        <Link href="/gioi-thieu">
-          <div className={styles.menuItem}>Giới Thiệu</div>
-        </Link>
-        <Link href="/lien-he">
-          <div className={styles.menuItem}>Liên Hệ</div>
-        </Link>
+        {/* <Link href="/"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/')}>Trang Chủ</div>
+        {/* </Link>  */}
+        {/* <Link href="/cua-hang"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/cua-hang')}>Cửa Hàng</div>
+        {/* </Link> */}
+        {/* <Link href="/dich-vu"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/dich-vu')}>Dịch Vụ</div>
+        {/* </Link> */}
+        {/* <Link href="/du-an"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/du-an')}>Dự Án</div>
+        {/* </Link> */}
+        {/* <Link href="/kien-thuc"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/kien-thuc')}>Kiến Thức</div>
+        {/* </Link> */}
+        {/* <Link href="/gioi-thieu"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/gioi-thieu')}>Giới Thiệu</div>
+        {/* </Link> */}
+        {/* <Link href="/lien-he"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/lien-he')}>Liên Hệ</div>
+        {/* </Link> */}
       </div>
       <div className={styles.right}>
         {/* <div className={styles.cart}>
@@ -177,27 +187,27 @@ function Header({ toggleRegisterLogin, user, getUser, logOutUser }: Props) {
       <div className={styles.menuWrapper}>
         <Collapse className={styles.menu} style={{ padding: '0' }}>
           <Panel header={renderTopMenu()} key="1" showArrow={false} style={{ padding: '0' }}>
-            <Link href="/">
-              <div className={styles.menuItem}>Trang Chủ</div>
-            </Link>
-            <Link href="/cua-hang">
-              <div className={styles.menuItem}>Cửa Hàng</div>
-            </Link>
-            <Link href="/dich-vu">
-              <div className={styles.menuItem}>Dịch Vụ</div>
-            </Link>
-            <Link href="/du-an">
-              <div className={styles.menuItem}>Dự Án</div>
-            </Link>
-            <Link href="/kien-thuc">
-              <div className={styles.menuItem}>Kiến Thức</div>
-            </Link>
-            <Link href="/gioi-thieu">
-              <div className={styles.menuItem}>Giới Thiệu</div>
-            </Link>
-            <Link href="/lien-he">
-              <div className={styles.menuItem}>Liên Hệ</div>
-            </Link>
+               {/* <Link href="/"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/')}>Trang Chủ</div>
+        {/* </Link>  */}
+        {/* <Link href="/cua-hang"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/cua-hang')}>Cửa Hàng</div>
+        {/* </Link> */}
+        {/* <Link href="/dich-vu"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/dich-vu')}>Dịch Vụ</div>
+        {/* </Link> */}
+        {/* <Link href="/du-an"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/du-an')}>Dự Án</div>
+        {/* </Link> */}
+        {/* <Link href="/kien-thuc"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/kien-thuc')}>Kiến Thức</div>
+        {/* </Link> */}
+        {/* <Link href="/gioi-thieu"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/gioi-thieu')}>Giới Thiệu</div>
+        {/* </Link> */}
+        {/* <Link href="/lien-he"> */}
+          <div className={styles.menuItem} onClick={() => handleLinkClick('/lien-he')}>Liên Hệ</div>
+        {/* </Link> */}
           </Panel>
         </Collapse>
       </div>

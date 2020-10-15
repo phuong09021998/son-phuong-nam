@@ -65,4 +65,10 @@
   left: 50%;
   position: relative;
   transform: translateX(-50%);
+
+  @include md-down {
+    img {
+      width: 90% !important;
+    }
+  }
 }
