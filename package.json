@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server/index.js",
     "build": "next build",
-    "start": "concurrently \"next start -p 8000\" \"pm2 start server/index.js -i 0\"",
+    "start": "next start -p 80",
     "test": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest --watch",
     "test:coverage": "NODE_ENV=test jest --coverage",
