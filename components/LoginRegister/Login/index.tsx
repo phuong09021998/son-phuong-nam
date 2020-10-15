@@ -141,7 +141,13 @@ function Login({
   useEffect(() => {
     if (user) {
       if (user.role > 0) {
-        router.push('/admin');
+        document.cookie = `spn_auth=${user.token}`
+        
+        // console.log(user)
+        setTimeout(() => {
+          router.push('/admin');
+        }, 1000)
+        
       } else {
         close();
       }
