@@ -206,14 +206,11 @@ exports.loginUser = async (req, res) => {
     user.generateToken();
     await User.findByIdAndUpdate(user._id, { token: user.token });
     user.password = undefined;
-
-    return res
-      .writeHead(200, {
+    res.writeHead(200, {
         'Set-Cookie': `spn_auth=${user.token}`,
       })
-      // .cookie('spn_auth', user.token)
-      // .status(200)
-      .send({
+
+    return res.send({
         success: true,
         user: {
           ...user._doc,
