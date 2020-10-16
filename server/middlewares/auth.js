@@ -5,6 +5,7 @@ const checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.spn_auth;
     console.log(req.cookies)
+    console.log(req.signedCookies)
     const user = await User.findByToken(token);
 
     if (!token || !user) {
