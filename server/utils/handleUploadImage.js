@@ -1,5 +1,4 @@
 const fs = require('fs');
-const sharp = require('sharp');
 const tinify = require('tinify');
 
 tinify.key = process.env.TINIFY_KEY;
