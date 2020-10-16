@@ -11,7 +11,7 @@ export default function Projects({ projects, disableTitle, disableLoadMore }: an
         {projects.map((item: any, i: number) => {
           if (item.publish) {
             return (
-              <ProjectCard title={item.title} data={item.date} urlTitle={item.urlTitle} key={i} type={item.type} />
+              <ProjectCard title={item.title} date={item.createdAt} urlTitle={item.urlTitle} key={i} type={item.type} />
             );
           }
         })}

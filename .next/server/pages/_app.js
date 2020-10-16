@@ -112,7 +112,7 @@ eval("//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nconst baseURL = \"http://149.28.155.221:3000\";\n/* harmony default export */ __webpack_exports__[\"default\"] = (baseURL);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9jb25maWcvYmFzZWRVcmwudHM/ZjI3NSJdLCJuYW1lcyI6WyJiYXNlVVJMIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUFBLE1BQU1BLE9BQU8sR0FBRyw0QkFBaEI7QUFFZUEsc0VBQWYiLCJmaWxlIjoiLi9jb25maWcvYmFzZWRVcmwudHMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBiYXNlVVJMID0gXCJodHRwOi8vMTQ5LjI4LjE1NS4yMjE6MzAwMFwiXG5cbmV4cG9ydCBkZWZhdWx0IGJhc2VVUkwiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./config/basedUrl.ts\n");
+eval("__webpack_require__.r(__webpack_exports__);\nconst baseURL = \"http://localhost:3000\";\n/* harmony default export */ __webpack_exports__[\"default\"] = (baseURL);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9jb25maWcvYmFzZWRVcmwudHM/ZjI3NSJdLCJuYW1lcyI6WyJiYXNlVVJMIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUFBLE1BQU1BLE9BQU8sR0FBRyx1QkFBaEI7QUFFZUEsc0VBQWYiLCJmaWxlIjoiLi9jb25maWcvYmFzZWRVcmwudHMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBiYXNlVVJMID0gXCJodHRwOi8vbG9jYWxob3N0OjMwMDBcIlxuXG5leHBvcnQgZGVmYXVsdCBiYXNlVVJMIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./config/basedUrl.ts\n");
 
 /***/ }),
 
