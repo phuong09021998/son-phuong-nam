@@ -4,9 +4,9 @@ const User = require('../models/User');
 const checkAuth = async (req, res, next) => {
   try {
     let token
-    // console.log(req.headers.cookie)
+    console.log(req.headers.cookie)
     const cookies = req.headers.cookie.split(';');
-    console.log(cookies)
+    // console.log(cookies)
     const filterCookie = cookies.filter((cookie) => cookie.includes('spn_auth'));
     // console.log(filterCookie)
     if (filterCookie.length > 0) {
