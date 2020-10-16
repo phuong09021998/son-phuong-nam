@@ -112,7 +112,7 @@ eval("//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nconst baseURL = \"https://data.epoxyphuongnam.com\";\n/* harmony default export */ __webpack_exports__[\"default\"] = (baseURL);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9jb25maWcvYmFzZWRVcmwudHM/ZjI3NSJdLCJuYW1lcyI6WyJiYXNlVVJMIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUFBLE1BQU1BLE9BQU8sR0FBRyxpQ0FBaEI7QUFFZUEsc0VBQWYiLCJmaWxlIjoiLi9jb25maWcvYmFzZWRVcmwudHMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBiYXNlVVJMID0gXCJodHRwczovL2RhdGEuZXBveHlwaHVvbmduYW0uY29tXCJcblxuZXhwb3J0IGRlZmF1bHQgYmFzZVVSTCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./config/basedUrl.ts\n");
+eval("__webpack_require__.r(__webpack_exports__);\n// const baseURL = \"https://data.epoxyphuongnam.com\"\nconst baseURL = \"http://localhost:3000\";\n/* harmony default export */ __webpack_exports__[\"default\"] = (baseURL);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9jb25maWcvYmFzZWRVcmwudHM/ZjI3NSJdLCJuYW1lcyI6WyJiYXNlVVJMIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUFBO0FBQ0EsTUFBTUEsT0FBTyxHQUFHLHVCQUFoQjtBQUVlQSxzRUFBZiIsImZpbGUiOiIuL2NvbmZpZy9iYXNlZFVybC50cy5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8vIGNvbnN0IGJhc2VVUkwgPSBcImh0dHBzOi8vZGF0YS5lcG94eXBodW9uZ25hbS5jb21cIlxuY29uc3QgYmFzZVVSTCA9IFwiaHR0cDovL2xvY2FsaG9zdDozMDAwXCJcblxuZXhwb3J0IGRlZmF1bHQgYmFzZVVSTCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./config/basedUrl.ts\n");
 
 /***/ }),
 
