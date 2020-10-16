@@ -206,7 +206,7 @@ exports.loginUser = async (req, res) => {
     user.generateToken();
     await User.findByIdAndUpdate(user._id, { token: user.token });
     user.password = undefined;
-    res.writeHead(200, {
+    res.writeHead({
         'Set-Cookie': `spn_auth=${user.token}`,
       })
 
