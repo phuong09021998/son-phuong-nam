@@ -4,6 +4,7 @@ const User = require('../models/User');
 const checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.spn_auth;
+    console.log(req.cookies)
     const user = await User.findByToken(token);
 
     if (!token || !user) {

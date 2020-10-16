@@ -1,3 +1,3 @@
-const baseURL = "http://149.28.155.221:3000"
+const baseURL = "https://data.epoxyphuongnam.com"
 
 export default baseURL
